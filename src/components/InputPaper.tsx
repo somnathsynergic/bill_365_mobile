@@ -15,8 +15,10 @@ type InputPaperProps = {
   selectTextOnFocus?: boolean
   disabled?: boolean
   clearTextOnFocus?: boolean
+  multiline?: boolean
   // themeColors?: string
   hideUnderline?: boolean
+  height?: number
 }
 
 const InputPaper = ({
@@ -33,6 +35,8 @@ const InputPaper = ({
   selectTextOnFocus,
   disabled,
   clearTextOnFocus,
+  multiline=false,
+  height,
   // themeColors,
   hideUnderline = false,
 }: InputPaperProps) => {
@@ -45,22 +49,26 @@ const InputPaper = ({
       value={value?.toString()}
       onChangeText={onChangeText}
       secureTextEntry={secureTextEntry}
-      style={customStyle}
+      style={[customStyle,{height:height||37}]}
       left={leftIcon && <TextInput.Icon icon={leftIcon} />}
       // right={<TextInput.Icon icon={secureTextEntry ? "eye-off" : "eye"} onPress={() => setSecureTextEntry(!secureTextEntry)} />}
       autoFocus={autoFocus}
       maxLength={maxLength}
-      // underlineColor={themeColors}
-      // underlineStyle={{ backgroundColor: themeColors }}
-      // cursorColor={themeColors}
-      // // selectionColor={themeColors}
-      // textColor={themeColors}
-      // placeholderTextColor={themeColors}
+      underlineColor={'#404198'}
+      underlineStyle={{ backgroundColor: '#404198' }}
+      // cursorColor={'#404198'}
+      activeOutlineColor="#404198"
+      multiline={multiline}
+      
+      
+      // selectionColor={'#404198'}
+      // textColor={'#404198'}
+      placeholderTextColor={'#404198'}
       disabled={disabled}
       clearTextOnFocus={clearTextOnFocus}
-      underlineStyle={{
-        display: !hideUnderline ? "flex" : "none"
-      }}
+      // underlineStyle={{
+      //   display: !hideUnderline ? "flex" : "none"
+      // }}
     />
   )
 }

@@ -35,6 +35,7 @@ export default function SurfacePaper({
         styles.bill,
         {
           backgroundColor: backgroundColor,
+          
           padding: paddingEnabled ? 5 : 0,
           borderRadius: borderRadiusEnabled ? 30 : 0,
           width: smallWidthEnabled ? SCREEN_WIDTH / 1.16 : SCREEN_WIDTH / 1.05,
@@ -49,6 +50,7 @@ export default function SurfacePaper({
             fontFamily: "ProductSans-Medium",
             textAlign: "center",
             marginBottom: 5,
+            color: "#404198",
           }}>
           {heading}
         </Text>
@@ -59,10 +61,10 @@ export default function SurfacePaper({
           style={{
             width: "80%",
             borderStyle: "solid",
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: 0.5,
+            borderRadius: 4,
             // marginBottom: 5,
-            borderColor: theme.colors.onTertiaryContainer,
+            borderColor: '#404198',
           }}></View>
       )}
       {children}

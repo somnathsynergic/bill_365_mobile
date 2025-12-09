@@ -113,13 +113,13 @@ function CreditReportScreen() {
                         alignItems: "center",
                     }}>
                     <ButtonPaper
-                        textColor={theme.colors.purple}
+                        textColor={'#404198'}
                         onPress={() => setOpenFromDate(true)}
                         mode="text">
                         FROM: {fromDate?.toLocaleDateString("en-GB")}
                     </ButtonPaper>
                     <ButtonPaper
-                        textColor={theme.colors.purple}
+                        textColor={'#404198'}
                         onPress={() => setOpenToDate(true)}
                         mode="text">
                         TO: {toDate?.toLocaleDateString("en-GB")}
@@ -170,8 +170,8 @@ function CreditReportScreen() {
                             )
                         }
                         mode="contained-tonal"
-                        buttonColor={theme.colors.purple}
-                        textColor={theme.colors.onPurple}
+                        buttonColor={'#404198'}
+                        textColor={'white'}
                         loading={isLoading}
                         disabled={isDisabled}>
                         SUBMIT
@@ -184,35 +184,35 @@ function CreditReportScreen() {
                             width: 400,
                         }}>
                             <DataTable.Header style={{
-                                backgroundColor: theme.colors.purpleContainer,
+                                backgroundColor: '#404198',
                             }}>
                                 <DataTable.Title textStyle={{
-                                    color: theme.colors.onPurpleContainer
+                                    color: 'white'
                                 }}>
                                     Date
                                 </DataTable.Title>
                                 <DataTable.Title textStyle={{
-                                    color: theme.colors.onPurpleContainer
+                                    color: 'white'
                                 }} numberOfLines={2}>
                                     Mobile
                                 </DataTable.Title>
                                 <DataTable.Title textStyle={{
-                                    color: theme.colors.onPurpleContainer
+                                    color: 'white'
                                 }}>
                                     Rcpt No.
                                 </DataTable.Title>
                                 <DataTable.Title textStyle={{
-                                    color: theme.colors.onPurpleContainer
+                                    color: 'white'
                                 }}>
                                     Amt.
                                 </DataTable.Title>
                                 <DataTable.Title textStyle={{
-                                    color: theme.colors.onPurpleContainer
+                                    color: 'white'
                                 }}>
                                     Paid Amt.
                                 </DataTable.Title>
                                 <DataTable.Title textStyle={{
-                                    color: theme.colors.onPurpleContainer
+                                    color: 'white'
                                 }}>
                                     Due Amt.
                                 </DataTable.Title>
@@ -248,7 +248,7 @@ function CreditReportScreen() {
                         </DataTable>
                     </ScrollView>
                     <View style={{ padding: normalize(10) }}>
-                        <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
+                        <Text variant="labelMedium" style={{ color: '#404198' }}>
                             TOTAL NET: ₹{totalNetAmount}  TOTAL DUE: ₹{totalDue?.toFixed(2)}
                         </Text>
                     </View>
@@ -265,8 +265,8 @@ function CreditReportScreen() {
                             // ToastAndroid.show("Printing feature will be added in the future.", ToastAndroid.SHORT)
                         }
                         mode="contained-tonal"
-                        buttonColor={theme.colors.purpleContainer}
-                        textColor={theme.colors.onPurpleContainer}>
+                        buttonColor={theme.colors.primaryContainer}
+            textColor={theme.colors.onPrimaryContainer}>
                         PRINT
                     </ButtonPaper>
                 </View>

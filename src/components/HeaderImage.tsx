@@ -15,6 +15,9 @@ import { getMessaging, onMessage, requestPermission } from '@react-native-fireba
 import messaging from '@react-native-firebase/messaging';
 import { AppStoreContext } from "../models/custom_types"
 import { AppStore } from "../context/AppContext"
+import { logo, logoDark, flower2, flower2Dark } from "../resources/images"
+import { Image } from "react-native"
+
 type HeaderImageProps = {
   imgLight: { uri: string }
   imgDark?: { uri: string }
@@ -54,10 +57,10 @@ export default function HeaderImage({
   return (
     <>
       {isBackEnabled && (
-        <View>
+        <View >
           <IconButton
             icon="arrow-left"
-            iconColor={theme.colors.onBackground}
+            iconColor={'#404198'}
             size={20}
             onPress={
               !isBackCustom
@@ -66,38 +69,45 @@ export default function HeaderImage({
             }
             style={{
               position: "absolute",
-              top: SCREEN_HEIGHT / 40,
-              right: SCREEN_WIDTH / 3.2,
+              top: SCREEN_HEIGHT / 100,
+              left: SCREEN_WIDTH / 2.8,
               zIndex: 10,
             }}
           />
-        </View>
-      )}
-      <ImageBackground
-        imageStyle={{ borderRadius: normalize(borderRadius) }}
-        blurRadius={blur}
-        source={colorScheme !== "dark" ? imgLight : imgDark}
-        style={styles.surface}>
+        </View>)
+}
+      {/* )} */}
+     
+        <View style={styles.surface}>
+           <Image
+                          source={colorScheme === "dark" ? logoDark : logo}
+                          style={{ height: 33, width: 33, marginLeft:8, resizeMode: 'contain' }}
+                        />
         <Text
           variant="displaySmall"
-          style={{ fontFamily: "ProductSans-Medium", textAlign: "center" }}>
+          style={{ fontFamily: "ProductSans-small", marginHorizontal: normalize(10),fontWeight:"800", textAlign: "center",fontSize: normalize(18), color: '#404198' }}>
           {children}
         </Text>
-      </ImageBackground>
+        </View>
     </>
   )
 }
 
 const styles = StyleSheet.create({
   surface: {
-    margin: normalize(20),
-    padding: normalize(25),
-    // height: PixelRatio.roundToNearestPixel(200),
-    height: SCREEN_HEIGHT / 3.7,
-    borderRadius: normalize(30),
-    // width: PixelRatio.roundToNearestPixel(330),
-    width: SCREEN_WIDTH / 1.13,
+    margin: normalize(2),
+    height: SCREEN_HEIGHT / 15,
+    marginBottom: normalize(20),
+    // borderRadius: normalize(30),
+    width: SCREEN_WIDTH / 1.0003,
+    // backgroundColor:'#404198',
+    backgroundColor:'#ffffff',
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+     shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 3,
+        elevation: 5,
   },
 })

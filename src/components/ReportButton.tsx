@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react"
-import { StyleSheet, ImageProps } from "react-native"
+import { StyleSheet, ImageProps, View } from "react-native"
 import { Text, IconButton, TouchableRipple } from "react-native-paper"
 import FastImage from 'react-native-fast-image'
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon"
@@ -31,13 +31,18 @@ export default function ReportButton({
     <TouchableRipple
       onPress={onPress}
       style={{
-        width: 102,
-        height: 102,
-        padding: 10,
-        justifyContent: "center",
+        width: "100%",
+        height: 60,
+        flexDirection:"row",
+        justifyContent: "flex-start",
         alignItems: "center",
-        borderRadius: 20,
         backgroundColor: color,
+        // elevation: 2,
+        paddingVertical:5,
+        marginVertical:-5,
+        borderBottomColor: "#f0f0f0",
+        borderBottomWidth: 1,
+        paddingHorizontal: 10,
       }}>
       <>
         {
@@ -49,10 +54,11 @@ export default function ReportButton({
                 priority: FastImage.priority.high,
                 cache: FastImage.cacheControl.immutable
               }}
-              style={{ width: 50, height: 50  }}
+              style={{ width: 40, height: 40, backgroundColor: "#f5f9ff", borderRadius: 25, marginRight: 10 }}
             />
 
-            : <IconButton icon={icon} iconColor={textColor} />
+            : 
+              <IconButton icon={icon} iconColor={textColor} containerColor={"#f5f9ff"} />
         }
         <Text style={{ textAlign: "center", color: textColor }}>{text}</Text>
       </>

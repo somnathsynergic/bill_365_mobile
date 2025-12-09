@@ -43,8 +43,8 @@ export default function SettingsMasterScreen() {
               <ReportButton
                 key={index}
                 text={item.text}
-                color={index % 2 === 0 ? theme.colors.greenContainer : theme.colors.greenContainerTertiary}
-                textColor={index % 2 === 0 ? theme.colors.onGreenContainer : theme.colors.onGreenContainerTertiary}
+                color={"white"}
+                textColor={"#404198"}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({

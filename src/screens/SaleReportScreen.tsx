@@ -96,11 +96,11 @@ function SaleReportScreen() {
   }
 
   const titleTextStyle: TextStyle = {
-    color: theme.colors.onPurpleContainer
+    color: 'white'
   }
 
   const titleStyle: ViewStyle = {
-    backgroundColor: theme.colors.purpleContainer
+    backgroundColor: '#404198'
   }
 
   let totalNetAmount: number = 0
@@ -128,13 +128,13 @@ function SaleReportScreen() {
             alignItems: "center",
           }}>
           <ButtonPaper
-            textColor={theme.colors.purple}
+            textColor={'#404198'}
             onPress={() => setOpenFromDate(true)}
             mode="text">
             FROM: {fromDate?.toLocaleDateString("en-GB")}
           </ButtonPaper>
           <ButtonPaper
-            textColor={theme.colors.purple}
+            textColor={'#404198'}
             onPress={() => setOpenToDate(true)}
             mode="text">
             TO: {toDate?.toLocaleDateString("en-GB")}
@@ -185,15 +185,15 @@ function SaleReportScreen() {
               )
             }
             mode="contained-tonal"
-            buttonColor={theme.colors.purple}
-            textColor={theme.colors.onPurple}
+            buttonColor={'#404198'}
+            textColor={'white'}
             loading={isLoading}
             disabled={isDisabled}>
             SUBMIT
           </ButtonPaper>
         </View>
 
-        <SurfacePaper backgroundColor={theme.colors.surface}>
+        {saleReport?.length>0 && <SurfacePaper backgroundColor={theme.colors.surface}>
           <ScrollView horizontal>
             <DataTable style={{
               width: 430,
@@ -261,12 +261,12 @@ function SaleReportScreen() {
             </DataTable>
           </ScrollView>
           <View style={{ padding: normalize(10) }}>
-            <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
+            <Text variant="labelMedium" style={{ color: '#404198' }}>
               QUANTITY: {totalQty} TOTAL: ₹{totalNetAmount?.toFixed(2)}
             </Text>
           </View>
-        </SurfacePaper>
-        <View
+        </SurfacePaper>}
+        {saleReport?.length>0 && <View
           style={{
             paddingHorizontal: normalize(20),
             paddingBottom: normalize(10),
@@ -277,11 +277,11 @@ function SaleReportScreen() {
               handlePrint(saleReport, formattedFromDate, formattedToDate)
             }
             mode="contained-tonal"
-            buttonColor={theme.colors.purpleContainer}
-            textColor={theme.colors.onPurpleContainer}>
+            buttonColor={theme.colors.primaryContainer}
+            textColor={theme.colors.onPrimaryContainer}>
             PRINT
           </ButtonPaper>
-        </View>
+        </View>}
       </ScrollView>
     </SafeAreaView>
   )

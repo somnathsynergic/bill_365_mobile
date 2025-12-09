@@ -98,19 +98,19 @@ function StockReportScreen() {
               <ButtonPaper
                 onPress={handleGetStockReport}
                 mode="contained-tonal"
-                buttonColor={theme.colors.primary}
-                textColor={theme.colors.onPrimary}
+                buttonColor={'#404198'}
+                textColor={'white'}
                 loading={isLoading}
                 disabled={isDisabled}>
-                SUBMIT
+                Generate Report
               </ButtonPaper>
             </View>
 
-            <SurfacePaper backgroundColor={theme.colors.surface}>
+            {stockReport.length>0 && <SurfacePaper backgroundColor={theme.colors.surface}>
               <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Product</DataTable.Title>
-                  <DataTable.Title numeric>Stock</DataTable.Title>
+                <DataTable.Header style={{ backgroundColor: '#404198'}}>
+                  <DataTable.Title textStyle={{color:'white'}}>Product</DataTable.Title>
+                  <DataTable.Title textStyle={{color:'white'}} numeric>Stock</DataTable.Title>
                 </DataTable.Header>
 
                 {stockReport.map((item, i) => {
@@ -129,13 +129,13 @@ function StockReportScreen() {
               <View style={{ padding: normalize(10) }}>
                 <Text
                   variant="labelMedium"
-                  style={{ color: theme.colors.primary }}>
+                  style={{ color: '#404198' }}>
                   QUANTITY: {totalQty} TOTAL STOCK: {totalGrossStock}
                 </Text>
               </View>
-            </SurfacePaper>
+            </SurfacePaper>}
 
-            <View
+            {stockReport.length>0 &&<View
               style={{
                 paddingHorizontal: normalize(20),
                 paddingBottom: normalize(10),
@@ -143,10 +143,13 @@ function StockReportScreen() {
               <ButtonPaper
                 icon={"cloud-print-outline"}
                 onPress={() => handlePrint(stockReport)}
-                mode="contained-tonal">
+                mode="contained-tonal"
+                 buttonColor={theme.colors.primaryContainer}
+            textColor={theme.colors.onPrimaryContainer}
+                >
                 PRINT
               </ButtonPaper>
-            </View>
+            </View>}
           </>
         ) : (
           <SurfacePaper

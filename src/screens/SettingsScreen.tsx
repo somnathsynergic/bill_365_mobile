@@ -31,8 +31,8 @@ function SettingsScreen() {
               <ReportButton
                 key={index}
                 text={item.text}
-                color={index % 2 === 0 ? theme.colors.peachContainer : theme.colors.peachTertiaryContainer}
-                textColor={index % 2 === 0 ? theme.colors.onPeachContainer : theme.colors.onPeachTertiaryContainer}
+                color={"white"}
+                textColor={"#404198"}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({

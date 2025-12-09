@@ -108,13 +108,13 @@ function ItemReportScreen() {
             alignItems: "center",
           }}>
           <ButtonPaper
-            textColor={theme.colors.purple}
+            textColor={'#404198'}
             onPress={() => setOpenFromDate(true)}
             mode="text">
             FROM: {fromDate?.toLocaleDateString("en-GB")}
           </ButtonPaper>
           <ButtonPaper
-            textColor={theme.colors.purple}
+            textColor={'#404198'}
             onPress={() => setOpenToDate(true)}
             mode="text">
             TO: {toDate?.toLocaleDateString("en-GB")}
@@ -159,7 +159,7 @@ function ItemReportScreen() {
               handleGetItemReport()
             }
             mode="contained-tonal"
-            buttonColor={theme.colors.purple}
+            buttonColor={'#404198'}
             textColor={theme.colors.onPurple}
             loading={isLoading}
             disabled={isDisabled}>
@@ -167,14 +167,16 @@ function ItemReportScreen() {
           </ButtonPaper>
         </View>
 
-        <SurfacePaper backgroundColor={theme.colors.surface}>
+        {itemReport.length>0 && <SurfacePaper backgroundColor={theme.colors.surface}>
           <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Sl. No.</DataTable.Title>
+            <DataTable.Header style={{backgroundColor:
+              '#404198'
+            }}>
+              <DataTable.Title textStyle={{color:'white'}}>Sl. No.</DataTable.Title>
               {/* <DataTable.Title>ID</DataTable.Title> */}
-              <DataTable.Title>Item</DataTable.Title>
-              <DataTable.Title numeric>Qty.</DataTable.Title>
-              <DataTable.Title numeric>Price</DataTable.Title>
+              <DataTable.Title textStyle={{color:'white'}}>Item</DataTable.Title>
+              <DataTable.Title textStyle={{color:'white'}} numeric>Qty.</DataTable.Title>
+              <DataTable.Title textStyle={{color:'white'}} numeric>Price</DataTable.Title>
             </DataTable.Header>
 
             {itemReport.map((item, i) => {
@@ -182,8 +184,8 @@ function ItemReportScreen() {
               totalQty += item?.qty
 
               return (
-                <DataTable.Row key={i}>
-                  <DataTable.Cell>
+                <DataTable.Row key={i} >
+                  <DataTable.Cell >
                     {i + 1}
                   </DataTable.Cell>
                   {/* <DataTable.Cell>
@@ -199,25 +201,27 @@ function ItemReportScreen() {
             })}
           </DataTable>
           <View style={{ padding: normalize(10) }}>
-            <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
+            <Text variant="labelMedium" style={{ color: '#401298' }}>
               QUANTITY: {totalQty} TOTAL: ₹{totalNetAmount?.toFixed(2)}
             </Text>
           </View>
-        </SurfacePaper>
+        </SurfacePaper>}
 
 
-        <View
+         {itemReport.length>0 &&<View
           style={{
             paddingHorizontal: normalize(20),
             paddingBottom: normalize(10),
           }}>
           <ButtonPaper
+          buttonColor={theme.colors.primaryContainer}
+            textColor={theme.colors.onPrimaryContainer}
             icon={"cloud-print-outline"}
             onPress={() => handlePrint(itemReport)}
             mode="contained-tonal">
             PRINT
           </ButtonPaper>
-        </View>
+        </View>}
       </ScrollView>
     </SafeAreaView>
   )

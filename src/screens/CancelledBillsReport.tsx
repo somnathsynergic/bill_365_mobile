@@ -101,11 +101,11 @@ function CancelledBillsReportScreen() {
   }
 
   const titleTextStyle: TextStyle = {
-    color: theme.colors.onGreenContainer
+    color: 'white'
   }
 
   const titleStyle: ViewStyle = {
-    backgroundColor: theme.colors.greenContainer
+    backgroundColor: '#404198'
   }
 
   // let totalSummary: number = 0
@@ -135,13 +135,13 @@ function CancelledBillsReportScreen() {
             alignItems: "center",
           }}>
           <ButtonPaper
-            textColor={theme.colors.green}
+            textColor={'#404198'}
             onPress={() => setOpenFromDate(true)}
             mode="text">
             FROM: {fromDate?.toLocaleDateString("en-GB")}
           </ButtonPaper>
           <ButtonPaper
-            textColor={theme.colors.green}
+            textColor={'#404198'}
             onPress={() => setOpenToDate(true)}
             mode="text">
             TO: {toDate?.toLocaleDateString("en-GB")}
@@ -186,15 +186,15 @@ function CancelledBillsReportScreen() {
               handleGetCollectionReport(formattedFromDate, formattedToDate)
             }
             mode="contained-tonal"
-            buttonColor={theme.colors.green}
-            textColor={theme.colors.onGreen}
+            buttonColor={'#404198'}
+            textColor={'white'}
             disabled={isDisabled}
             loading={isLoading}>
             SUBMIT
           </ButtonPaper>
         </View>
 
-        <SurfacePaper backgroundColor={theme.colors.surface}>
+        {cancelledBillsReport.length>0 && <SurfacePaper backgroundColor={theme.colors.surface}>
           <DataTable>
             <DataTable.Header style={titleStyle}>
               {/* <DataTable.Title>Name</DataTable.Title>
@@ -256,18 +256,20 @@ function CancelledBillsReportScreen() {
           <View style={{ padding: normalize(10) }}>
             <Text
               variant="labelMedium"
-              style={{ color: theme.colors.secondary }}>
+              style={{ color: '#404198' }}>
               TOTAL QTY: {totalQty}  TOTAL CANCELLED: ₹{totalNetAmount}
             </Text>
           </View>
-        </SurfacePaper>
-        <View
+        </SurfacePaper>}
+        {cancelledBillsReport.length>0 && <View
           style={{
             paddingHorizontal: normalize(20),
             paddingBottom: normalize(10),
           }}>
           <ButtonPaper
             icon={"cloud-print-outline"}
+            buttonColor={theme.colors.primaryContainer}
+            textColor={theme.colors.onPrimaryContainer}
             onPress={() =>
               handlePrint(
                 cancelledBillsReport,
@@ -278,7 +280,7 @@ function CancelledBillsReportScreen() {
             mode="contained-tonal">
             PRINT
           </ButtonPaper>
-        </View>
+        </View>}
       </ScrollView>
     </SafeAreaView>
   )

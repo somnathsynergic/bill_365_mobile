@@ -18,6 +18,7 @@ import { CommonActions, useIsFocused, useNavigation } from "@react-navigation/na
 import { itemsContextStorage, productStorage } from "../storage/appStorage"
 import { AppStore } from "../context/AppContext"
 import ReportButtonsWrapper from "../components/ReportButtonsWrapper"
+import CatButtonsWrapper from "../components/CatButtonsWrapper"
 import ReportButton from "../components/ReportButton"
 import navigationRoutes from "../routes/navigationRoutes"
 import { ItemsData } from "../models/api_types"
@@ -27,6 +28,7 @@ import { clearStates } from "../utils/clearStates"
 import SurfacePaper from "../components/SurfacePaper"
 import AnimatedFABPaper from "../components/AnimatedFABPaper"
 import normalize from "react-native-normalize"
+import CategoryButton from "../components/CategoryButton"
 
 function CategoriesScreen() {
     const theme = usePaperColorScheme()
@@ -164,7 +166,7 @@ function CategoriesScreen() {
 
     return (
         <SafeAreaView
-            style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            style={[styles.container, { backgroundColor: "#d0e1fd" }]}>
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{
                 height: "auto",
                 paddingBottom: "20%"
@@ -179,16 +181,16 @@ function CategoriesScreen() {
                         Categories
                     </HeaderImage>
                 </View>
-                {loading ? <ActivityIndicator animating={true} color={'green'} style={{ marginTop: 20 }} size={'large'} /> : null}
+                {loading ? <ActivityIndicator animating={true} color={'#404198'} style={{ marginTop: 20 }} size={'large'} /> : null}
                 {categories.length !== 0
-                    ? <ReportButtonsWrapper>
+                    ? <CatButtonsWrapper>
                         {
                             categories?.map((item, index) => (
-                                <ReportButton
+                                <CategoryButton
                                     key={index}
                                     text={item?.category_name}
-                                    color={index % 2 === 0 ? theme.colors.vanillaContainer : theme.colors.vanillaSecondaryContainer}
-                                    textColor={index % 2 === 0 ? theme.colors.onVanillaSecondaryContainer : theme.colors.onVanillaContainer}
+                                    color={ "white"}
+                                    textColor={"#404198"}
                                     icon={"hexagon-multiple-outline"}
                                     // withImage
                                     imageSource={item?.catg_picture}
@@ -197,7 +199,7 @@ function CategoriesScreen() {
                                 />
                             ))
                         }
-                    </ReportButtonsWrapper>
+                    </CatButtonsWrapper>
                     :categories.length !== 0 && !loading && <SurfacePaper
                         borderRadiusEnabled
                         backgroundColor={theme.colors.vanillaTertiaryContainer}

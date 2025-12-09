@@ -11,13 +11,16 @@ const ProfileSection = ({
   children,
 }: PropsWithChildren<ProfileSectionProps>) => {
   return (
+
     <View
       style={{
         width: "100%",
-        minHeight: normalize(250),
+        // minHeight: normalize(190),
         height: "auto",
-        borderRadius: normalize(20),
+        borderRadius: normalize(12),
         backgroundColor: bgColor,
+        padding: normalize(20),
+        
       }}>
       {children}
     </View>

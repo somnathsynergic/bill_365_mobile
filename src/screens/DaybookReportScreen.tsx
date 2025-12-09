@@ -97,11 +97,11 @@ function DaybookReportScreen() {
     }
 
     const titleTextStyle: TextStyle = {
-        color: theme.colors.onPurpleContainer
+        color: 'white'
     }
 
     const titleStyle: ViewStyle = {
-        backgroundColor: theme.colors.purpleContainer
+        backgroundColor: '#404198'
     }
 
     let totalNetAmount: number = 0
@@ -129,13 +129,13 @@ function DaybookReportScreen() {
                         alignItems: "center",
                     }}>
                     <ButtonPaper
-                        textColor={theme.colors.purple}
+                        textColor={"#404198"}
                         onPress={() => setOpenFromDate(true)}
                         mode="text">
                         FROM: {fromDate?.toLocaleDateString("en-GB")}
                     </ButtonPaper>
                     <ButtonPaper
-                        textColor={theme.colors.purple}
+                        textColor={"#404198"}
                         onPress={() => setOpenToDate(true)}
                         mode="text">
                         TO: {toDate?.toLocaleDateString("en-GB")}
@@ -183,7 +183,7 @@ function DaybookReportScreen() {
                             )
                         }
                         mode="contained-tonal"
-                        buttonColor={theme.colors.purple}
+                        buttonColor={"#404198"}
                         textColor={theme.colors.onPurple}
                         loading={isLoading}
                         disabled={isDisabled}>
@@ -191,7 +191,7 @@ function DaybookReportScreen() {
                     </ButtonPaper>
                 </View>
 
-                <SurfacePaper backgroundColor={theme.colors.surface}>
+                {daybookReport.length>0 && <SurfacePaper backgroundColor={theme.colors.surface}>
                     <ScrollView horizontal>
                         <DataTable style={{
                             width: 430,
@@ -199,7 +199,7 @@ function DaybookReportScreen() {
                             <DataTable.Header style={titleStyle}>
                                 {/* <DataTable.Title>Name</DataTable.Title>
               <DataTable.Title>Phone</DataTable.Title> */}
-                                <DataTable.Title>Sl. No.</DataTable.Title>
+                                <DataTable.Title textStyle={titleTextStyle}>Sl. No.</DataTable.Title>
                                 <DataTable.Title textStyle={titleTextStyle}>Rcpt. No.</DataTable.Title>
                                 <DataTable.Title textStyle={titleTextStyle}>Net Amt.</DataTable.Title>
                                 <DataTable.Title textStyle={titleTextStyle}>Cancel Amt.</DataTable.Title>
@@ -229,12 +229,12 @@ function DaybookReportScreen() {
                         </DataTable>
                     </ScrollView>
                     <View style={{ padding: normalize(10) }}>
-                        <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
+                        <Text variant="labelMedium" style={{ color: '#404198' }}>
                             TOTAL NET: {(totalNetAmount).toFixed(2)}  CANCELLED: ₹{totalCancelled?.toFixed(2)}
                         </Text>
                     </View>
-                </SurfacePaper>
-                <View
+                </SurfacePaper>}
+                {daybookReport.length>0 && <View
                     style={{
                         paddingHorizontal: normalize(20),
                         paddingBottom: normalize(10),
@@ -245,11 +245,11 @@ function DaybookReportScreen() {
                             handlePrint(daybookReport, formattedFromDate, formattedToDate)
                         }
                         mode="contained-tonal"
-                        buttonColor={theme.colors.purpleContainer}
-                        textColor={theme.colors.onPurpleContainer}>
+                        buttonColor={theme.colors.primaryContainer}
+            textColor={theme.colors.onPrimaryContainer}>
                         PRINT
                     </ButtonPaper>
-                </View>
+                </View>}
             </ScrollView>
         </SafeAreaView>
     )

@@ -77,7 +77,7 @@ function UPIGenerateScreen() {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      style={[styles.container, { backgroundColor:'#dde6f5ff' }]}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -104,11 +104,12 @@ function UPIGenerateScreen() {
 
         <View
           style={{
-            backgroundColor: theme.colors.surfaceVariant,
-            borderRadius: 40,
+            backgroundColor: 'white',
+            borderRadius: 20,
             width: SCREEN_WIDTH / 1.15,
             alignSelf: "center",
             marginTop: normalize(10),
+            padding:15
           }}>
           <View
             style={{
@@ -126,12 +127,13 @@ function UPIGenerateScreen() {
               }}>
               <InputPaper
                 selectTextOnFocus
-                label="Enter Your VPA Address"
+                label="VPA Address"
                 onChangeText={onChangeVPAText}
                 value={vpaAddress}
                 keyboardType="default"
-                mode="flat"
+                mode="outlined"
                 maxLength={100}
+                
               />
             </View>
             <View
@@ -142,6 +144,8 @@ function UPIGenerateScreen() {
                 mode="elevated"
                 onPress={handleSaveVPAAddress}
                 icon="content-save-outline"
+                buttonColor="#404198"
+                textColor="white"
                 disabled={disabled}></ButtonPaper>
             </View>
           </View>
@@ -149,11 +153,11 @@ function UPIGenerateScreen() {
           <View style={{ padding: normalize(40) }}>
             <View
               style={{
-                borderWidth: 6,
+                borderWidth: 2,
                 borderStyle: "dashed",
                 borderRadius: normalize(50),
                 width: "100%",
-                borderColor: theme.colors.secondary,
+                borderColor: '#404198',
                 padding: normalize(20),
                 justifyContent: "center",
                 alignItems: "center",
@@ -177,7 +181,8 @@ function UPIGenerateScreen() {
             }}>
             <ButtonPaper
               icon="trash-can-outline"
-              mode="text"
+              mode="elevated"
+              buttonColor="white"
               onPress={showDialog}
               textColor={theme.colors.error}
             // buttonColor={theme.colors.errorContainer}

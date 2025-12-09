@@ -8,6 +8,7 @@ import {
   Alert,
   Linking,
   Animated,
+  Image
 } from "react-native"
 import React, { useCallback, useContext, useEffect, useState } from "react"
 import SplashScreen from "react-native-splash-screen"
@@ -25,6 +26,8 @@ import {
 } from "react-native-paper"
 import { usePaperColorScheme } from "../theme/theme"
 import HeaderImage from "../components/HeaderImage"
+import { logo, logoDark, flower2, flower2Dark } from "../resources/images"
+
 import {
   flowerGlass,
   flowerGlassDark,
@@ -62,6 +65,8 @@ import DialogBoxForReprint from "../components/DialogBoxForReprint"
 import DialogForBillsInCalculatorMode from "../components/DialogForBillsInCalculatorMode"
 import { AppStoreContext } from "../models/custom_types"
 import useReceiptSettings from "../hooks/api/useReceiptSettings"
+import { Card } from 'react-native-paper';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 
 function HomeScreen() {
   const theme = usePaperColorScheme()
@@ -98,7 +103,7 @@ function HomeScreen() {
   //   loginStore = {}
   // }
   const [receiptSettings, setReceiptSettings] = useState<ReceiptSettingsData>()
-// ]
+  // ]
   const [isExtended, setIsExtended] = useState<boolean>(() => true)
 
   const [totalBills, setTotalBills] = useState<number | undefined>(
@@ -116,7 +121,7 @@ function HomeScreen() {
   const [cancelledBillStatus, setCancelledBillStatus] = useState<"Y" | "N">()
   const [gstFlag, setGstFlag] = useState<"Y" | "N">()
   const [gstType, setGstType] = useState<"I" | "E">()
-  const [loading,setLoading] = useState<boolean>(()=>false)
+  const [loading, setLoading] = useState<boolean>(() => false)
   const [refreshing, setRefreshing] = useState<boolean>(() => false)
   const [updateUrl, setUpdateUrl] = useState<string>()
 
@@ -146,10 +151,10 @@ function HomeScreen() {
 
   useEffect(() => {
     SplashScreen.hide()
-    
+
     return () => SplashScreen.hide()
   }, [])
- const handleGetReceiptSettingsForHome = async () => {
+  const handleGetReceiptSettingsForHome = async () => {
     const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
     const companyId = loginStore.comp_id
@@ -215,7 +220,7 @@ function HomeScreen() {
             : 0,
           billedSaleData[0]?.cust_name,
           billedSaleData[0]?.phone_no,
-          receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+          receiptSettings?.custom_sl_flag == 'N' ? billedSaleData[0]?.receipt_no : billedSaleData[0]?.rcpt_sl_no,
           billedSaleData[0]?.pay_mode,
           false,
           false,
@@ -241,7 +246,7 @@ function HomeScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+            receiptSettings?.custom_sl_flag == 'N' ? billedSaleData[0]?.receipt_no : billedSaleData[0]?.rcpt_sl_no,
 
             billedSaleData[0]?.pay_mode,
             false,
@@ -263,7 +268,7 @@ function HomeScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+            receiptSettings?.custom_sl_flag == 'N' ? billedSaleData[0]?.receipt_no : billedSaleData[0]?.rcpt_sl_no,
 
             billedSaleData[0]?.pay_mode,
             false,
@@ -419,20 +424,22 @@ function HomeScreen() {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
       <ScrollView
         onScroll={onScroll}
         keyboardShouldPersistTaps="handled"
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "center", }}>
           <HeaderImage
             imgLight={hills}
             imgDark={hillsDark}
-            borderRadius={30}
+            // borderRadius={30}
             blur={10}>
-            Welcome Back, {loginStore.company_name}!
+
+
+            {loginStore.company_name}
           </HeaderImage>
         </View>
 
@@ -448,19 +455,242 @@ function HomeScreen() {
             </Dialog.Actions>
           </Dialog>
         </Portal>
-
         <View style={{ alignItems: "center", marginTop: -10 }}>
           <SurfacePaper
-            smallWidthEnabled
+            borderRadiusEnabled={false}
+            paddingEnabled
+            elevation={1}
+            backgroundColor={theme.colors.peachContainer}
+            style={{
+              borderTopRightRadius: normalize(10),
+              borderBottomRightRadius: normalize(10),
+              borderTopLeftRadius: normalize(10),
+              borderBottomLeftRadius: normalize(10),
+            }}
+          >
+            {!loading ? <View style={{ width: "100%", padding: normalize(15) }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}>
+
+                <View style={{ flexDirection: 'column' }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}>
+                    <View>
+                      <Text variant="titleLarge" style={{
+                        // color: theme.colors.onPeachContainer
+                        color: "white",
+                        fontSize: normalize(14)
+                      }}>Amount Collected</Text>
+                    </View>
+
+                  </View>
+
+                  <Text style={{
+                    color: "white",
+                    fontSize: 30
+                  }}>₹{amountCollected || 0}</Text>
+                </View>
+
+
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+
+                <View style={{
+                  marginVertical: 20, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', gap: 20
+                }}>
+
+                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{
+                      backgroundColor: "white",
+                      borderRadius: normalize(50),
+                      height: normalize(45),
+                      width: normalize(45),
+                      flexDirection: "column",
+                      alignItems: "center",
+
+                      justifyContent: "center",
+                    }}>
+                      <Text style={{
+                        // color: "#404198",
+                        color: "blue",
+                        textAlign: "center",
+                        fontSize: normalize(26)
+
+                      }}>
+                        {totalBills || 0}
+                      </Text>
+
+
+                    </View>
+                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Total Bills</Text>
+                  </View>
+                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{
+                      backgroundColor: "white",
+                      borderRadius: normalize(50),
+                      height: normalize(45),
+                      width: normalize(45),
+                      flexDirection: "column",
+                      alignItems: "center",
+
+                      justifyContent: "center",
+                    }}>
+                      <Text style={{
+                        color: "#404198",
+                        textAlign: "center",
+                        fontSize: normalize(26)
+
+                      }}>
+                        {/* {totalBills || 0} */}
+                        <MaterialCommunityIcons
+                          name="cog-outline"
+                          // color={'#404198'}
+                          color={'red'}
+                          size={26}
+                        />
+                      </Text>
+
+
+                    </View>
+                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Settings</Text>
+                  </View>
+                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{
+                      backgroundColor: "white",
+                      borderRadius: normalize(50),
+                      height: normalize(45),
+                      width: normalize(45),
+                      flexDirection: "column",
+                      alignItems: "center",
+
+                      justifyContent: "center",
+                    }}>
+                      <Text style={{
+                        color: "#404198",
+                        textAlign: "center",
+                        fontSize: normalize(26)
+
+                      }}>
+                        <MaterialCommunityIcons
+                          name="database-arrow-down"
+                          // color={'#404198'}
+                          color={'green'}
+                          size={26}
+                        />
+                      </Text>
+
+
+                    </View>
+                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Stock</Text>
+                  </View>
+                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{
+                      backgroundColor: "white",
+                      borderRadius: normalize(50),
+                      height: normalize(45),
+                      width: normalize(45),
+                      flexDirection: "column",
+                      alignItems: "center",
+
+                      justifyContent: "center",
+                    }}>
+                      <Text style={{
+                        color: "#404198",
+                        textAlign: "center",
+                        fontSize: normalize(26)
+
+                      }}>
+                        <MaterialCommunityIcons
+                          name="magnify"
+                          // color={'#404198'}
+                          color={'black'}
+                          size={26}
+                        />
+                      </Text>
+
+
+                    </View>
+                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Search Bills</Text>
+                  </View>
+                  {/* <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+                  <View style={{
+                    backgroundColor: "white",
+                    borderRadius: normalize(50),
+                    height: normalize(45),
+                    width: normalize(45),
+                    flexDirection: "column",
+                    alignItems: "center",
+                    
+                    justifyContent: "center",
+                  }}>
+                    <Text style={{
+                    color: "#404198",
+                    textAlign: "center",
+                    fontSize: normalize(26)
+
+                    }}>
+                      {totalBills || 0}
+                    </Text>
+                    
+                    
+                    </View>
+                    <Text style={{color:'white',fontWeight:'bold',marginTop:5}}>Total Bills</Text>
+                    </View> */}
+
+                </View>
+
+              </View>
+
+              {/* <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}>
+                <View>
+                  <Text variant="titleLarge" style={{
+                    // color: theme.colors.onPeachContainer
+                    color: "white",
+                    fontSize: normalize(16)
+                  }}>Amount Collected</Text>
+                </View>
+                <View>
+                  <Text variant="titleLarge" style={{
+                    // color: theme.colors.onPeachContainer
+                    color: "white",
+                    fontSize: normalize(16)
+
+                  }}>₹{amountCollected || 0}</Text>
+                </View>
+              </View> */}
+            </View> : <ActivityIndicator animating={true} color={MD2Colors.white} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+          </SurfacePaper>
+        </View>
+        {/* <View style={{ alignItems: "center", marginTop: -10 }}>
+          <SurfacePaper
+            // smallWidthEnabled
             borderRadiusEnabled={false}
             paddingEnabled
             // heading="Summary"
             elevation={1}
             backgroundColor={theme.colors.peachContainer}
             style={{
-              borderTopRightRadius: normalize(30),
-              borderTopLeftRadius: normalize(30),
-            }}>
+              borderTopRightRadius: normalize(10),
+              borderBottomRightRadius: normalize(10),
+              borderTopLeftRadius: normalize(10),
+              borderBottomLeftRadius: normalize(10),
+            }}
+            >
             {!loading?<View style={{ width: "100%", padding: normalize(15) }}>
               <View
                 style={{
@@ -469,13 +699,24 @@ function HomeScreen() {
                 }}>
                 <View>
                   <Text variant="titleLarge" style={{
-                    color: theme.colors.onPeachContainer
+                    // color: theme.colors.onPeachContainer
+                    color: "white"
                   }}>Total Bills</Text>
                 </View>
                 <View>
                   <Text variant="titleLarge" style={{
-                    color: theme.colors.onPeachContainer
-                  }}>{totalBills}</Text>
+                    color: "#404198",
+                    backgroundColor: "white",
+                    borderRadius: normalize(50),
+                    height: normalize(25),
+                    width: normalize(25),
+                    flexDirection: "row",
+                    alignItems: "center",
+                    
+                    textAlign: "center",
+                    justifyContent: "center",
+                    fontSize: normalize(16)
+                  }}>{totalBills || 0}</Text>
                 </View>
               </View>
               <View
@@ -485,34 +726,47 @@ function HomeScreen() {
                 }}>
                 <View>
                   <Text variant="titleLarge" style={{
-                    color: theme.colors.onPeachContainer
+                    // color: theme.colors.onPeachContainer
+                    color: "white",
+                    fontSize: normalize(16)
                   }}>Amount Collected</Text>
                 </View>
                 <View>
                   <Text variant="titleLarge" style={{
-                    color: theme.colors.onPeachContainer
-                  }}>₹{amountCollected}</Text>
+                    // color: theme.colors.onPeachContainer
+                    color: "white",
+                    fontSize: normalize(16)
+
+                  }}>₹{amountCollected || 0}</Text>
                 </View>
               </View>
             </View>:<ActivityIndicator animating={true} color={MD2Colors.white} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
           </SurfacePaper>
 
           {!loading?<SurfacePaper
-            smallWidthEnabled
+            // smallWidthEnabled
             borderRadiusEnabled={false}
             paddingEnabled
             isBorderEnabled
             heading="Recent Bills"
             elevation={1}
-            backgroundColor={theme.colors.tertiaryContainer}
+            // backgroundColor={theme.colors.tertiaryContainer}
+            backgroundColor={"white"}
             style={{
-              borderBottomLeftRadius: normalize(30),
-              borderBottomRightRadius: normalize(30),
+              borderTopRightRadius: normalize(10),
+              borderBottomRightRadius: normalize(10),
+              borderTopLeftRadius: normalize(10),
+              borderBottomLeftRadius: normalize(10),
+              color: "#404198",
+              backgroundColor: "#ffffff",
             }}>
-            <View style={{ width: "100%" }}>
+            <View style={{ width: "100%"}}>
               {recentBills?.map((item, i) => (
                 <List.Item
                   key={i}
+                  titleStyle={{ color: "#404198", fontWeight: "800" }}
+                  descriptionStyle={{ color: "black", }}
+                  
                   title={`Bill  ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
                   description={`₹${item?.net_amt}`}
                   onPress={() => {
@@ -521,7 +775,7 @@ function HomeScreen() {
                       : handleBillListClickCalculatorMode(item?.receipt_no)
                   }
                   }
-                  left={props => <List.Icon {...props} icon="basket" />}
+                  left={props => <List.Icon style={{ color: "#404198" }} {...props} icon="basket" />}
                 // right={props => (
                 //   <List.Icon {...props} icon="download" />
                 // )}
@@ -530,7 +784,9 @@ function HomeScreen() {
             </View>
             <View>
               <Button
-                textColor={theme.colors.onPinkContainer}
+                textColor={'#404198'}
+                // buttonColor={'#404198'}
+                
                 onPress={() =>
                   navigation.dispatch(
                     CommonActions.navigate({
@@ -541,8 +797,44 @@ function HomeScreen() {
                 ALL BILLS
               </Button>
             </View>
-          </SurfacePaper>:<ActivityIndicator animating={true} color={theme.colors.primary} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+          </SurfacePaper>:<ActivityIndicator animating={true} color={"#404198"} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+        </View> */}
+        {recentBills.length>0 ?<>
+        <Text style={{marginHorizontal:15,fontSize:15,color:'#6d6eacff'}}>Recent Bills</Text>
+        <View style={{}}></View>
+        <View style={styles.container1}>
+          {recentBills?.map((item, i) => {
+            const billNo = receiptSettings?.custom_sl_flag === 'N'
+              ? item?.receipt_no
+              : item?.rcpt_sl_no;
+
+            return (
+              <Card
+                key={i}
+                style={styles.card}
+                onPress={() =>
+                  loginStore?.mode !== 'C'
+                    ? handleRecentBillListClick(item.receipt_no)
+                    : handleBillListClickCalculatorMode(item.receipt_no)
+                }
+              >
+                <List.Item
+                  titleStyle={styles.title1}
+                  descriptionStyle={styles.description}
+                  title={`Bill  ${billNo}`}
+                  description={`₹ ${item.net_amt}`}
+                  left={props => <List.Icon {...props} icon="receipt" color="#404198" />}
+                />
+              </Card>
+            );
+          })}
         </View>
+        </>:
+        <View style={{marginHorizontal:'auto',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+          <Text style={{color:'#6d6eacff',margin:'auto'}}>Your recent bills will appear here!</Text>
+          </View>
+}
+
       </ScrollView>
 
       <DialogBoxForReprint
@@ -575,6 +867,7 @@ function HomeScreen() {
         loginStore?.mode === "N"
           ? <AnimatedFABPaper
             icon="plus"
+            color={"white"}
             label="Bill"
             onPress={() =>
               navigation.dispatch(
@@ -586,10 +879,12 @@ function HomeScreen() {
             extended={isExtended}
             animateFrom="right"
             iconMode="dynamic"
+
             customStyle={styles.fabStyle}
           />
           : <AnimatedFABPaper
             icon="pencil-plus-outline"
+            color="white"
             label="Bill"
             onPress={() =>
               navigation.dispatch(
@@ -609,7 +904,7 @@ function HomeScreen() {
       {
         loginStore?.mode !== "C" && <>
           <AnimatedFABPaper
-            color={theme.colors.onPeachContainer}
+            color={"white"}
             variant="tertiary"
             icon="apps"
             label="Categories"
@@ -652,17 +947,48 @@ const styles = StyleSheet.create({
     borderRadius: normalize(30),
     width: normalize(320),
     alignItems: "center",
+    color: "#404198"
   },
 
   fabStyle: {
     bottom: normalize(16),
     right: normalize(16),
     position: "absolute",
+    color: "white",
+
+    backgroundColor: "#4DAA57"
+    //#BF211E 
+    //#138A36
+    //#4DAA57
   },
 
   fabStyle2: {
     bottom: normalize(16),
     left: normalize(16),
     position: "absolute",
+    color: "#404198"
+
+  },
+  container1: {
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  card: {
+    marginBottom: 8,
+    borderRadius: 8,
+    elevation: 2,          // for Android shadow
+    shadowColor: '#000',   // for iOS shadow
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    backgroundColor: 'white',
+  },
+  title1: {
+    color: '#404198',
+    fontWeight: '800',
+  },
+  description: {
+    color: '#6d6eacff',
   },
 })

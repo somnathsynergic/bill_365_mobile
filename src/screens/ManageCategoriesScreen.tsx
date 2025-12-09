@@ -4,7 +4,15 @@ import {
     StyleSheet,
     PixelRatio,
     ToastAndroid,
+    Image
 } from "react-native"
+import RNFS from 'react-native-fs';
+import {
+    ImageLibraryOptions,
+    ImagePickerResponse,
+    launchImageLibrary,
+} from "react-native-image-picker"
+import { fileStorage } from "../storage/appStorage"
 import React, { useContext, useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Searchbar, Text } from "react-native-paper"
@@ -39,6 +47,9 @@ import useEditUnit from "../hooks/api/useEditUnit"
 import { AppStoreContext } from "../models/custom_types"
 import useEditCategory from "../hooks/api/useEditCategory"
 import useAddCategory from "../hooks/api/useAddCategory"
+import ButtonPaper from "../components/ButtonPaper"
+import { BASE_URL, BASE_URL_CATEGORY_IMG } from "../config/config";
+import axios from "axios";
 
 export default function ManageCategoriesScreen() {
     const theme = usePaperColorScheme()
@@ -60,7 +71,12 @@ export default function ManageCategoriesScreen() {
     const [filteredCategories, setFilteredCategories] = useState<CategoryListData[]>(() => [])
 
     const [isExtended, setIsExtended] = useState(() => true)
-
+    const [imgSrcUri, setImgSrcUri] = useState<string>()
+    const [imgAsset, setImgAsset] = useState<null | {
+        uri: string;
+        fileName?: string;
+        type?: string;
+    }>(null);
     const [category, setCategory] = useState<string>(() => "")
     const [catId, setCatId] = useState<number>(() => undefined)
     const [categoryName, setCategoryName] = useState<string>(() => "")
@@ -69,6 +85,39 @@ export default function ManageCategoriesScreen() {
         const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0
         setIsExtended(currentScrollPosition <= 0)
     }
+    const selectLogo = () => {
+        const options: ImageLibraryOptions = {
+            mediaType: 'photo',
+            // do not include base64: we want URI file
+            includeBase64: false,
+        };
+
+        launchImageLibrary(options, (response: ImagePickerResponse) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+                fileStorage.clearAll();
+            } else if (response.errorCode) {
+                console.log('ImagePicker Error: ', response.errorMessage);
+                fileStorage.clearAll();
+            } else if (response.assets && response.assets.length > 0) {
+                const asset = response.assets[0];
+                if (!asset.uri) {
+                    console.warn('No URI returned from image picker');
+                    return;
+                }
+
+                const uri = asset.uri;
+                const name = asset.fileName ?? `photo_${Date.now()}.jpg`;
+                const type = asset.type ?? 'image/jpeg';
+
+                setImgAsset({ uri, fileName: name, type });
+                console.log(uri, ',', name, ',', type)
+                fileStorage.set('file-uri', uri);
+                console.log(asset)
+                // optionally store name / type if you like
+            }
+        });
+    };
 
     const onChangeSearch = (query: string) => {
         setSearch(query)
@@ -144,14 +193,23 @@ export default function ManageCategoriesScreen() {
             .then(() => {
                 clearStates([setCategoryName], () => "")
                 setCategory(() => "")
+                setImgSrcUri("")
                 setVisibleAdd(!visibleAdd)
             })
             .catch(err => {
+                console.log(err)
                 ToastAndroid.show("Something went wrong on server.", ToastAndroid.SHORT)
             })
     }
 
     const handleAddUnit = async () => {
+        const form = new FormData();
+        console.log(typeof(imgSrcUri))
+        form.append('comp_id', loginStore?.comp_id);
+        form.append('category_name', categoryName);
+        form.append('created_by', loginStore?.user_name);
+        form.append('category_picture', imgSrcUri);
+        console.log('imgSrcUri',imgSrcUri)
         let addedCategoryObject: AddCategoryCredentials = {
             comp_id: loginStore?.comp_id,
             category_name: categoryName,
@@ -162,20 +220,36 @@ export default function ManageCategoriesScreen() {
             ToastAndroid.show("Add Category Name.", ToastAndroid.SHORT)
             return
         }
-
-        await sendAddedCategory(addedCategoryObject)
+        console.log(BASE_URL + "/api/add_category_test")
+        axios.post(BASE_URL + "/api/add_category_test", form, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
             .then(res => {
+                console.log(res)
                 ToastAndroid.show("Category has been added.", ToastAndroid.SHORT)
                 handleGetCategories()
             })
             .catch(err => {
-                ToastAndroid.show("Something went wrong on server while adding category.", ToastAndroid.SHORT)
+                console.log('error', err)
+                if (err.response) {
+                    console.log('Status:', err.response.status);
+                    console.log('Response data:', err.response.data);
+                    console.log('Response headers:', err.response.headers);
+                } else if (err.request) {
+                    console.log('No response received. Request object:', err.request);
+                } else {
+                    console.log('Some other error occurred:', err.message);
+                }
+                console.log('Config:', err.config);
+                ToastAndroid.show(err, ToastAndroid.SHORT)
             })
     }
 
     const handleCategoryPressed = (cat: CategoryListData) => {
+        console.log(cat)
         setCategory(cat?.category_name)
         setCatId(cat?.sl_no)
+        setImgSrcUri(cat?.catg_picture)
         setVisible(!visible)
     }
 
@@ -276,6 +350,32 @@ export default function ManageCategoriesScreen() {
                                 maxLength={18}
                             />
                         </View>
+
+                    </View>
+                    <View>
+                        <View
+                            style={{
+                                paddingHorizontal: normalize(25),
+                                paddingBottom: normalize(10),
+                            }}>
+                            <ButtonPaper mode="contained" style={{ marginVertical: 15 }} onPress={selectLogo}>
+                                UPLOAD
+                            </ButtonPaper>
+                        </View>
+                        <Image
+                            style={styles.image}
+                            // source={{ uri: imgSrcUri }}
+                            source={{
+                                uri:
+                                    // fileStorage?.getString("file-uri") === undefined
+                                    //     ? imgSrcUri
+                                    //     : fileStorage?.getString("file-uri"),
+                                    imgSrcUri !== undefined
+                                        ? BASE_URL_CATEGORY_IMG + imgSrcUri
+                                        : fileStorage?.getString("file-uri"),
+                            }}
+                            resizeMode="contain"
+                        />
                     </View>
                 </View>
             </DialogBox>
@@ -316,6 +416,28 @@ export default function ManageCategoriesScreen() {
                             maxLength={30}
                         />
                     </View>
+                    <View>
+                        <View
+                            style={{
+                                paddingHorizontal: normalize(25),
+                                paddingBottom: normalize(10),
+                            }}>
+                            <ButtonPaper mode="contained" style={{ marginVertical: 15 }} onPress={selectLogo}>
+                                UPLOAD
+                            </ButtonPaper>
+                        </View>
+                        <Image
+                            style={styles.image}
+                            // source={{ uri: imgSrcUri }}
+                            source={{
+                                uri:
+                                    fileStorage?.getString("file-uri") === undefined
+                                        ? imgSrcUri
+                                        : fileStorage?.getString("file-uri"),
+                            }}
+                            resizeMode="contain"
+                        />
+                    </View>
                 </View>
             </DialogBox>
         </SafeAreaView>
@@ -330,5 +452,12 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
+    },
+    image: {
+        width: "100%",
+        minHeight: normalize(200),
+        height: "auto",
+        marginVertical: 10,
+        borderWidth: 1,
     },
 })

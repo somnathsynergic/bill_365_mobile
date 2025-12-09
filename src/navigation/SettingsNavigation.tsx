@@ -16,6 +16,7 @@ import DiscountSettingsScreen from "../screens/DiscountSettingsScreen"
 import GstSettingsScreen from "../screens/GstSettingsScreen"
 import UPIGenerateScreen from "../screens/UPIGenerateScreen"
 import ManageCategoriesScreen from "../screens/ManageCategoriesScreen"
+import StockOpenScreen from "../screens/StockOpenScreen"
 // import ProductTransferScreen from "../screens/ProductTransferScreen"
 
 export default function SettingsNavigation() {
@@ -87,6 +88,10 @@ export default function SettingsNavigation() {
       <Stack.Screen
         name={navigationRoutes.upiGenerateScreen}
         component={UPIGenerateScreen}
+      />
+       <Stack.Screen
+        name={navigationRoutes.StockOpenScreen}
+        component={StockOpenScreen}
       />
      
       {/* <Stack.Screen

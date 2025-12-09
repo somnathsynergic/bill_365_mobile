@@ -101,11 +101,11 @@ function UserwiseReportScreen() {
   }
 
   const titleTextStyle: TextStyle = {
-    color: theme.colors.onPrimaryContainer
+    color: 'white'
   }
 
   const titleStyle: ViewStyle = {
-    backgroundColor: theme.colors.primaryContainer
+    backgroundColor: '#404198'
   }
 
   let totalSummary: number = 0
@@ -134,13 +134,13 @@ function UserwiseReportScreen() {
             alignItems: "center",
           }}>
           <ButtonPaper
-            textColor={theme.colors.primary}
+            textColor={'#404198'}
             onPress={() => setOpenFromDate(true)}
             mode="text">
             FROM: {fromDate?.toLocaleDateString("en-GB")}
           </ButtonPaper>
           <ButtonPaper
-            textColor={theme.colors.primary}
+            textColor={'#404198'}
             onPress={() => setOpenToDate(true)}
             mode="text">
             TO: {toDate?.toLocaleDateString("en-GB")}
@@ -191,7 +191,7 @@ function UserwiseReportScreen() {
               )
             }
             mode="contained-tonal"
-            buttonColor={theme.colors.primary}
+            buttonColor={'#404198'}
             textColor={theme.colors.onPrimary}
             loading={isLoading}
             disabled={isDisabled}>
@@ -199,7 +199,7 @@ function UserwiseReportScreen() {
           </ButtonPaper>
         </View>
 
-        <SurfacePaper backgroundColor={theme.colors.surface}>
+        {userwiseReport?.length> 0 &&<SurfacePaper backgroundColor={theme.colors.surface}>
           <DataTable>
             <DataTable.Header style={titleStyle}>
               {/* <DataTable.Title textStyle={titleTextStyle}>Created By</DataTable.Title> */}
@@ -230,12 +230,12 @@ function UserwiseReportScreen() {
             })}
           </DataTable>
           <View style={{ padding: normalize(10) }}>
-            <Text variant="labelMedium" style={{ color: theme.colors.primary }}>
+            <Text variant="labelMedium" style={{ color: '#404198'}}>
               {totalReceipts} Bills, NET: ₹{totalSummary?.toFixed(2)}, CANCELLED: ₹{totalCancelled}
             </Text>
           </View>
-        </SurfacePaper>
-        <View
+        </SurfacePaper>}
+        {userwiseReport?.length> 0 &&<View
           style={{
             paddingHorizontal: normalize(20),
             paddingBottom: normalize(10),
@@ -250,7 +250,7 @@ function UserwiseReportScreen() {
             textColor={theme.colors.onPrimaryContainer}>
             PRINT
           </ButtonPaper>
-        </View>
+        </View>}
       </ScrollView>
     </SafeAreaView>
   )

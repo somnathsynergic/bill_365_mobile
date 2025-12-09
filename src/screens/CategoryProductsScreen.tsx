@@ -381,15 +381,15 @@ function CategoryProductsScreen() {
                 <View style={{
                     paddingHorizontal: normalize(25),
                     paddingBottom: normalize(10),
-                    maxHeight: SCREEN_HEIGHT / 2.1
+                    maxHeight: SCREEN_HEIGHT / 1.33
                 }}>
                     {
                         categoryWiseItems?.length !== 0
                             ? <ScrollView style={{
                                 borderWidth: 2,
-                                borderColor: theme.colors.vanillaSecondary,
+                                borderColor: 'gray',
                                 borderStyle: "dashed",
-                                borderRadius: 20
+                                // borderRadius: 20
                             }} nestedScrollEnabled>
                                 {
                                     categoryWiseItems?.map((item, i) => {
@@ -400,14 +400,15 @@ function CategoryProductsScreen() {
                                                 <List.Item
                                                     onPress={() => productDetails(item)}
                                                     title={({ ellipsizeMode }) => <Text style={{
-                                                        width: "58%"
+                                                        width: "58%",fontWeight:'800'
                                                     }} numberOfLines={1} ellipsizeMode="tail">{item?.item_name}</Text>}
                                                     description={`₹${item?.price}`}
                                                     right={props => {
                                                         return <AddRemove value={getQuantity(item?.item_id)} add={() => add(item)} remove={() => remove(item)} key={item?.item_id} isAddDisabled={receiptSettings?.stock_flag === "Y" && getQuantity(item?.item_id) === item?.stock} />
                                                     }}
                                                     descriptionStyle={{
-                                                        color: theme.colors.green
+                                                        // color: 'gray'
+                                                        color: 'gray'
                                                     }}
                                                 />
                                                 <Divider />
@@ -435,7 +436,7 @@ function CategoryProductsScreen() {
                                 </Text>
                             </SurfacePaper>
                     }
-                    {loading ? <ActivityIndicator style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} theme={{ colors: { primary: 'green' } }} animating={true} size={'large'} /> : ''}
+                    {loading ? <ActivityIndicator style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} theme={{ colors: { primary: '#404198' } }} animating={true} size={'large'} /> : ''}
 
 
                 </View>

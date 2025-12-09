@@ -104,7 +104,7 @@ function LogoUploadScreen() {
             paddingHorizontal: normalize(25),
             paddingBottom: normalize(10),
           }}>
-          <ButtonPaper mode="contained" onPress={selectLogo}>
+          <ButtonPaper buttonColor="#404198" mode="contained" onPress={selectLogo}>
             UPLOAD
           </ButtonPaper>
         </View>
@@ -116,12 +116,12 @@ function LogoUploadScreen() {
           }}>
           <View
             style={{
-              borderWidth: 6,
+              borderWidth: 2,
               borderStyle: "dashed",
               borderRadius: normalize(50),
               width: "100%",
               padding: normalize(20),
-              borderColor: theme.colors.secondary,
+              borderColor: '#404198',
             }}>
             <Image
               style={styles.image}
@@ -139,9 +139,11 @@ function LogoUploadScreen() {
 
         <View style={{ paddingHorizontal: normalize(20) }}>
           <ButtonPaper
+             style={{marginVertical:10}}
             icon="trash-can-outline"
-            mode="text"
+            mode="elevated"
             onPress={showDialog}
+            buttonColor="white"
             textColor={theme.colors.error}>
             Delete
           </ButtonPaper>

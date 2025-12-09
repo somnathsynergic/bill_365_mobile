@@ -33,23 +33,23 @@ const SnackBar = ({
             alignSelf: "center",
             width: SCREEN_WIDTH / 1.13,
             height: normalize(60),
-            backgroundColor: theme.colors.vanilla,
+            backgroundColor: '#404198',
             borderRadius: normalize(20),
             justifyContent: "space-between",
             alignItems: "center"
         }}>
-            <Text variant="bodyLarge" style={{ color: theme.colors.onVanilla }}>Total • ₹{totAmt}</Text>
+            <Text variant="bodyLarge" style={{ color: '#d0e1fd' }}>Total • ₹{totAmt}</Text>
 
             {!hideCart && <View style={{
                 marginLeft: "-5%"
             }}>
-                <IconButton iconColor={theme.colors.onVanilla} icon="cart-variant" onPress={handleBtn3Press} disabled={disableCart} />
+                <IconButton iconColor={'#404198'} icon="cart-variant" onPress={handleBtn3Press} disabled={disableCart} />
                 <Badge visible={cartItemQty !== 0} style={{
                     position: "absolute",
                     top: 1,
                     right: 1,
-                    backgroundColor: theme.colors.vanillaContainer,
-                    color: theme.colors.onVanillaContainer,
+                    backgroundColor: '#d0e1fd',
+                    color: '#404198',
                     fontWeight: "bold"
                 }}>{cartItemQty}</Badge>
             </View>}

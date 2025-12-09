@@ -27,13 +27,13 @@ function ReportsScreen() {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
             imgLight={blurReport}
             imgDark={blurReportDark}
-            borderRadius={30}
+            borderRadius={10}
             blur={10}>
             My Reports
           </HeaderImage>
@@ -45,8 +45,10 @@ function ReportsScreen() {
                 <ReportButton
                   key={index}
                   text={item?.text}
-                  color={index % 2 === 0 ? theme.colors.purpleContainer : theme.colors.primaryContainer}
-                  textColor={index % 2 === 0 ? theme.colors.onPurpleContainer : theme.colors.onPrimaryContainer}
+                  // color={index % 2 === 0 ? "#404198" : "white"}
+                  color={ "white"}
+                  // textColor={index % 2 === 0 ? "white" : "#404198"}
+                  textColor={"#404198"}
                   icon={item?.icon}
                   onPress={() =>
                     navigation.dispatch(

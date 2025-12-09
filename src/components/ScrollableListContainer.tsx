@@ -19,10 +19,12 @@ export default function ScrollableListContainer({
       keyboardShouldPersistTaps="handled"
       style={{
         width: normalize(width),
-        height: normalize(height),
-        backgroundColor: backgroundColor,
+        height: 'auto',
+        // backgroundColor: backgroundColor,
+        backgroundColor: '#f1f6ffff',
         alignSelf: "center",
-        borderRadius: normalize(30),
+        borderRadius: normalize(10),
+        zIndex:999
       }}
       nestedScrollEnabled={true}>
       {children}

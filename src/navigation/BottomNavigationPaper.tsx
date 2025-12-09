@@ -12,6 +12,7 @@ import { LoginDataMessage } from "../models/api_types"
 import { getMessaging, onMessage, requestPermission } from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
 import { useEffect } from "react"
+import { SCREEN_WIDTH } from "react-native-normalize"
 const Tab = createMaterialBottomTabNavigator()
 
 function BottomNavigationPaper() {
@@ -36,13 +37,26 @@ function BottomNavigationPaper() {
     <Tab.Navigator
       theme={theme}
       initialRouteName="Home"
-      activeColor={theme.colors.primary}
+      // activeColor={theme.colors.primary}
+      activeColor={"#404198"}
       inactiveColor={theme.colors.onSurface}
       barStyle={{
+        // backgroundColor: theme.colors.surface,
         backgroundColor: theme.colors.surface,
         borderTopWidth: 0.4,
         borderColor: theme.colors.secondaryContainer,
-        display: shouldHideTabBar ? "flex" : "none"
+        // borderColor: '#404198',
+        display: shouldHideTabBar ? "flex" : "none",
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 3,
+        elevation: 5,
+        // width:SCREEN_WIDTH/1.1,
+        // marginHorizontal:20,
+        marginBottom:5,
+        borderRadius:100
+
       }}
       shifting
       compact

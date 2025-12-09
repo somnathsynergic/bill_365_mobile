@@ -121,8 +121,8 @@ export type GeneralSettingsEditCredentials = {
   refund_days: number
   modified_by: string
   custom_sl_flag: string
-  stock_alert_flag:string
-  stock_alert_prtg:number
+  stock_alert_flag: string
+  stock_alert_prtg: number
 }
 
 export type DiscountSettingsEditCredentials = {
@@ -163,6 +163,17 @@ export type ItemsData = {
   bar_code?: string
   catg_id?: number
   category_name?: string
+  barcode?: string
+  sale_price?: number
+  opening_stock?: number
+  purchase_price?: number
+  batch_no?: string
+  expiry_dt?: any
+  stock_alert?: string
+  pp_gst_flag?: string
+  sp_gst_flag?: string
+  disc_prtg_flag?: string
+  batchwise_flag?:string
 }
 
 export type UnitData = {
@@ -542,8 +553,17 @@ export type ItemEditRequestCredentials = {
   modified_by: string
   unit_id?: number
   catg_id?: number
+  selling_price?: number
+  purchase_price?: number
+  barcode?: string
+  description?: string
+  alert?: string
   // unit_name?: string
+  batch_no?: string
+  expiry_dt?: string
   item_name?: string
+  sp_gst_flag?: "Y" | "N"
+  pp_gst_flag?: "Y" | "N"
 }
 
 export type UnitEditCredentials = {
@@ -570,13 +590,28 @@ export type AddItemCredentials = {
   item_name: string
   created_by: string
   price: number
-  discount: number
+  // discount: number
   cgst: number
   sgst: number
   unit_id?: number
   catg_id?: number
   // unit_name?: string
   br_id: number
+  expiry_dt?: any
+  batch_no?: string
+  barcode?: string
+  opening_stock?: number
+  purchase_price?: number
+  sale_price?: number
+  description?: string
+  alert?: string
+  pp_gst_flag?: string
+  sp_gst_flag?: string
+  disc_prtg_flag?: string
+  as_on_dt?: any
+  mfg_dt?: any
+  low_stock_qty?: number
+  batchwise_flag?: string
 }
 
 export type AddUnitCredentials = {

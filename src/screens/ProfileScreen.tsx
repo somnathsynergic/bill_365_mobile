@@ -76,7 +76,7 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView
-      style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
+      style={[{ backgroundColor:'#dde6f5ff', height: "100%" }]}>
       <ScrollView>
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -115,12 +115,13 @@ export default function ProfileScreen() {
             }}>
             <TouchableRipple
               style={{
-                width: "88%",
-                height: normalize(80),
-                backgroundColor: theme.colors.vanillaSecondaryContainer,
-                paddingHorizontal: normalize(20),
+                width: "80%",
+                height: normalize(50),
+                // backgroundColor: theme.colors.vanillaSecondaryContainer,
+                backgroundColor: '#404198',
+                paddingHorizontal: normalize(6),
                 justifyContent: "center",
-                borderRadius: normalize(10),
+                borderRadius: normalize(50),
               }}>
               <View
                 style={{
@@ -129,19 +130,21 @@ export default function ProfileScreen() {
                   alignItems: "center",
                 }}>
                 <ButtonPaper
-                  textColor={theme.colors.onVanillaSecondaryContainer}
+                  // textColor={theme.colors.onVanillaSecondaryContainer}
+                  textColor={btnIdentifier === "S" ? '#404198':"white"}
                   icon={"storefront-outline"}
                   onPress={() => handleStoreOrUserShow(1)}
                   mode="text"
-                  buttonColor={btnIdentifier === "S" && "#191d0825"}>
+                  // buttonColor={btnIdentifier === "S" && "#191d0825"}>
+                  buttonColor={btnIdentifier === "S" && "white"}>
                   Store Profile
                 </ButtonPaper>
                 <ButtonPaper
-                  textColor={theme.colors.onVanillaSecondaryContainer}
+                  textColor={btnIdentifier === "U" ? '#404198':"white"}
                   icon={"account-circle-outline"}
                   onPress={() => handleStoreOrUserShow(2)}
                   mode="text"
-                  buttonColor={btnIdentifier === "U" && "#191d0825"}>
+                  buttonColor={btnIdentifier === "U" && "white"}>
                   User Profile
                 </ButtonPaper>
               </View>
@@ -153,38 +156,44 @@ export default function ProfileScreen() {
               alignSelf: "center",
               width: "88%",
             }}>
-            {storeOrUser ? (
-              <ProfileSection bgColor={theme.colors.vanillaTertiaryContainer}>
-                <Text
+            {storeOrUser ? (<>
+             <Text
                   variant="displaySmall"
                   style={{
                     textAlign: "center",
                     padding: normalize(5),
-                    color: theme.colors.onVanillaTertiaryContainer,
+                    color: '#404198',
                   }}>
                   {loginStore?.company_name}
                 </Text>
+                <Text style={{fontSize:15, marginVertical:10, marginHorizontal:10, color:'gray'}}>
+                Store Location
+               </Text>
+              <ProfileSection bgColor={'white'} >
+               
 
-                <View
+                {/* <View
                   style={{
                     borderWidth: 1,
                     width: "90%",
-                    borderColor: theme.colors.onVanillaTertiaryContainer,
+                    borderColor: 'black',
                     borderStyle: "dashed",
                     alignSelf: "center"
-                  }}></View>
+                  }}></View> */}
 
                 <>
-                  {tabsStore?.map((i, k) => (
+                  {tabsStore?.filter((item,index)=>index<=2).map((i, k) => (
                     <View key={k} style={styles.tabular}>
-                      <Text variant="bodyMedium">{i.left}</Text>
+                      <Text style={{ color: '#404198',fontWeight:'bold', fontSize: 15}} variant="bodyMedium">{i.left}</Text>
                       <Text
                         variant="bodyMedium"
-                        style={{ flex: 0.6, textAlign: "right" }}>
+                        style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
                         {i.right}
                       </Text>
                     </View>
                   ))}
+
+
                 </>
 
                 {/* <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: normalize(5) }}>
@@ -192,28 +201,48 @@ export default function ProfileScreen() {
                                                 textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
                                         </View> */}
               </ProfileSection>
-            ) : (
-              <ProfileSection bgColor={theme.colors.purpleContainer}>
+               <Text style={{fontSize:15, marginTop:10, marginHorizontal:10, color:'gray'}}>
+                Store Credentials
+               </Text>
+              <View style={{marginVertical:10}}>
+               <ProfileSection  bgColor={'white'}  >
+               
+              
+
                 <View>
-                  <Text
+                  {tabsStore?.filter((item,index)=>index>2).map((i, k) => (
+                    <View key={k} style={styles.tabular}>
+                      <Text style={{ color: '#404198',fontWeight:'bold', fontSize: 15}} variant="bodyMedium">{i.left}</Text>
+                      <Text
+                        variant="bodyMedium"
+                        style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
+                        {i.right}
+                      </Text>
+                    </View>
+                  ))}
+
+                  
+                </View>
+
+                {/* <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: normalize(5) }}>
+                                            <ButtonPaper
+                                                textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
+                                        </View> */}
+              </ProfileSection>
+              </View>
+              </>
+            ) : (<>
+              <Text
                     variant="displaySmall"
                     style={{
                       textAlign: "center",
                       padding: normalize(5),
-                      color: theme.colors.onPurpleContainer,
+                      color: '#404198',
                     }}>
                     {loginStore?.user_name}
                   </Text>
-
-                  <View
-                    style={{
-                      borderWidth: 1,
-                      width: "90%",
-                      borderColor: theme.colors.onPurpleContainer,
-                      borderStyle: "dashed",
-                      alignSelf: "center"
-                    }}></View>
-                </View>
+              <ProfileSection bgColor={'white'}>
+              
 
                 <View
                   style={{
@@ -222,10 +251,10 @@ export default function ProfileScreen() {
                   <View>
                     {tabsUser?.map((i, k) => (
                       <View key={k} style={styles.tabular}>
-                        <Text variant="bodyMedium">{i.left}</Text>
+                        <Text style={{ color: '#404198',fontWeight:'bold',fontSize: 15}} variant="bodyMedium">{i.left}</Text>
                         <Text
                           variant="bodyMedium"
-                          style={{ flex: 0.6, textAlign: "right" }}>
+                          style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
                           {i.right}
                         </Text>
                       </View>
@@ -238,7 +267,7 @@ export default function ProfileScreen() {
                                             </View> */}
                 </View>
               </ProfileSection>
-            )}
+          </>  )}
           </View>
 
           <View
@@ -249,10 +278,11 @@ export default function ProfileScreen() {
             }}>
             <ButtonPaper
               icon="logout"
-              mode="contained"
-              buttonColor={theme.colors.errorContainer}
+              mode="elevated"
+              // buttonColor={'#A72608'}
+              buttonColor={'white'}
               onPress={showDialog}
-              textColor={theme.colors.onErrorContainer}>
+              textColor={'#A72608'}>
               LOG OUT
             </ButtonPaper>
           </View>

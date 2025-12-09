@@ -14,7 +14,7 @@ function MoreScreen() {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -31,8 +31,8 @@ function MoreScreen() {
               <ReportButton
                 key={index}
                 text={item.text}
-                color={index % 2 === 0 ? theme.colors.primaryContainer : theme.colors.secondaryContainer}
-                textColor={index % 2 === 0 ? theme.colors.onPrimaryContainer : theme.colors.onSecondaryContainer}
+                color={"white"}
+                textColor={"#404198"}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({
