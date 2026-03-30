@@ -1,4 +1,4 @@
-import { Alert, Linking, Platform, StyleSheet, Text, ToastAndroid, View } from 'react-native'
+import { Alert, Linking, Platform, StyleSheet, Text, ToastAndroid, useColorScheme, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Camera, Code, CodeScanner, useCameraDevice, useCameraPermission, useCodeScanner } from 'react-native-vision-camera'
 import { CommonActions, useNavigation } from '@react-navigation/native'
@@ -13,13 +13,20 @@ import { getUniqueWithMaxCount } from '../utils/getUniqueWithMaxCount'
 const SAMPLING_RATE = 16
 
 function CameraScreen() {
+    
     const device = useCameraDevice('back')
     const { hasPermission, requestPermission } = useCameraPermission()
     const [scannedCode, setScannedCode] = useState<string>(() => "")
     const [scanned, setScanned] = useState(false)
     const navigation = useNavigation()
     const theme = usePaperColorScheme()
+const state = navigation.getState(); 
+const colorScheme = useColorScheme()
+const routes = state.routes;
+const currentIndex = state.index;
+const previousRoute = currentIndex > 0 ? routes[currentIndex - 1] : null;
 
+console.log("Previous route:", previousRoute);
     let samplingBarcodes: Code[][] = [[]]
     let barcodes: string[] = []
 
@@ -60,7 +67,7 @@ function CameraScreen() {
 
                     navigation.dispatch(
                         CommonActions.navigate({
-                            name: navigationRoutes.productsScreen,
+                            name: previousRoute?.name==="ProductsScreen" ? navigationRoutes.productsScreen : navigationRoutes.manageProductsScreen,
                             params: {
                                 barcode: uniqueWithMaxCount,
                                 navigatedFromCamera: true
@@ -110,7 +117,7 @@ function CameraScreen() {
     }, [])
 
     return (
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.colors.secondaryContainer }]}>
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: colorScheme === "dark" ? "#000000" : "#f5f9ff" }]}>
             <View style={{ alignItems: "center" }}>
                 <HeaderImage
                     imgLight={productHeader}
@@ -125,7 +132,7 @@ function CameraScreen() {
                 width: SCREEN_WIDTH / 1.14,
                 height: SCREEN_HEIGHT / 3.4,
                 borderWidth: 15,
-                borderColor: theme.colors.primary,
+                borderColor: colorScheme === "dark" ? "#009689" : "#008181",
                 borderRadius: 20,
                 alignSelf: "center"
             }}>

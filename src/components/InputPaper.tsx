@@ -49,21 +49,22 @@ const InputPaper = ({
       value={value?.toString()}
       onChangeText={onChangeText}
       secureTextEntry={secureTextEntry}
-      style={[customStyle,{height:height||37}]}
+      style={[customStyle,{height:height,borderColor:'#008181'}]}
       left={leftIcon && <TextInput.Icon icon={leftIcon} />}
       // right={<TextInput.Icon icon={secureTextEntry ? "eye-off" : "eye"} onPress={() => setSecureTextEntry(!secureTextEntry)} />}
       autoFocus={autoFocus}
       maxLength={maxLength}
-      underlineColor={'#404198'}
-      underlineStyle={{ backgroundColor: '#404198' }}
-      // cursorColor={'#404198'}
-      activeOutlineColor="#404198"
+      underlineColor={'#008181'}
+      underlineStyle={{ backgroundColor: '#008181' }}
+      // cursorColor={'#008181'}
+      activeOutlineColor="#008181"
+     theme={{ colors: { primary:'#008181', text: '#008181' } }}
       multiline={multiline}
+      placeholderTextColor={'red'}
       
       
-      // selectionColor={'#404198'}
-      // textColor={'#404198'}
-      placeholderTextColor={'#404198'}
+      // selectionColor={'#008181'}
+      // textColor={'#008181'}
       disabled={disabled}
       clearTextOnFocus={clearTextOnFocus}
       // underlineStyle={{

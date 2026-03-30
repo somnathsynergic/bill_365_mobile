@@ -50,7 +50,7 @@ export default function SurfacePaper({
             fontFamily: "ProductSans-Medium",
             textAlign: "center",
             marginBottom: 5,
-            color: "#404198",
+            color: "#008181",
           }}>
           {heading}
         </Text>
@@ -64,7 +64,7 @@ export default function SurfacePaper({
             borderWidth: 0.5,
             borderRadius: 4,
             // marginBottom: 5,
-            borderColor: '#404198',
+            borderColor: '#008181',
           }}></View>
       )}
       {children}

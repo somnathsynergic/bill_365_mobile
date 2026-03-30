@@ -5,6 +5,7 @@ import {
   ToastAndroid,
   Alert,
   BackHandler,
+  useColorScheme,
 } from "react-native"
 import React, { useContext, useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -26,7 +27,7 @@ export default function GstSettingsScreen() {
   const theme = usePaperColorScheme()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-
+  const colorScheme = useColorScheme()
   const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
   const { receiptSettings, handleGetReceiptSettings } = useContext<AppStoreContext>(AppStore)
@@ -124,90 +125,192 @@ export default function GstSettingsScreen() {
   }
 
   return (
-    <SafeAreaView
-      style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            isBackCustom={true}
-            backPressed={backPressed}
-            imgLight={flowerHome}
-            imgDark={flowerHomeDark}
-            borderRadius={30}
-            blur={10}>
-            GST Settings
-          </HeaderImage>
-        </View>
+    // <SafeAreaView
+    //   style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         isBackCustom={true}
+    //         backPressed={backPressed}
+    //         imgLight={flowerHome}
+    //         imgDark={flowerHomeDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         GST Settings
+    //       </HeaderImage>
+    //     </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(25),
-            paddingBottom: normalize(10),
-          }}>
-          {loginStore?.user_type === "M" ? (
-            <ButtonPaper
-              icon="cloud-upload-outline"
-              mode="contained"
-              onPress={handleReceiptSettingsUpdate}
-              loading={isLoading}
-              disabled={isDisabled}>
-              UPDATE
-            </ButtonPaper>
-          ) : (
-            <ButtonPaper
-              disabled
-              mode="elevated"
-              onPress={() => console.log("UPDATE")}>
-              YOU CAN'T UPDATE
-            </ButtonPaper>
-          )}
-        </View>
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(25),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       {loginStore?.user_type === "M" ? (
+    //         <ButtonPaper
+    //           icon="cloud-upload-outline"
+    //           mode="contained"
+    //           onPress={handleReceiptSettingsUpdate}
+    //           loading={isLoading}
+    //           disabled={isDisabled}>
+    //           UPDATE
+    //         </ButtonPaper>
+    //       ) : (
+    //         <ButtonPaper
+    //           disabled
+    //           mode="elevated"
+    //           onPress={() => console.log("UPDATE")}>
+    //           YOU CAN'T UPDATE
+    //         </ButtonPaper>
+    //       )}
+    //     </View>
 
-        <View style={{ padding: normalize(20) }}>
+    //     <View style={{ padding: normalize(20) }}>
+    //       <List.Item
+    //         title="GST"
+    //         description={
+    //           gstFlag === "Y"
+    //             ? "Allowed"
+    //             : gstFlag === "N"
+    //               ? "Denied"
+    //               : "Error Occurred!"
+    //         }
+    //         left={props => <List.Icon {...props} icon="account-cash-outline" />}
+    //         right={props => {
+    //           return <MenuPaper menuArrOfObjects={gstFlagArr} />
+    //         }}
+    //         descriptionStyle={{
+    //           color: gstFlag === "Y" ? theme.colors.green : theme.colors.error,
+    //         }}
+    //       />
+    //       <Divider />
+    //       {gstFlag === "Y" && (
+    //         <>
+    //           <List.Item
+    //             title="GST Type"
+    //             description={
+    //               gstType === "E"
+    //                 ? "Exclusive"
+    //                 : gstType === "I"
+    //                   ? "Inclusive"
+    //                   : "Error Occurred!"
+    //             }
+    //             left={props => (
+    //               <List.Icon {...props} icon="account-cash-outline" />
+    //             )}
+    //             right={props => {
+    //               return <MenuPaper menuArrOfObjects={gstTypeArr} />
+    //             }}
+    //             descriptionStyle={{ color: theme.colors.primary }}
+    //           />
+    //           <Divider />
+    //         </>
+    //       )}
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+   
+<SafeAreaView style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <View style={{ alignItems: "center" }}>
+           <HeaderImage
+             isBackEnabled
+             isBackCustom={true}
+             backPressed={backPressed}
+             imgLight={flowerHome}
+             imgDark={flowerHomeDark}
+             borderRadius={30}
+             blur={10}>
+             GST Settings
+           </HeaderImage>
+         </View>
+    </View>
+
+    <View style={{ paddingHorizontal: normalize(25), paddingBottom: normalize(10) }}>
+      {loginStore?.user_type === "M" ? (
+        <ButtonPaper
+          icon="cloud-upload-outline"
+          mode="contained"
+          onPress={handleReceiptSettingsUpdate}
+          loading={isLoading}
+          disabled={isDisabled}
+          buttonColor= {colorScheme !== "dark" ? '#008181' : '#009689'}
+          textColor="white"
+          style={{ borderRadius: normalize(8), elevation: 1 }}
+        >
+          UPDATE
+        </ButtonPaper>
+      ) : (
+        <ButtonPaper
+          disabled
+          mode="elevated"
+          onPress={() => console.log("UPDATE")}
+          buttonColor="#f5f9ff"
+          textColor="#97979eff"
+          style={{ borderRadius: normalize(8), elevation: 1 }}
+        >
+          YOU CAN'T UPDATE
+        </ButtonPaper>
+      )}
+    </View>
+
+    <View style={{ padding: normalize(20) }}>
+      <View style={{
+        backgroundColor: colorScheme == "dark" ? '#2e2929ff' : '#fff',
+        borderRadius: normalize(8),
+        elevation: 1,
+        borderWidth: 1,
+        borderColor:  colorScheme == "dark" ? '#2e2929ff' :'#ececf0ff',
+        padding: normalize(12),
+        marginBottom: normalize(12),
+      }}>
+        <List.Item
+          title="GST"
+          description={
+            gstFlag === "Y"
+              ? "Allowed"
+              : gstFlag === "N"
+                ? "Denied"
+                : "Error Occurred!"
+          }
+          left={props => <List.Icon {...props} icon="account-cash-outline" color={colorScheme == "dark" ? '#009689' : '#008181'} />}
+          right={props => <MenuPaper menuArrOfObjects={gstFlagArr} textColor={colorScheme == "dark" ? '#009689' : '#008181'}/>}
+          descriptionStyle={{
+            color: gstFlag === "Y" ? '#009689' : theme.colors.error,
+          }}
+        />
+      </View>
+
+      {gstFlag === "Y" && (
+        <View style={{
+          backgroundColor: colorScheme == "dark" ? '#2e2929ff' : '#fff',
+          borderRadius: normalize(8),
+          elevation: 1,
+          borderWidth: 1,
+          borderColor: colorScheme == "dark" ? '#2e2929ff' :'#ececf0ff',
+          padding: normalize(12),
+          marginBottom: normalize(12),
+        }}>
           <List.Item
-            title="GST"
+            title="GST Type"
             description={
-              gstFlag === "Y"
-                ? "Allowed"
-                : gstFlag === "N"
-                  ? "Denied"
+              gstType === "E"
+                ? "Exclusive"
+                : gstType === "I"
+                  ? "Inclusive"
                   : "Error Occurred!"
             }
-            left={props => <List.Icon {...props} icon="account-cash-outline" />}
-            right={props => {
-              return <MenuPaper menuArrOfObjects={gstFlagArr} />
-            }}
-            descriptionStyle={{
-              color: gstFlag === "Y" ? theme.colors.green : theme.colors.error,
-            }}
+            left={props => <List.Icon {...props} icon="account-cash-outline" color={colorScheme == "dark" ? '#009689' : '#008181'} />}
+            right={props => <MenuPaper menuArrOfObjects={gstTypeArr} 
+    textColor={colorScheme == "dark" ? '#009689' : '#008181'}/>}
+            descriptionStyle={{ color:  colorScheme == "dark" ? '#009689' : '#008181' }}
           />
-          <Divider />
-          {gstFlag === "Y" && (
-            <>
-              <List.Item
-                title="GST Type"
-                description={
-                  gstType === "E"
-                    ? "Exclusive"
-                    : gstType === "I"
-                      ? "Inclusive"
-                      : "Error Occurred!"
-                }
-                left={props => (
-                  <List.Icon {...props} icon="account-cash-outline" />
-                )}
-                right={props => {
-                  return <MenuPaper menuArrOfObjects={gstTypeArr} />
-                }}
-                descriptionStyle={{ color: theme.colors.primary }}
-              />
-              <Divider />
-            </>
-          )}
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      )}
+    </View>
+  </ScrollView>
+</SafeAreaView>
   )
 }
 

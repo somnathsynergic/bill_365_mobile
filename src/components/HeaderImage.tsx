@@ -60,7 +60,7 @@ export default function HeaderImage({
         <View >
           <IconButton
             icon="arrow-left"
-            iconColor={'#404198'}
+            iconColor={'#008181'}
             size={20}
             onPress={
               !isBackCustom
@@ -78,16 +78,16 @@ export default function HeaderImage({
 }
       {/* )} */}
      
-        <View style={styles.surface}>
+        <View style={colorScheme === "dark" ? styles.surfaceDark : styles.surface}>
            <Image
-                          source={colorScheme === "dark" ? logoDark : logo}
-                          style={{ height: 33, width: 33, marginLeft:8, resizeMode: 'contain' }}
+                          source={colorScheme === "dark" ? logo : logo}
+                          style={{ height: 140, width: 120, marginLeft:8, resizeMode: 'contain' }}
                         />
-        <Text
+        {/* <Text
           variant="displaySmall"
-          style={{ fontFamily: "ProductSans-small", marginHorizontal: normalize(10),fontWeight:"800", textAlign: "center",fontSize: normalize(18), color: '#404198' }}>
+          style={{ fontFamily: "ProductSans-small", marginHorizontal: normalize(10),fontWeight:"800", textAlign: "center",fontSize: normalize(18), color: '#008181' }}>
           {children}
-        </Text>
+        </Text> */}
         </View>
     </>
   )
@@ -100,10 +100,28 @@ const styles = StyleSheet.create({
     marginBottom: normalize(20),
     // borderRadius: normalize(30),
     width: SCREEN_WIDTH / 1.0003,
-    // backgroundColor:'#404198',
+    // backgroundColor:'#008181',
     backgroundColor:'#ffffff',
     flexDirection: "row",
     alignItems: "center",
+    justifyContent:'center',
+     shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 3,
+        elevation: 5,
+  },
+   surfaceDark: {
+    margin: normalize(2),
+    height: SCREEN_HEIGHT / 15,
+    marginBottom: normalize(20),
+    // borderRadius: normalize(30),
+    width: SCREEN_WIDTH / 1.0003,
+    // backgroundColor:'#008181',
+    backgroundColor:'#2e2929ff',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent:'center',
      shadowColor: '#000',
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity:  0.4,

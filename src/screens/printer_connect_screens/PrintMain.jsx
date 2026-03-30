@@ -24,6 +24,7 @@ import HeaderImage from "../../components/HeaderImage"
 import { flowerSetting, flowerSettingDark } from "../../resources/images"
 import { usePaperColorScheme } from "../../theme/theme"
 import ButtonPaper from "../../components/ButtonPaper"
+import normalize from "react-native-normalize"
 
 const PrintMain = () => {
   const theme = usePaperColorScheme()
@@ -347,88 +348,193 @@ const PrintMain = () => {
   }
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView>
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            imgLight={flowerSetting}
-            imgDark={flowerSettingDark}
-            borderRadius={30}
-            blur={10}>
-            Printer Connect
-          </HeaderImage>
-        </View>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView>
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         imgLight={flowerSetting}
+    //         imgDark={flowerSettingDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         Printer Connect
+    //       </HeaderImage>
+    //     </View>
 
-        <View style={styles.bluetoothStatusContainer}>
-          <Text
-            style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
-            Bluetooth {bleOpend ? "Active" : "Not Active"}
-          </Text>
-        </View>
-        {!bleOpend && (
-          <Text
-            style={[
-              styles.bluetoothInfo,
-              { color: theme.colors.onBackground },
-            ]}>
-            Please activate your bluetooth
-          </Text>
-        )}
-        <Text
-          style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
-          Printer connected to the application:
-        </Text>
-        {boundAddress.length > 0 && (
-          <ItemList
-            label={name}
-            value={boundAddress}
-            onPress={() => {
-              // console.log("disconnect false")
-              unPair(boundAddress)
-            }}
-            actionText="Unpair"
-            color={theme.colors.primary}
-          />
-        )}
-        {boundAddress.length < 1 && (
-          <Text
-            style={[styles.printerInfo, { color: theme.colors.onBackground }]}>
-            There is no printer connected yet
-          </Text>
-        )}
-        <Text
-          style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
-          Bluetooth connected to this phone:
-        </Text>
-        <Text style={[styles.sectionSub, { color: theme.colors.onBackground }]}>
-          (If not, pair it from your bluetooth)
-        </Text>
-        {loading ? <ActivityIndicator animating={true} /> : null}
-        <View style={styles.containerList}>
-          {pairedDevices.map((item, index) => {
-            return (
-              <ItemList
-                key={index}
-                onPress={() => connect(item)}
-                label={item.name}
-                value={item.address}
-                connected={item.address === boundAddress}
-                actionText="Connect"
-                color="#00BCD4"
-              />
-            )
-          })}
-        </View>
-        <SamplePrint />
-        <ButtonPaper onPress={() => scanBluetoothDevice()} mode="contained">
-          Scan / Connect
-        </ButtonPaper>
-        {/* <Button onPress={() => scanBluetoothDevice()} title="Scan / Connect" /> */}
-        <View style={{ height: 100 }} />
-      </ScrollView>
-    </SafeAreaView>
+    //     <View style={styles.bluetoothStatusContainer}>
+    //       <Text
+    //         style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
+    //         Bluetooth {bleOpend ? "Active" : "Not Active"}
+    //       </Text>
+    //     </View>
+    //     {!bleOpend && (
+    //       <Text
+    //         style={[
+    //           styles.bluetoothInfo,
+    //           { color: theme.colors.onBackground },
+    //         ]}>
+    //         Please activate your bluetooth
+    //       </Text>
+    //     )}
+    //     <Text
+    //       style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
+    //       Printer connected to the application:
+    //     </Text>
+    //     {boundAddress.length > 0 && (
+    //       <ItemList
+    //         label={name}
+    //         value={boundAddress}
+    //         onPress={() => {
+    //           // console.log("disconnect false")
+    //           unPair(boundAddress)
+    //         }}
+    //         actionText="Unpair"
+    //         color={theme.colors.primary}
+    //       />
+    //     )}
+    //     {boundAddress.length < 1 && (
+    //       <Text
+    //         style={[styles.printerInfo, { color: theme.colors.onBackground }]}>
+    //         There is no printer connected yet
+    //       </Text>
+    //     )}
+    //     <Text
+    //       style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
+    //       Bluetooth connected to this phone:
+    //     </Text>
+    //     <Text style={[styles.sectionSub, { color: theme.colors.onBackground }]}>
+    //       (If not, pair it from your bluetooth)
+    //     </Text>
+    //     {loading ? <ActivityIndicator animating={true} /> : null}
+    //     <View style={styles.containerList}>
+    //       {pairedDevices.map((item, index) => {
+    //         return (
+    //           <ItemList
+    //             key={index}
+    //             onPress={() => connect(item)}
+    //             label={item.name}
+    //             value={item.address}
+    //             connected={item.address === boundAddress}
+    //             actionText="Connect"
+    //             color="#00BCD4"
+    //           />
+    //         )
+    //       })}
+    //     </View>
+    //     <SamplePrint />
+    //     <ButtonPaper onPress={() => scanBluetoothDevice()} mode="contained">
+    //       Scan / Connect
+    //     </ButtonPaper>
+    //     {/* <Button onPress={() => scanBluetoothDevice()} title="Scan / Connect" /> */}
+    //     <View style={{ height: 100 }} />
+    //   </ScrollView>
+    // </SafeAreaView>
+  
+<SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+  <ScrollView>
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <View style={{ alignItems: "center" }}>
+           <HeaderImage
+             isBackEnabled
+             imgLight={flowerSetting}
+             imgDark={flowerSettingDark}
+             borderRadius={30}
+             blur={10}>
+             Printer Connect
+           </HeaderImage>
+         </View>
+    </View>
+
+    <View style={styles.bluetoothStatusContainer}>
+      <Text style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
+        Bluetooth {bleOpend ? "Active" : "Not Active"}
+      </Text>
+    </View>
+    {!bleOpend && (
+      <Text style={[styles.bluetoothInfo, { color: theme.colors.onBackground }]}>
+        Please activate your bluetooth
+      </Text>
+    )}
+
+    <Text style={[styles.sectionTitle, { color: theme.colors.onBackground, marginVertical: normalize(10) }]}>
+      Printer connected to the application:
+    </Text>
+    {boundAddress.length > 0 ? (
+      <ItemList
+        label={name}
+        value={boundAddress}
+        onPress={() => unPair(boundAddress)}
+        actionText="Unpair"
+        color="#008181"
+        style={{
+          backgroundColor: '#fff',
+          borderRadius: normalize(8),
+          marginHorizontal: normalize(16),
+          marginBottom: normalize(10),
+          elevation: 1,
+          borderWidth: 1,
+          borderColor: '#ececf0ff',
+          padding: normalize(12),
+        }}
+      />
+    ) : (
+      <Text style={[styles.printerInfo, { color: theme.colors.onBackground, textAlign: 'center', marginVertical: normalize(10) }]}>
+        There is no printer connected yet
+      </Text>
+    )}
+
+    <Text style={[styles.sectionTitle, { color: theme.colors.onBackground, marginVertical: normalize(10) }]}>
+      Bluetooth connected to this phone:
+    </Text>
+    <Text style={[styles.sectionSub, { color: theme.colors.onBackground, textAlign: 'center', marginBottom: normalize(10) }]}>
+      (If not, pair it from your bluetooth)
+    </Text>
+    {loading ? <ActivityIndicator animating={true} /> : null}
+
+    <View style={styles.containerList}>
+      {pairedDevices.map((item, index) => (
+        <ItemList
+          key={index}
+          onPress={() => connect(item)}
+          label={item.name}
+          value={item.address}
+          connected={item.address === boundAddress}
+          actionText="Connect"
+          color="#008181"
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: normalize(8),
+            marginHorizontal: normalize(16),
+            marginBottom: normalize(8),
+            elevation: 1,
+            borderWidth: 1,
+            borderColor: '#ececf0ff',
+            padding: normalize(12),
+          }}
+        />
+      ))}
+    </View>
+
+    <SamplePrint style={{ marginHorizontal: normalize(16), marginVertical: normalize(16) }} />
+
+    <ButtonPaper
+      onPress={() => scanBluetoothDevice()}
+      mode="contained"
+      buttonColor="#008181"
+      textColor="white"
+      style={{
+        marginHorizontal: normalize(16),
+        borderRadius: normalize(8),
+        elevation: 1,
+      }}
+    >
+      Scan / Connect
+    </ButtonPaper>
+
+    <View style={{ height: 100 }} />
+  </ScrollView>
+</SafeAreaView>
   )
 }
 

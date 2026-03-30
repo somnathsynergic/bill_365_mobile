@@ -6,6 +6,7 @@ import {
   PixelRatio,
   ToastAndroid,
   Alert,
+  useColorScheme,
 } from "react-native"
 import { IconButton, Searchbar, Text } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
@@ -71,7 +72,7 @@ function ProductsScreen() {
 
   const [search, setSearch] = useState<string>(() => "")
   const [filteredItems, setFilteredItems] = useState<ItemsData[]>(() => [])
-
+  const colorScheme = useColorScheme()
   const [product, setProduct] = useState<ItemsData>()
   const [quantity, setQuantity] = useState<number>()
   const [discountState, setDiscountState] = useState<number>(() => 0)
@@ -80,6 +81,7 @@ function ProductsScreen() {
   const [updatedStock, setUpdatedStock] = useState<number>()
   const [discountBillwise, setDiscountBillwise] = useState<number>(() => 0)
   const [tableNo, setTableNo] = useState<number>(() => 0)
+  const [low_stock_qty, setLow_stock_qty] = useState<number>(() => 0)
 
   const [addedProductsList, setAddedProductsList] = useState<ItemsData[]>(
     () => [],
@@ -115,13 +117,15 @@ function ProductsScreen() {
 
     // Convert the query to lowercase (or uppercase) for case-insensitive comparison
     const lowerCaseQuery = query.toLowerCase()
-
+    // console.log(items)
     const filtered = items.filter(
       (item: ItemsData) =>
         item?.item_name?.toLowerCase().includes(lowerCaseQuery) || // Check if item_name contains the query
+        item?.bar_code?.toString()?.toLowerCase().includes(lowerCaseQuery) || // Check if item_name contains the query
         item?.item_id?.toString().toLowerCase().includes(lowerCaseQuery), // Check if item_id contains the query
     )
     setFilteredItems(filtered)
+    console.log(filtered)
 
     // Clear the filtered items if the query is empty
     if (query === "") setFilteredItems(() => [])
@@ -151,8 +155,9 @@ function ProductsScreen() {
   }
 
   const productDetails = (item: ItemsData) => {
+    console.log(item)
     setProduct(item)
-
+    setLow_stock_qty(item?.low_stock_qty)
     setDiscountState(item?.discount)
     setPrice(item?.price)
     handleFetchStock(item?.item_id)
@@ -382,7 +387,6 @@ function ProductsScreen() {
     //@ts-ignore
     setUpdatedStock(parseInt(stock) - parseInt(quantity))
   }, [quantity])
-
   const handleNextScreen = () => {
     if (receiptSettings?.kot_flag === "Y") {
       if (tableNo <= 0 || isNaN(tableNo)) {
@@ -464,17 +468,61 @@ function ProductsScreen() {
       comp_id: loginStore?.comp_id,
       bar_code: barcode
     }
+    // setSearch(barcode)
+    const filtered = items.filter(
+      (item: ItemsData) =>
+        item?.item_name?.toLowerCase().includes(barcode) || // Check if item_name contains the query
+        item?.bar_code?.toString()?.toLowerCase().includes(barcode.toLowerCase()) || // Check if item_name contains the query
+        item?.item_id?.toString().toLowerCase().includes(barcode), // Check if item_id contains the query
+    )
+    console.log(filtered, 'filtered==============================')
+    setFilteredItems(filtered)
+    if (filtered.length === 0) {
+      ToastAndroid.show("No product found.", ToastAndroid.SHORT)
+      return
+    } else {
+      console.log(filtered[0], 'filtered==============================')
+      // productDetails(filtered[0])
+      setQuantity(1)
+      setPrice(filtered[0]?.sale_price)
+      setDiscountState(filtered[0]?.discount)
+      setStock(filtered[0]?.stock)
+      console.log(filtered[0]?.sale_price, filtered[0]?.discount, filtered[0]?.stock)
 
-    await fetchProductByBarcode(creds).then(res => {
-      if (res?.msg?.length === 0) {
-        ToastAndroid.show("No product found.", ToastAndroid.SHORT)
-        return
-      } else {
-        productDetails(res?.msg[0])
+      for (let item of addedProductsList) {
+        if (item?.id === product?.id) {
+          ToastAndroid.show(
+            "Item already exists. Please edit from the list.",
+            ToastAndroid.LONG,
+          )
+          return
+        }
       }
-    }).catch(err => {
-      ToastAndroid.show("Some error while fetching product by barcode..." + err, ToastAndroid.SHORT)
-    })
+       
+          setAddedProductsList(prevProducts => [
+            {
+              ...filtered[0],
+              quantity: 1,
+              price: filtered[0]?.sale_price,
+              discount: filtered[0]?.discount,
+              stock: filtered[0]?.stock
+            },
+            ...prevProducts
+          ])
+        
+
+    }
+
+    // await fetchProductByBarcode(creds).then(res => {
+    //   if (res?.msg?.length === 0) {
+    //     ToastAndroid.show("No product found.", ToastAndroid.SHORT)
+    //     return
+    //   } else {
+    //     productDetails(res?.msg[0])
+    //   }
+    // }).catch(err => {
+    //   ToastAndroid.show("Some error while fetching product by barcode..." + err, ToastAndroid.SHORT)
+    // })
   }
 
   useEffect(() => {
@@ -488,8 +536,462 @@ function ProductsScreen() {
   }, [isFocused])
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <DialogBox
+    //     iconSize={40}
+    //     visible={visible}
+    //     hide={hideDialog}
+    //     titleStyle={styles.title}
+    //     btnSuccess={!editState ? "ADD" : "UPDATE"}
+    //     onFailure={onDialogFailure}
+    //     onSuccess={
+    //       !editState
+    //         ? onDialogSuccessChange
+    //         : () => onDialogUpdateChange(product)
+    //     }>
+    //     <View style={styles.modalContainer}>
+    //       <View style={{ alignItems: "center" }}>
+    //         <View>
+    //           <Text
+    //             variant="titleLarge"
+    //             style={{ color: '#008181' }}>
+    //             {product?.item_name}
+    //           </Text>
+
+    //         </View>
+    //       <Text variant="labelMedium" style={{ color: "red",backgroundColor:"pink" }}>{updatedStock< product?.low_stock_qty && receiptSettings.stock_alert_flag === "Y"? "Low stock!":""}</Text>
+    //       {/* <Text variant="labelMedium" style={{ color: "red",backgroundColor:"pink" }}>{updatedStock},{low_stock_qty}</Text> */}
+
+    //       </View>
+
+    //       <View
+    //         style={{
+    //           borderBottomWidth: 0.3,
+    //           borderColor: theme.colors.primary,
+    //           margin: 10,
+
+    //           borderStyle: "dashed",
+    //         }}>
+    //         <View
+    //           style={{
+    //             flexDirection: "row",
+    //             justifyContent: "space-between",
+    //             alignItems: "center",
+    //             padding: 5,
+    //             // borderBottomWidth: 1,
+    //             borderColor: theme.colors.primary,
+    //           }}>
+    //           <Text variant="labelMedium" style={{color:'gray'}}>PRODUCT ID</Text>
+    //           <Text variant="labelMedium" style={{color:'gray'}}>{product?.id}</Text>
+    //         </View>
+
+    //         {receiptSettings?.unit_flag === "Y" && (
+    //           <View
+    //             style={{
+    //               flexDirection: "row",
+    //               justifyContent: "space-between",
+    //               alignItems: "center",
+    //               padding: 5,
+    //             }}>
+    //             <Text variant="labelMedium" style={{color:'gray'}}>UNIT</Text>
+    //             <Text variant="labelMedium" style={{color:'gray'}}>{product?.unit_name || ""}</Text>
+    //           </View>
+    //         )}
+    //       </View>
+
+    //       <View
+    //         style={
+    //           receiptSettings?.price_type === "A" && {
+    //             borderBottomWidth: 0.3,
+    //             borderColor: theme.colors.primary,
+    //             margin: 10,
+
+    //             borderStyle: "dashed",
+    //           }
+    //         }>
+    //         <View
+    //           style={{
+    //             flexDirection: "row",
+    //             justifyContent: "space-between",
+    //             alignItems: "center",
+    //             padding: 5,
+    //           }}>
+    //           {receiptSettings?.price_type === "A" ? (
+    //             <>
+    //               <Text variant="labelMedium" style={{color:'gray'}}>UNIT PRICE</Text>
+    //               <Text variant="labelMedium" style={{color:'gray'}}>₹{product?.price}</Text>
+    //             </>
+    //           ) : (
+    //             <View
+    //               style={{
+    //                 flex: 1,
+    //                 justifyContent: "center",
+    //                 paddingHorizontal: 5,
+    //               }}>
+    //               <InputPaper
+    //                 label="Unit Price"
+    //                 onChangeText={(txt: number) => setPrice(txt)}
+    //                 value={price}
+    //                 keyboardType="numeric"
+    //                 autoFocus={true}
+    //                 mode="outlined"
+    //               />
+    //             </View>
+    //           )}
+    //         </View>
+    //       </View>
+
+    //       {receiptSettings?.stock_flag === "Y" && (
+    //         <View
+    //           style={{
+    //             borderBottomWidth: 0.3,
+    //             borderColor: theme.colors.primary,
+    //             margin: 10,
+
+    //             borderStyle: "dashed",
+    //           }}>
+    //           <View
+    //             style={{
+    //               flexDirection: "row",
+    //               justifyContent: "space-between",
+    //               alignItems: "center",
+    //               padding: 5,
+    //             }}>
+    //             <Text variant="labelMedium" style={{color:'gray'}}>STOCK AVAILABLE</Text>
+    //             <Text variant="labelMedium" style={{color:'gray'}}>{updatedStock || stock}</Text>
+
+    //           </View>
+    //         </View>
+    //       )}
+
+    //       {receiptSettings?.gst_flag === "Y" && (
+    //         <View
+    //           style={{
+    //             borderBottomWidth: 0.3,
+    //             borderColor: theme.colors.primary,
+    //             margin: 10,
+    //             marginBottom:10,
+    //             borderStyle: "dashed",
+    //           }}>
+    //           <View style={{ flexDirection: "column", width: "100%" }}>
+    //             <View
+    //               style={{
+    //                 flexDirection: "row",
+    //                 justifyContent: "space-between",
+    //                 alignItems: "center",
+    //                 padding: 5,
+    //                 borderColor: theme.colors.primary,
+    //                 borderStyle: "dashed",
+    //               }}>
+    //               <Text variant="labelMedium" style={{color:'gray'}}>CGST</Text>
+    //               <Text variant="labelMedium" style={{color:'gray'}}>{product?.cgst || ""}%</Text>
+    //             </View>
+    //             <View
+    //               style={{
+    //                 flexDirection: "row",
+    //                 justifyContent: "space-between",
+    //                 alignItems: "center",
+    //                 padding: 5,
+    //               }}>
+    //               <Text variant="labelMedium" style={{color:'gray'}}>SGST</Text>
+    //               <Text variant="labelMedium" style={{color:'gray'}}>{product?.sgst || ""}%</Text>
+    //             </View>
+    //           </View>
+    //         </View>
+    //       )}
+
+    //       <View
+    //         style={{
+    //           flexDirection: "row",
+    //           justifyContent: "space-between",
+    //           alignItems: "center",
+    //           marginHorizontal: 7,
+    //           gap: 5,
+    //         }}>
+    //         <View
+    //           style={
+    //             receiptSettings?.discount_flag === "Y" &&
+    //               receiptSettings?.discount_position !== "B"
+    //               ? { width: "50%" }
+    //               : { width: "100%" }
+    //           }>
+    //           <InputPaper
+    //             label={`Quantity (${(receiptSettings?.unit_flag === "Y" && product?.unit_name) ||
+    //               ""
+    //               })`}
+    //             onChangeText={(txt: number) => setQuantity(txt)}
+    //             value={quantity}
+    //             keyboardType="numeric"
+    //             autoFocus={true}
+    //             mode="outlined"
+    //           />
+    //         </View>
+    //         {receiptSettings?.discount_flag === "Y" &&
+    //           receiptSettings?.discount_position !== "B" && (
+    //             <View style={{ width: "50%" }}>
+    //               <InputPaper
+    //                 selectTextOnFocus
+    //                 label={
+    //                   receiptSettings?.discount_type === "A"
+    //                     ? "Discount (₹)"
+    //                     : "Discount (%)"
+    //                 }
+    //                 onChangeText={(dis: number) => setDiscountState(dis)}
+    //                 value={discountState}
+    //                 keyboardType="numeric"
+    //                 mode="outlined"
+    //               />
+    //             </View>
+    //           )}
+    //       </View>
+    //       {editState && (
+    //         <View
+    //           style={{
+    //             marginBottom: normalize(-15),
+    //             marginTop: normalize(10),
+    //             paddingHorizontal: normalize(10),
+    //           }}>
+    //           <ButtonPaper
+    //             mode="text"
+    //             textColor={theme.colors.onPurple}
+    //             buttonColor={theme.colors.purple}
+    //             icon="trash-can-outline"
+    //             onPress={() => handleOnDelete(product)}>
+    //             DELETE ITEM
+    //           </ButtonPaper>
+    //         </View>
+    //       )}
+    //     </View>
+    //   </DialogBox>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         imgLight={productHeader}
+    //         imgDark={productHeaderDark}
+    //         borderRadius={30}
+    //         blur={10}
+    //         isBackEnabled>
+    //         My Products
+    //       </HeaderImage>
+    //     </View>
+
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(25),
+    //         paddingBottom: normalize(10),
+    //         flexDirection: "row",
+    //         justifyContent: "center",
+    //         alignItems: "center",
+    //         width: "100%",
+    //       }}>
+    //       {/* <View style={{ width: "85%" }}> */}
+    //       <Searchbar
+    //         ref={searchProductRef}
+    //         placeholder="Search Items or ID"
+    //         onChangeText={onChangeSearch}
+    //         value={search}
+    //         elevation={search && 2}
+    //         // loading={search ? true : false}
+    //         autoFocus
+    //         style={{
+    //           // backgroundColor: theme.colors.vanillaSecondaryContainer,
+    //           backgroundColor: '#fbf1cb',
+    //           color: '#fbf1cb',
+    //         }}
+    //         traileringIcon={"barcode-scan"}
+    //         traileringIconColor={theme.colors.purple}
+    //         onTraileringIconPress={
+    //           () => navigation.dispatch(
+    //             CommonActions.navigate(navigationRoutes.cameraScreen)
+    //           )
+    //         }
+    //       />
+    //       {/* </View> */}
+
+    //       {/* <View style={{ width: "15%" }}>
+    //         <IconButton
+    //           icon="barcode-scan"
+    //           onPress={() => navigation.dispatch(
+    //             CommonActions.navigate(navigationRoutes.cameraScreen)
+    //           )}
+    //           size={30}
+    //           iconColor={theme.colors.purple}
+    //         />
+    //       </View> */}
+
+    //     </View>
+
+    //     <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10) }}>
+    //       {search && (
+    //         <ScrollableListContainer
+    //           backgroundColor={'#fbf1cb'}>
+    //           {filteredItems.map(item => (
+    //             <ProductListSuggestion
+    //               key={item?.id}
+    //               itemName={item?.item_name}
+    //               onPress={() => productDetails(item)}
+    //               unitPrice={item?.price}
+    //             />
+    //           ))}
+    //         </ScrollableListContainer>
+    //       )}
+
+    //       {addedProductsList.length > 0 && !search && (
+    //         <>
+    //           <ScrollableListContainer
+    //             backgroundColor={theme.colors.secondaryContainer}>
+    //             {addedProductsList.map(item => {
+    //               totalPrice += item?.price * item["quantity"]
+
+    //               receiptSettings?.discount_flag === "Y"
+    //                 ? receiptSettings?.discount_position === "I"
+    //                   ? receiptSettings?.discount_type === "A"
+    //                     ? (totalDiscountedAmount += parseFloat(
+    //                       //@ts-ignore
+    //                       item["discount"] * item["quantity"],
+    //                     ))
+    //                     : (totalDiscountedAmount += parseFloat(
+    //                       (
+    //                         (item?.price *
+    //                           item["quantity"] *
+    //                           item["discount"]) /
+    //                         100
+    //                       ).toFixed(2),
+    //                     ))
+    //                   : receiptSettings?.discount_type === "A"
+    //                     ? (totalDiscountedAmount = discountBillwise)
+    //                     : (totalDiscountedAmount += parseFloat(
+    //                       (
+    //                         (item?.price *
+    //                           item["quantity"] *
+    //                           discountBillwise) /
+    //                         100
+    //                       ).toFixed(2),
+    //                     ))
+    //                 : (totalDiscountedAmount = 0)
+
+    //               console.log("totalDiscount", totalDiscountedAmount)
+
+    //               return (
+    //                 <AddedProductList
+    //                   key={item?.id}
+    //                   itemName={item?.item_name}
+    //                   quantity={item["quantity"]}
+    //                   unitPrice={item["price"]}
+    //                   discount={
+    //                     receiptSettings?.discount_flag === "Y"
+    //                       ? item["discount"]
+    //                       : 0
+    //                   }
+    //                   unit={item["unit_name"]}
+    //                   onPress={() => productEditAndDelete(item)}
+    //                 />
+    //               )
+    //             })}
+    //           </ScrollableListContainer>
+
+    //           {receiptSettings?.kot_flag === "Y"
+    //             && <View style={{
+    //               paddingHorizontal: SCREEN_WIDTH / 10.5,
+    //               paddingTop: 14,
+    //             }}>
+    //               <InputPaper
+    //                 customStyle={{
+    //                   backgroundColor: theme.colors.primaryContainer,
+    //                 }}
+    //                 selectTextOnFocus
+    //                 label={
+    //                   "Table No."
+    //                 }
+    //                 onChangeText={(tbleNo: number) => setTableNo(tbleNo)}
+    //                 value={tableNo}
+    //                 keyboardType="numeric"
+    //                 mode="flat"
+    //               />
+    //             </View>}
+    //         </>
+    //       )}
+
+    //       {totalPrice > 0 && (
+    //         <>
+    //           <NetTotalButton
+    //             disabled
+    //             // backgroundColor={theme.colors.greenContainer}
+    //             backgroundColor={'#008181'}
+    //             textColor={'white'}
+    //             addedProductsList={addedProductsList}
+    //             netTotal={totalPrice}
+    //             totalDiscount={totalDiscountedAmount}
+    //             onPress={() =>
+    //               ToastAndroid.showWithGravityAndOffset(
+    //                 "Printing feature will be added in some days.",
+    //                 ToastAndroid.SHORT,
+    //                 ToastAndroid.CENTER,
+    //                 25,
+    //                 50,
+    //               )
+    //             }
+    //           />
+    //           <View
+    //             style={{
+    //               paddingTop: normalize(15),
+    //               // width: SCREEN_WIDTH / 1.16,
+    //               flexDirection: "row",
+    //               alignItems: "center",
+    //               justifyContent: "space-evenly",
+    //               // justifyContent: "center",
+    //               paddingHorizontal: normalize(40)
+    //             }}>
+    //             {/* <ButtonPaper
+    //               mode="text"
+    //               textColor={theme.colors.purple}
+    //               // onPress={handleMemOut}
+    //               onPress={handleMemOut}
+    //               icon={"arrow-right-thick"}>
+    //               Mem Out
+    //             </ButtonPaper> */}
+
+    //             <ButtonPaper mode="text" textColor={theme.colors.error} icon={"hand-back-left-outline"} onPress={onHoldClick}>
+    //               Hold
+    //             </ButtonPaper>
+    //             <ButtonPaper
+    //               mode="text"
+    //               textColor={'#008181'}
+    //               onPress={handleNextScreen}
+    //               icon={"arrow-right-thick"}>
+    //               Next
+    //             </ButtonPaper>
+    //             {/* <ButtonPaper
+    //               mode="text"
+    //               textColor={theme.colors.purple}
+    //               onPress={handleMemorize}
+    //               icon={"arrow-right-thick"}>
+    //               Memorization
+    //             </ButtonPaper> */}
+
+    //             {/* <IconButton icon={"restart"} onPress={onGetHoldBillOut} iconColor={theme.colors.green} disabled={productStorage.getAllKeys().length === 0} /> */}
+
+    //           </View>
+    //         </>
+    //       )}
+    //     </View>
+    //   </ScrollView>
+    //   {
+    //     isDataAvailable && <AnimatedFABPaper
+    //       icon="restart"
+    //       label="Get"
+    //       onPress={onGetHoldBillOut}
+    //       // extended={isExtended}
+    //       animateFrom="right"
+    //       iconMode="dynamic"
+    //       customStyle={styles.fabStyle}
+    //       variant="primary"
+    //       disabled={!isDataAvailable}
+    //     />
+    //   }
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff' }]}>
       <DialogBox
         iconSize={40}
         visible={visible}
@@ -497,92 +999,40 @@ function ProductsScreen() {
         titleStyle={styles.title}
         btnSuccess={!editState ? "ADD" : "UPDATE"}
         onFailure={onDialogFailure}
-        onSuccess={
-          !editState
-            ? onDialogSuccessChange
-            : () => onDialogUpdateChange(product)
-        }>
+        onSuccess={!editState ? onDialogSuccessChange : () => onDialogUpdateChange(product)}>
         <View style={styles.modalContainer}>
           <View style={{ alignItems: "center" }}>
-            <View>
-              <Text
-                variant="titleLarge"
-                style={{ color: theme.colors.primary }}>
-                {product?.item_name}
-              </Text>
-
-            </View>
-          <Text variant="labelMedium" style={{ color: "red",backgroundColor:"pink" }}>{(receiptSettings.stock_alert_prtg> stock || receiptSettings.stock_alert_prtg>updatedStock) && receiptSettings?.stock_alert_flag === "Y"? "Low stock!":""}</Text>
-
+            <Text variant="titleLarge" style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>{product?.item_name}</Text>
+            <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>
+              {updatedStock < product?.low_stock_qty && receiptSettings.stock_alert_flag === "Y" && receiptSettings.stock_flag === "Y"? "Low stock!" : ""}
+            </Text>
           </View>
 
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: theme.colors.primary,
-              margin: 10,
-              borderRadius: 10,
-              borderStyle: "dashed",
-            }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 5,
-                // borderBottomWidth: 1,
-                borderColor: theme.colors.primary,
-              }}>
-              <Text variant="labelMedium">PRODUCT ID</Text>
-              <Text variant="labelMedium">{product?.id}</Text>
+          <View style={{ borderBottomWidth: 0.3, borderColor: colorScheme === 'dark' ? '#009689' : '#008181', margin: 10, borderStyle: "dashed" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5 }}>
+              <Text variant="labelMedium" style={{ color: colorScheme === 'dark' ? 'white' : 'gray', fontWeight: '800' }}>PRODUCT ID</Text>
+              <Text variant="labelMedium" style={{ color: colorScheme === 'dark' ? 'white' : 'gray' }}>{product?.item_id}</Text>
             </View>
-
             {receiptSettings?.unit_flag === "Y" && (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: 5,
-                }}>
-                <Text variant="labelMedium">UNIT</Text>
-                <Text variant="labelMedium">{product?.unit_name || ""}</Text>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5 }}>
+                <Text variant="labelMedium" style={{ color: colorScheme === 'dark' ? 'white' : 'gray' }}>UNIT</Text>
+                <Text variant="labelMedium" style={{ color: colorScheme === 'dark' ? 'white' : 'gray' }}>{product?.unit_name || ""}</Text>
               </View>
             )}
           </View>
 
-          <View
-            style={
-              receiptSettings?.price_type === "A" && {
-                borderWidth: 1,
-                borderColor: theme.colors.primary,
-                margin: 10,
-                borderRadius: 10,
-                borderStyle: "dashed",
-              }
-            }>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 5,
-              }}>
+          <View style={{ borderBottomWidth: 0.3, borderColor: colorScheme === 'dark' ? '#009689' : '#008181', margin: 10, borderStyle: "dashed" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5 }}>
               {receiptSettings?.price_type === "A" ? (
                 <>
-                  <Text variant="labelMedium">UNIT PRICE</Text>
-                  <Text variant="labelMedium">₹{product?.price}</Text>
+                  <Text variant="labelMedium" style={{ color: colorScheme === 'dark' ? 'white' : 'gray' }}>UNIT PRICE</Text>
+                  <Text variant="labelMedium" style={{ color: colorScheme === 'dark' ? 'white' : 'gray' }}>₹{product?.price}</Text>
                 </>
               ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    paddingHorizontal: 5,
-                  }}>
+                <View style={{ flex: 1, justifyContent: "center", paddingHorizontal: 5 }}>
                   <InputPaper
                     label="Unit Price"
-                    onChangeText={(txt: number) => setPrice(txt)}
+                    onChangeText={(txt: any) => setPrice(txt)}
                     value={price}
                     keyboardType="numeric"
                     autoFocus={true}
@@ -594,115 +1044,56 @@ function ProductsScreen() {
           </View>
 
           {receiptSettings?.stock_flag === "Y" && (
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: theme.colors.primary,
-                margin: 10,
-                borderRadius: 10,
-                borderStyle: "dashed",
-              }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: 5,
-                }}>
-                <Text variant="labelMedium">STOCK AVAILABLE</Text>
-                <Text variant="labelMedium">{updatedStock || stock}</Text>
-                
+            <View style={{ borderBottomWidth: 0.3, borderColor: '#008181', margin: 10, borderStyle: "dashed" }}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5 }}>
+                <Text variant="labelMedium" style={{ color: 'gray' }}>STOCK AVAILABLE</Text>
+                <Text variant="labelMedium" style={{ color: 'gray' }}>{updatedStock || stock}</Text>
               </View>
             </View>
           )}
 
           {receiptSettings?.gst_flag === "Y" && (
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: theme.colors.primary,
-                margin: 10,
-                borderRadius: 10,
-                borderStyle: "dashed",
-              }}>
+            <View style={{ borderBottomWidth: 0.3, borderColor: '#008181', margin: 10, borderStyle: "dashed" }}>
               <View style={{ flexDirection: "column", width: "100%" }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: 5,
-                    borderColor: theme.colors.primary,
-                    borderStyle: "dashed",
-                  }}>
-                  <Text variant="labelMedium">CGST</Text>
-                  <Text variant="labelMedium">{product?.cgst || ""}%</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5 }}>
+                  <Text variant="labelMedium" style={{ color: 'gray' }}>CGST</Text>
+                  <Text variant="labelMedium" style={{ color: 'gray' }}>{product?.cgst || ""}%</Text>
                 </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: 5,
-                  }}>
-                  <Text variant="labelMedium">SGST</Text>
-                  <Text variant="labelMedium">{product?.sgst || ""}%</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 5 }}>
+                  <Text variant="labelMedium" style={{ color: 'gray' }}>SGST</Text>
+                  <Text variant="labelMedium" style={{ color: 'gray' }}>{product?.sgst || ""}%</Text>
                 </View>
               </View>
             </View>
           )}
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginHorizontal: 7,
-              gap: 5,
-            }}>
-            <View
-              style={
-                receiptSettings?.discount_flag === "Y" &&
-                  receiptSettings?.discount_position !== "B"
-                  ? { width: "50%" }
-                  : { width: "100%" }
-              }>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginHorizontal: 7, gap: 5 }}>
+            <View style={receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position !== "B" ? { width: "50%" } : { width: "100%" }}>
               <InputPaper
-                label={`Quantity (${(receiptSettings?.unit_flag === "Y" && product?.unit_name) ||
-                  ""
-                  })`}
-                onChangeText={(txt: number) => setQuantity(txt)}
+                label={`Quantity (${(receiptSettings?.unit_flag === "Y" && product?.unit_name) || ""})`}
+                onChangeText={(txt: any) => setQuantity(txt)}
                 value={quantity}
                 keyboardType="numeric"
                 autoFocus={true}
                 mode="outlined"
               />
             </View>
-            {receiptSettings?.discount_flag === "Y" &&
-              receiptSettings?.discount_position !== "B" && (
-                <View style={{ width: "50%" }}>
-                  <InputPaper
-                    selectTextOnFocus
-                    label={
-                      receiptSettings?.discount_type === "A"
-                        ? "Discount (₹)"
-                        : "Discount (%)"
-                    }
-                    onChangeText={(dis: number) => setDiscountState(dis)}
-                    value={discountState}
-                    keyboardType="numeric"
-                    mode="outlined"
-                  />
-                </View>
-              )}
+            {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position !== "B" && (
+              <View style={{ width: "50%" }}>
+                <InputPaper
+                  selectTextOnFocus
+                  label={receiptSettings?.discount_type === "A" ? "Discount (₹)" : "Discount (%)"}
+                  onChangeText={(dis: any) => setDiscountState(dis)}
+                  value={discountState}
+                  keyboardType="numeric"
+                  mode="outlined"
+                />
+              </View>
+            )}
           </View>
+
           {editState && (
-            <View
-              style={{
-                marginBottom: normalize(-15),
-                marginTop: normalize(10),
-                paddingHorizontal: normalize(10),
-              }}>
+            <View style={{ marginBottom: normalize(-15), marginTop: normalize(10), paddingHorizontal: normalize(10) }}>
               <ButtonPaper
                 mode="text"
                 textColor={theme.colors.onPurple}
@@ -715,6 +1106,7 @@ function ProductsScreen() {
           )}
         </View>
       </DialogBox>
+
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -727,55 +1119,24 @@ function ProductsScreen() {
           </HeaderImage>
         </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(25),
-            paddingBottom: normalize(10),
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-          }}>
-          {/* <View style={{ width: "85%" }}> */}
+        <View style={{ paddingHorizontal: normalize(25), paddingBottom: normalize(10), flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%" }}>
           <Searchbar
             ref={searchProductRef}
             placeholder="Search Items or ID"
             onChangeText={onChangeSearch}
             value={search}
             elevation={search && 2}
-            // loading={search ? true : false}
             autoFocus
-            style={{
-              // backgroundColor: theme.colors.vanillaSecondaryContainer,
-              color: theme.colors.onSecondaryContainer,
-            }}
-            traileringIcon={"barcode-scan"}
-            traileringIconColor={theme.colors.purple}
-            onTraileringIconPress={
-              () => navigation.dispatch(
-                CommonActions.navigate(navigationRoutes.cameraScreen)
-              )
-            }
+            style={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#def0ddff', color: '#fbf1cb' }}
+            traileringIcon="barcode-scan"
+            traileringIconColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+            onTraileringIconPress={() => navigation.dispatch(CommonActions.navigate(navigationRoutes.cameraScreen))}
           />
-          {/* </View> */}
-
-          {/* <View style={{ width: "15%" }}>
-            <IconButton
-              icon="barcode-scan"
-              onPress={() => navigation.dispatch(
-                CommonActions.navigate(navigationRoutes.cameraScreen)
-              )}
-              size={30}
-              iconColor={theme.colors.purple}
-            />
-          </View> */}
-
         </View>
 
         <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10) }}>
           {search && (
-            <ScrollableListContainer
-              backgroundColor={theme.colors.surfaceVariant}>
+            <ScrollableListContainer backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#fbf1cb'}>
               {filteredItems.map(item => (
                 <ProductListSuggestion
                   key={item?.id}
@@ -789,10 +1150,11 @@ function ProductsScreen() {
 
           {addedProductsList.length > 0 && !search && (
             <>
-              <ScrollableListContainer
-                backgroundColor={theme.colors.secondaryContainer}>
+              <ScrollableListContainer backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#008181'}>
                 {addedProductsList.map(item => {
-                  totalPrice += item?.price * item["quantity"]
+                 
+
+                   totalPrice += item?.price * item["quantity"]
 
                   receiptSettings?.discount_flag === "Y"
                     ? receiptSettings?.discount_position === "I"
@@ -821,45 +1183,34 @@ function ProductsScreen() {
                         ))
                     : (totalDiscountedAmount = 0)
 
-                  console.log("totalDiscount", totalDiscountedAmount)
-
+                  // console.log("totalDiscount", totalDiscountedAmount)
                   return (
                     <AddedProductList
                       key={item?.id}
                       itemName={item?.item_name}
                       quantity={item["quantity"]}
                       unitPrice={item["price"]}
-                      discount={
-                        receiptSettings?.discount_flag === "Y"
-                          ? item["discount"]
-                          : 0
-                      }
+                      discount={receiptSettings?.discount_flag === "Y" ? item["discount"] : 0}
                       unit={item["unit_name"]}
                       onPress={() => productEditAndDelete(item)}
                     />
-                  )
+                  );
                 })}
               </ScrollableListContainer>
 
-              {receiptSettings?.kot_flag === "Y"
-                && <View style={{
-                  paddingHorizontal: SCREEN_WIDTH / 10.5,
-                  paddingTop: 14,
-                }}>
+              {receiptSettings?.kot_flag === "Y" && (
+                <View style={{ paddingHorizontal: SCREEN_WIDTH / 10.5, paddingTop: 14 }}>
                   <InputPaper
-                    customStyle={{
-                      backgroundColor: theme.colors.primaryContainer,
-                    }}
+                    customStyle={{ backgroundColor: theme.colors.primaryContainer }}
                     selectTextOnFocus
-                    label={
-                      "Table No."
-                    }
-                    onChangeText={(tbleNo: number) => setTableNo(tbleNo)}
+                    label="Table No."
+                    onChangeText={(tbleNo: any) => setTableNo(tbleNo)}
                     value={tableNo}
                     keyboardType="numeric"
                     mode="flat"
                   />
-                </View>}
+                </View>
+              )}
             </>
           )}
 
@@ -867,80 +1218,40 @@ function ProductsScreen() {
             <>
               <NetTotalButton
                 disabled
-                // backgroundColor={theme.colors.greenContainer}
-                backgroundColor={theme.colors.tertiaryContainer}
-                textColor={theme.colors.onTertiaryContainer}
+                backgroundColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+                textColor={'white'}
                 addedProductsList={addedProductsList}
                 netTotal={totalPrice}
                 totalDiscount={totalDiscountedAmount}
-                onPress={() =>
-                  ToastAndroid.showWithGravityAndOffset(
-                    "Printing feature will be added in some days.",
-                    ToastAndroid.SHORT,
-                    ToastAndroid.CENTER,
-                    25,
-                    50,
-                  )
-                }
+                onPress={() => ToastAndroid.showWithGravityAndOffset("Printing feature will be added in some days.", ToastAndroid.SHORT, ToastAndroid.CENTER, 25, 50)}
               />
-              <View
-                style={{
-                  paddingTop: normalize(15),
-                  // width: SCREEN_WIDTH / 1.16,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-evenly",
-                  // justifyContent: "center",
-                  paddingHorizontal: normalize(40)
-                }}>
-                {/* <ButtonPaper
-                  mode="text"
-                  textColor={theme.colors.purple}
-                  // onPress={handleMemOut}
-                  onPress={handleMemOut}
-                  icon={"arrow-right-thick"}>
-                  Mem Out
-                </ButtonPaper> */}
-
-                <ButtonPaper mode="text" textColor={theme.colors.error} icon={"hand-back-left-outline"} onPress={onHoldClick}>
+              <View style={{ paddingTop: normalize(15), flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", paddingHorizontal: normalize(40) }}>
+                <ButtonPaper mode="text" textColor={colorScheme === 'dark' ? 'red' : theme.colors.error} icon="hand-back-left-outline" onPress={onHoldClick}>
                   Hold
                 </ButtonPaper>
-                <ButtonPaper
-                  mode="text"
-                  textColor={theme.colors.purple}
-                  onPress={handleNextScreen}
-                  icon={"arrow-right-thick"}>
-                  NEXT
+                <ButtonPaper mode="text" textColor={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={handleNextScreen} icon="arrow-right-thick">
+                  Next
                 </ButtonPaper>
-                {/* <ButtonPaper
-                  mode="text"
-                  textColor={theme.colors.purple}
-                  onPress={handleMemorize}
-                  icon={"arrow-right-thick"}>
-                  Memorization
-                </ButtonPaper> */}
-
-                {/* <IconButton icon={"restart"} onPress={onGetHoldBillOut} iconColor={theme.colors.green} disabled={productStorage.getAllKeys().length === 0} /> */}
-
               </View>
             </>
           )}
         </View>
       </ScrollView>
-      {
-        isDataAvailable && <AnimatedFABPaper
+
+      {isDataAvailable && (
+        <AnimatedFABPaper
           icon="restart"
           label="Get"
           onPress={onGetHoldBillOut}
-          // extended={isExtended}
           animateFrom="right"
           iconMode="dynamic"
           customStyle={styles.fabStyle}
           variant="primary"
           disabled={!isDataAvailable}
         />
-      }
+      )}
     </SafeAreaView>
+
   )
 }
 

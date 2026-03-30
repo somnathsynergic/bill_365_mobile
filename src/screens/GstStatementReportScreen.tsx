@@ -89,143 +89,313 @@ function GstStatementReportScreen() {
   let totalTax = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            imgLight={blurReport}
-            imgDark={blurReportDark}
-            borderRadius={30}
-            blur={10}>
-            GST Statement
-          </HeaderImage>
-        </View>
-        <View
-          style={{
-            padding: normalize(10),
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}>
-          <ButtonPaper
-            textColor={theme.colors.primary}
-            onPress={() => setOpenFromDate(true)}
-            mode="text">
-            FROM: {fromDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
-          <ButtonPaper
-            textColor={theme.colors.primary}
-            onPress={() => setOpenToDate(true)}
-            mode="text">
-            TO: {toDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         imgLight={blurReport}
+    //         imgDark={blurReportDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         GST Statement
+    //       </HeaderImage>
+    //     </View>
+    //     <View
+    //       style={{
+    //         padding: normalize(10),
+    //         flexDirection: "row",
+    //         justifyContent: "space-around",
+    //         alignItems: "center",
+    //       }}>
+    //       <ButtonPaper
+    //         textColor={'#008181'}
+    //         onPress={() => setOpenFromDate(true)}
+    //         mode="text">
+    //         FROM: {fromDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
+    //       <ButtonPaper
+    //         textColor={'#008181'}
+    //         onPress={() => setOpenToDate(true)}
+    //         mode="text">
+    //         TO: {toDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
 
-          <DatePicker
-            modal
-            mode="date"
-            // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
-            open={openFromDate}
-            date={fromDate}
-            onConfirm={date => {
-              setOpenFromDate(false)
-              setFromDate(date)
-            }}
-            onCancel={() => {
-              setOpenFromDate(false)
-            }}
-          />
-          <DatePicker
-            modal
-            mode="date"
-            open={openToDate}
-            date={toDate}
-            onConfirm={date => {
-              setOpenToDate(false)
-              setToDate(date)
-            }}
-            onCancel={() => {
-              setOpenToDate(false)
-            }}
-          />
-        </View>
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
+    //         open={openFromDate}
+    //         date={fromDate}
+    //         onConfirm={date => {
+    //           setOpenFromDate(false)
+    //           setFromDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenFromDate(false)
+    //         }}
+    //       />
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         open={openToDate}
+    //         date={toDate}
+    //         onConfirm={date => {
+    //           setOpenToDate(false)
+    //           setToDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenToDate(false)
+    //         }}
+    //       />
+    //     </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <ButtonPaper
-            onPress={() =>
-              handleGetGstReport(
-                formattedFromDate,
-                formattedToDate,
-                loginStore.comp_id,
-                loginStore.br_id,
-                loginStore?.user_id,
-              )
-            }
-            mode="contained-tonal"
-            buttonColor={theme.colors.primary}
-            textColor={theme.colors.onPrimary}
-            loading={isLoading}
-            disabled={isDisabled}>
-            SUBMIT
-          </ButtonPaper>
-        </View>
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <ButtonPaper
+    //         onPress={() =>
+    //           handleGetGstReport(
+    //             formattedFromDate,
+    //             formattedToDate,
+    //             loginStore.comp_id,
+    //             loginStore.br_id,
+    //             loginStore?.user_id,
+    //           )
+    //         }
+    //         mode="contained-tonal"
+    //         buttonColor={'#008181'}
+    //         textColor={theme.colors.onPrimary}
+    //         loading={isLoading}
+    //         disabled={isDisabled}>
+    //         SUBMIT
+    //       </ButtonPaper>
+    //     </View>
 
-        <SurfacePaper backgroundColor={theme.colors.surface}>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Rcpt No.</DataTable.Title>
-              <DataTable.Title numeric>CGST</DataTable.Title>
-              <DataTable.Title numeric>SGST</DataTable.Title>
-              <DataTable.Title numeric>Total Tax</DataTable.Title>
-              <DataTable.Title numeric>Taxable Amt.</DataTable.Title>
-              {/* <DataTable.Title numeric>Net Amount</DataTable.Title> */}
-            </DataTable.Header>
+    //     {gstStatement.length>0 && <SurfacePaper backgroundColor={theme.colors.surface}>
+    //       <DataTable>
+    //         <DataTable.Header style={{
+    //           backgroundColor: '#008181',
+    //         }}>
+    //           <DataTable.Title textStyle={{
+    //             color: 'white'
+    //           }}>Rcpt No.</DataTable.Title>
+    //           <DataTable.Title numeric textStyle={{
+    //             color: 'white'
+    //           }}>CGST</DataTable.Title>
+    //           <DataTable.Title numeric textStyle={{
+    //             color: 'white'
+    //           }}>SGST</DataTable.Title>
+    //           <DataTable.Title numeric textStyle={{
+    //             color: 'white'
+    //           }}>Total Tax</DataTable.Title>
+    //           <DataTable.Title numeric textStyle={{
+    //             color: 'white'
+    //           }}>Taxable Amt.</DataTable.Title>
+    //           {/* <DataTable.Title numeric>Net Amount</DataTable.Title> */}
+    //         </DataTable.Header>
 
-            {gstStatement.map((item, i) => {
-              totalTax += item?.total_tax
-              return (
-                <DataTable.Row key={i}>
-                  <DataTable.Cell>
-                    {receiptSettings?.custom_sl_flag === "N" ?item?.receipt_no
-                      ?.toString()
-                      ?.substring(item?.receipt_no?.toString()?.length - 4):item?.rcpt_sl_no}
-                  </DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.cgst_amt}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.sgst_amt}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.total_tax}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.taxable_amt}</DataTable.Cell>
-                  {/* <DataTable.Cell numeric>{item?.net_amt}</DataTable.Cell> */}
-                </DataTable.Row>
-              )
-            })}
-          </DataTable>
-          <View style={{ padding: normalize(10) }}>
-            <Text variant="labelMedium" style={{ color: theme.colors.primary }}>
-              TOTAL TAX: ₹{totalTax?.toFixed(2)}
-            </Text>
-          </View>
-        </SurfacePaper>
-        <View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <ButtonPaper
-            icon={"cloud-print-outline"}
-            onPress={() =>
-              handlePrint(gstStatement, formattedFromDate, formattedToDate)
-            }
-            mode="contained-tonal">
-            PRINT
-          </ButtonPaper>
+    //         {gstStatement.map((item, i) => {
+    //           totalTax += item?.total_tax
+    //           return (
+    //             <DataTable.Row key={i}>
+    //               <DataTable.Cell>
+    //                 {receiptSettings?.custom_sl_flag === "N" ?item?.receipt_no
+    //                   ?.toString()
+    //                   ?.substring(item?.receipt_no?.toString()?.length - 4):item?.rcpt_sl_no}
+    //               </DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.cgst_amt}</DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.sgst_amt}</DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.total_tax}</DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.taxable_amt}</DataTable.Cell>
+    //               {/* <DataTable.Cell numeric>{item?.net_amt}</DataTable.Cell> */}
+    //             </DataTable.Row>
+    //           )
+    //         })}
+    //       </DataTable>
+    //       <View style={{ padding: normalize(10) }}>
+    //         <Text variant="labelMedium" style={{ color: '#008181' }}>
+    //           TOTAL TAX: ₹{totalTax?.toFixed(2)}
+    //         </Text>
+    //       </View>
+    //     </SurfacePaper>}
+    //     {gstStatement.length>0 &&<View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <ButtonPaper
+    //         icon={"cloud-print-outline"}
+    //         onPress={() =>
+    //           handlePrint(gstStatement, formattedFromDate, formattedToDate)
+    //         }
+    //         mode="contained-tonal">
+    //         PRINT
+    //       </ButtonPaper>
+    //     </View>}
+    //   </ScrollView>
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <HeaderImage
+        isBackEnabled
+        imgLight={blurReport}
+        imgDark={blurReportDark}
+        borderRadius={30}
+        blur={10}
+      >
+        GST Statement
+      </HeaderImage>
+    </View>
+
+    <View
+      style={{
+        padding: normalize(10),
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: '#f5f9ff',
+        borderRadius: normalize(8),
+        marginHorizontal: normalize(16),
+        marginBottom: normalize(16),
+        elevation: 1,
+      }}
+    >
+      <ButtonPaper
+        textColor="#008181"
+        onPress={() => setOpenFromDate(true)}
+        mode="text"
+      >
+        FROM: {fromDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+      <ButtonPaper
+        textColor="#008181"
+        onPress={() => setOpenToDate(true)}
+        mode="text"
+      >
+        TO: {toDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+    </View>
+
+    <DatePicker
+      modal
+      mode="date"
+      open={openFromDate}
+      date={fromDate}
+      onConfirm={date => {
+        setOpenFromDate(false);
+        setFromDate(date);
+      }}
+      onCancel={() => setOpenFromDate(false)}
+    />
+    <DatePicker
+      modal
+      mode="date"
+      open={openToDate}
+      date={toDate}
+      onConfirm={date => {
+        setOpenToDate(false);
+        setToDate(date);
+      }}
+      onCancel={() => setOpenToDate(false)}
+    />
+
+    <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(16) }}>
+      <ButtonPaper
+        onPress={() =>
+          handleGetGstReport(
+            formattedFromDate,
+            formattedToDate,
+            loginStore.comp_id,
+            loginStore.br_id,
+            loginStore?.user_id,
+          )
+        }
+        mode="contained-tonal"
+        buttonColor="#008181"
+        textColor="white"
+        loading={isLoading}
+        disabled={isDisabled}
+        style={{ borderRadius: normalize(8) }}
+      >
+        SUBMIT
+      </ButtonPaper>
+    </View>
+
+    {gstStatement.length > 0 && (
+      <SurfacePaper
+        backgroundColor="#fff"
+        style={{
+          marginHorizontal: normalize(16),
+          borderRadius: normalize(8),
+          elevation: 1,
+          borderWidth: 1,
+          borderColor: '#ececf0ff',
+          marginBottom: normalize(16),
+          padding: normalize(12),
+        }}
+      >
+        <DataTable>
+          <DataTable.Header style={{ backgroundColor: '#008181', borderRadius: normalize(6) }}>
+            <DataTable.Title textStyle={{ color: 'white' }}>Rcpt No.</DataTable.Title>
+            <DataTable.Title numeric textStyle={{ color: 'white' }}>CGST</DataTable.Title>
+            <DataTable.Title numeric textStyle={{ color: 'white' }}>SGST</DataTable.Title>
+            <DataTable.Title numeric textStyle={{ color: 'white' }}>Total Tax</DataTable.Title>
+            <DataTable.Title numeric textStyle={{ color: 'white' }}>Taxable Amt.</DataTable.Title>
+          </DataTable.Header>
+          {gstStatement.map((item, i) => {
+            totalTax += item?.total_tax;
+            return (
+              <DataTable.Row key={i}>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }}>
+                  {receiptSettings?.custom_sl_flag === "N"
+                    ? item?.receipt_no?.toString()?.substring(item?.receipt_no?.toString()?.length - 4)
+                    : item?.rcpt_sl_no}
+                </DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.cgst_amt}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.sgst_amt}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.total_tax}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.taxable_amt}</DataTable.Cell>
+              </DataTable.Row>
+            );
+          })}
+        </DataTable>
+        <View style={{ padding: normalize(10), borderTopWidth: 1, borderTopColor: '#ececf0ff', marginTop: normalize(10) }}>
+          <Text
+            variant="labelMedium"
+            style={{
+              color: '#008181',
+              fontWeight: '500',
+              fontSize: normalize(14),
+            }}
+          >
+            TOTAL TAX: ₹{totalTax?.toFixed(2)}
+          </Text>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </SurfacePaper>
+    )}
+
+    {gstStatement.length > 0 && (
+      <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(16) }}>
+        <ButtonPaper
+          icon="cloud-print-outline"
+          onPress={() => handlePrint(gstStatement, formattedFromDate, formattedToDate)}
+          mode="contained-tonal"
+          buttonColor="#008181"
+          textColor="white"
+          style={{ borderRadius: normalize(8) }}
+        >
+          PRINT
+        </ButtonPaper>
+      </View>
+    )}
+  </ScrollView>
+</SafeAreaView>
+
   )
 }
 

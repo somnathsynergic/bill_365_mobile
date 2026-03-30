@@ -4,7 +4,8 @@ import {
     StyleSheet,
     PixelRatio,
     ToastAndroid,
-    Image
+    Image,
+    useColorScheme
 } from "react-native"
 import RNFS from 'react-native-fs';
 import {
@@ -54,7 +55,7 @@ import axios from "axios";
 export default function ManageCategoriesScreen() {
     const theme = usePaperColorScheme()
     const isFocused = useIsFocused()
-
+    const colorScheme = useColorScheme()
     const { categories, handleGetCategories, receiptSettings } = useContext<AppStoreContext>(AppStore)
 
     const loginStore = JSON.parse(loginStorage.getString("login-data"))
@@ -204,11 +205,12 @@ export default function ManageCategoriesScreen() {
 
     const handleAddUnit = async () => {
         const form = new FormData();
-        console.log(typeof(imgSrcUri))
+        // console.log(typeof(imgSrcUri))
         form.append('comp_id', loginStore?.comp_id);
         form.append('category_name', categoryName);
         form.append('created_by', loginStore?.user_name);
-        form.append('category_picture', imgSrcUri);
+        // form.append('category_picture', imgSrcUri);
+        form.append('category_picture', '');
         console.log('imgSrcUri',imgSrcUri)
         let addedCategoryObject: AddCategoryCredentials = {
             comp_id: loginStore?.comp_id,
@@ -279,7 +281,7 @@ export default function ManageCategoriesScreen() {
                     {loginStore?.user_type === "M" ? (
                         <Searchbar
                             style={{
-                                backgroundColor: theme.colors.primaryContainer,
+                                backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#def0ddff',
                                 color: theme.colors.onPrimaryContainer,
                             }}
                             placeholder="Search Categories"
@@ -305,7 +307,7 @@ export default function ManageCategoriesScreen() {
                 <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10) }}>
                     {search && (
                         <ScrollableListContainer
-                            backgroundColor={theme.colors.surfaceVariant}>
+                            backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : theme.colors.surfaceVariant}>
                             {filteredCategories.map(cat => (
                                 <ProductListSuggestion
                                     key={cat.sl_no}
@@ -352,7 +354,7 @@ export default function ManageCategoriesScreen() {
                         </View>
 
                     </View>
-                    <View>
+                    {/* <View>
                         <View
                             style={{
                                 paddingHorizontal: normalize(25),
@@ -376,7 +378,7 @@ export default function ManageCategoriesScreen() {
                             }}
                             resizeMode="contain"
                         />
-                    </View>
+                    </View> */}
                 </View>
             </DialogBox>
             {loginStore?.user_type === "M" && (
@@ -401,7 +403,7 @@ export default function ManageCategoriesScreen() {
                 <View style={{ justifyContent: "space-between", height: "auto" }}>
                     <View style={{ alignItems: "center" }}>
                         <View>
-                            <Text variant="titleLarge">Add Category</Text>
+                            <Text variant="titleLarge" style={{color:'black'}}>Add Category</Text>
                         </View>
                     </View>
 
@@ -416,14 +418,14 @@ export default function ManageCategoriesScreen() {
                             maxLength={30}
                         />
                     </View>
-                    <View>
+                    {/* <View>
                         <View
                             style={{
                                 paddingHorizontal: normalize(25),
                                 paddingBottom: normalize(10),
                             }}>
                             <ButtonPaper mode="contained" style={{ marginVertical: 15 }} onPress={selectLogo}>
-                                UPLOAD
+                                Save
                             </ButtonPaper>
                         </View>
                         <Image
@@ -437,7 +439,7 @@ export default function ManageCategoriesScreen() {
                             }}
                             resizeMode="contain"
                         />
-                    </View>
+                    </View> */}
                 </View>
             </DialogBox>
         </SafeAreaView>
@@ -449,6 +451,8 @@ const styles = StyleSheet.create({
         bottom: normalize(16),
         right: normalize(16),
         position: "absolute",
+        backgroundColor:'#FFCD04',
+        color:'#000000'
     },
     title: {
         textAlign: "center",

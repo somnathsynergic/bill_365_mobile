@@ -13,6 +13,7 @@ export default function useLogin() {
           // PIN: pin
         })
         .then(res => {
+          console.log(res.data,'login==================================');
           resolve(res.data)
         })
         .catch(err => {

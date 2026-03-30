@@ -5,8 +5,9 @@ import {
   SafeAreaView,
   View,
   ToastAndroid,
+  useColorScheme,
 } from "react-native"
-import { List, Searchbar } from "react-native-paper"
+import { Card, List, Searchbar } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
 import { textureBill, textureBillDark } from "../resources/images"
 import { usePaperColorScheme } from "../theme/theme"
@@ -36,7 +37,7 @@ import { AppStoreContext } from "../models/custom_types"
 function CancelBillScreen() {
   const theme = usePaperColorScheme()
   const navigation = useNavigation()
-
+  const colorScheme = useColorScheme()
   const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
   const { receiptSettings } = useContext<AppStoreContext>(AppStore)
@@ -197,123 +198,262 @@ function CancelBillScreen() {
   let totalDiscount = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            imgLight={textureBill}
-            imgDark={textureBillDark}
-            borderRadius={30}
-            blur={10}
-            isBackEnabled>
-            Cancel Bill
-          </HeaderImage>
-        </View>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         imgLight={textureBill}
+    //         imgDark={textureBillDark}
+    //         borderRadius={30}
+    //         blur={10}
+    //         isBackEnabled>
+    //         Cancel Bill
+    //       </HeaderImage>
+    //     </View>
 
-        <View
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <View style={{ paddingBottom: normalize(10) }}>
+    //         <Searchbar
+    //           keyboardType="numeric"
+    //           autoFocus
+    //           placeholder="Search Bills"
+    //           onChangeText={onChangeSearch}
+    //           value={search}
+    //           elevation={search && 2}
+    //         // loading={search ? true : false}
+    //         />
+    //       </View>
+    //       {/* <ButtonPaper onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)} mode="contained-tonal">
+    //                     SUBMIT
+    //                 </ButtonPaper> */}
+    //       <ButtonPaper
+    //         onPress={() => handleBillListClick(parseInt(search))}
+    //         mode="contained-tonal">
+    //         SUBMIT
+    //       </ButtonPaper>
+    //     </View>
+
+    //     <View style={{ width: "100%" }}>
+    //       {billsArray?.map((item, i) => (
+    //         <List.Item
+    //           key={i}
+    //           title={`Bill ${item?.receipt_no}`}
+    //           description={`₹${item?.net_amt}`}
+    //           onPress={() => handleBillListClick(item?.receipt_no)}
+    //           left={props => <List.Icon {...props} icon="basket" />}
+    //         // right={props => (
+    //         //   <List.Icon {...props} icon="download" />
+    //         // )}
+    //         />
+    //       ))}
+    //     </View>
+    //   </ScrollView>
+    //   <DialogBox
+    //     iconSize={40}
+    //     visible={visible}
+    //     hide={hideDialog}
+    //     titleStyle={styles.title}
+    //     btnSuccess="REPRINT"
+    //     onFailure={onDialogFailure}
+    //     onSuccess={onDialogSuccecss}
+    //   // title="Print Bill"
+    //   // icon="printer-outline"
+    //   >
+    //     <ScrollableListContainer
+    //       backgroundColor={theme.colors.surfaceVariant}
+    //       width={300}
+    //       height={200}>
+    //       {billedSaleData.map((item, i) => {
+    //         netTotal += item.price * item.qty
+    //         totalDiscount += parseFloat(item?.discount_amt?.toFixed(2))
+
+    //         // setDiscountType(item?.discount_type)
+    //         // setGstFlag(item?.gst_flag)
+
+    //         return (
+    //           <AddedProductList
+    //             disabled
+    //             itemName={item.item_name}
+    //             quantity={item.qty}
+    //             // unit={item.unit}
+    //             unitPrice={item.price}
+    //             discount={
+    //               receiptSettings?.discount_type === "P"
+    //                 ? item?.dis_pertg
+    //                 : item?.discount_amt
+    //             }
+    //             discountType={item?.discount_type}
+    //             gstFlag={item?.gst_flag}
+    //             key={i}
+    //           />
+    //         )
+    //       })}
+    //     </ScrollableListContainer>
+    //     <View style={{ paddingTop: normalize(10) }}>
+    //       <ButtonPaper
+    //         icon="cancel"
+    //         mode="contained-tonal"
+    //         onPress={() => handleCancelBill(currentReceiptNo)}
+    //         buttonColor={theme.colors.error}
+    //         textColor={theme.colors.onError}>
+    //         CANCEL BILL
+    //       </ButtonPaper>
+    //     </View>
+    //     <NetTotalForRePrints
+    //       width={300}
+    //       backgroundColor={theme.colors.orangeContainer}
+    //       addedProductsList={billedSaleData}
+    //       netTotal={netTotal}
+    //       textColor={theme.colors.onGreenContainer}
+    //       totalDiscount={totalDiscount}
+    //       disabled
+    //     />
+    //   </DialogBox>
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center" }}>
+      <HeaderImage
+        imgLight={textureBill}
+        imgDark={textureBillDark}
+        borderRadius={30}
+        blur={10}
+        isBackEnabled>
+        Cancel Bill
+      </HeaderImage>
+    </View>
+
+    <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(10) }}>
+      <View style={{ paddingBottom: normalize(10) }}>
+        <Searchbar
+          keyboardType="numeric"
+          autoFocus
+          placeholder="Search Bills"
+          onChangeText={onChangeSearch}
+          value={search}
+          elevation={search ? 2 : 0}
           style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <View style={{ paddingBottom: normalize(10) }}>
-            <Searchbar
-              keyboardType="numeric"
-              autoFocus
-              placeholder="Search Bills"
-              onChangeText={onChangeSearch}
-              value={search}
-              elevation={search && 2}
-            // loading={search ? true : false}
-            />
-          </View>
-          {/* <ButtonPaper onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)} mode="contained-tonal">
-                        SUBMIT
-                    </ButtonPaper> */}
-          <ButtonPaper
-            onPress={() => handleBillListClick(parseInt(search))}
-            mode="contained-tonal">
-            SUBMIT
-          </ButtonPaper>
-        </View>
-
-        <View style={{ width: "100%" }}>
-          {billsArray?.map((item, i) => (
-            <List.Item
-              key={i}
-              title={`Bill ${item?.receipt_no}`}
-              description={`₹${item?.net_amt}`}
-              onPress={() => handleBillListClick(item?.receipt_no)}
-              left={props => <List.Icon {...props} icon="basket" />}
-            // right={props => (
-            //   <List.Icon {...props} icon="download" />
-            // )}
-            />
-          ))}
-        </View>
-      </ScrollView>
-      <DialogBox
-        iconSize={40}
-        visible={visible}
-        hide={hideDialog}
-        titleStyle={styles.title}
-        btnSuccess="REPRINT"
-        onFailure={onDialogFailure}
-        onSuccess={onDialogSuccecss}
-      // title="Print Bill"
-      // icon="printer-outline"
-      >
-        <ScrollableListContainer
-          backgroundColor={theme.colors.surfaceVariant}
-          width={300}
-          height={200}>
-          {billedSaleData.map((item, i) => {
-            netTotal += item.price * item.qty
-            totalDiscount += parseFloat(item?.discount_amt?.toFixed(2))
-
-            // setDiscountType(item?.discount_type)
-            // setGstFlag(item?.gst_flag)
-
-            return (
-              <AddedProductList
-                disabled
-                itemName={item.item_name}
-                quantity={item.qty}
-                // unit={item.unit}
-                unitPrice={item.price}
-                discount={
-                  receiptSettings?.discount_type === "P"
-                    ? item?.dis_pertg
-                    : item?.discount_amt
-                }
-                discountType={item?.discount_type}
-                gstFlag={item?.gst_flag}
-                key={i}
-              />
-            )
-          })}
-        </ScrollableListContainer>
-        <View style={{ paddingTop: normalize(10) }}>
-          <ButtonPaper
-            icon="cancel"
-            mode="contained-tonal"
-            onPress={() => handleCancelBill(currentReceiptNo)}
-            buttonColor={theme.colors.error}
-            textColor={theme.colors.onError}>
-            CANCEL BILL
-          </ButtonPaper>
-        </View>
-        <NetTotalForRePrints
-          width={300}
-          backgroundColor={theme.colors.orangeContainer}
-          addedProductsList={billedSaleData}
-          netTotal={netTotal}
-          textColor={theme.colors.onGreenContainer}
-          totalDiscount={totalDiscount}
-          disabled
+            borderRadius: normalize(8),
+            backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f9fbfd',
+            borderWidth: 1,
+            borderColor: '#d0e0e0',
+          }}
         />
-      </DialogBox>
-    </SafeAreaView>
+      </View>
+      <ButtonPaper
+        onPress={() => handleBillListClick(parseInt(search))}
+        mode="contained-tonal"
+                  buttonColor={colorScheme === "dark" ? "#009689" : '#008181'}
+
+        textColor="white"
+        style={{ borderRadius: normalize(8) }}
+      >
+        SUBMIT
+      </ButtonPaper>
+    </View>
+
+    <View style={{ width: "100%" }}>
+      {billsArray?.map((item, i) => (
+        <Card
+          key={i}
+          style={{
+            margin: normalize(6),
+            borderRadius: normalize(8),
+            elevation: 2,
+            shadowColor: '#008181',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.1,
+            shadowRadius: 2,
+            backgroundColor: '#f9fbfd',
+            borderWidth: 1,
+            borderColor: '#d0e0e0',
+            padding: normalize(10),
+          }}
+          onPress={() => handleBillListClick(item?.receipt_no)}
+        >
+          <List.Item
+            titleStyle={{
+              fontSize: normalize(16),
+              fontWeight: '500',
+              color: '#008181',
+            }}
+            descriptionStyle={{
+              fontSize: normalize(14),
+              color: '#555',
+            }}
+            title={`Bill ${item?.receipt_no}`}
+            description={`₹${item?.net_amt}`}
+            left={props => <List.Icon {...props} icon="basket" color="#008181" />}
+          />
+        </Card>
+      ))}
+    </View>
+  </ScrollView>
+
+  <DialogBox
+    iconSize={40}
+    visible={visible}
+    hide={hideDialog}
+    titleStyle={styles.title}
+    btnSuccess="REPRINT"
+    onFailure={onDialogFailure}
+    onSuccess={onDialogSuccecss}
+  >
+    <ScrollableListContainer
+      backgroundColor={theme.colors.surfaceVariant}
+      width={300}
+      height={200}
+    >
+      {billedSaleData.map((item, i) => {
+        netTotal += item.price * item.qty;
+        totalDiscount += parseFloat(item?.discount_amt?.toFixed(2));
+        return (
+          <AddedProductList
+            disabled
+            itemName={item.item_name}
+            quantity={item.qty}
+            unitPrice={item.price}
+            discount={
+              receiptSettings?.discount_type === "P"
+                ? item?.dis_pertg
+                : item?.discount_amt
+            }
+            discountType={item?.discount_type}
+            gstFlag={item?.gst_flag}
+            key={i}
+          />
+        );
+      })}
+    </ScrollableListContainer>
+    <View style={{ paddingTop: normalize(10) }}>
+      <ButtonPaper
+        icon="cancel"
+        mode="contained-tonal"
+        onPress={() => handleCancelBill(currentReceiptNo)}
+        buttonColor={theme.colors.error}
+        textColor={theme.colors.onError}
+        style={{ borderRadius: normalize(8) }}
+      >
+        CANCEL BILL
+      </ButtonPaper>
+    </View>
+    <NetTotalForRePrints
+      width={300}
+      backgroundColor={theme.colors.orangeContainer}
+      addedProductsList={billedSaleData}
+      netTotal={netTotal}
+      textColor={theme.colors.onGreenContainer}
+      totalDiscount={totalDiscount}
+      disabled
+    />
+  </DialogBox>
+</SafeAreaView>
+
   )
 }
 

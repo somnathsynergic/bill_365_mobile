@@ -33,15 +33,16 @@ import useUpdateLoginFlag from "../hooks/api/useUpdateLoginFlag"
 import { UpdateLoginFlagCredentials } from "../models/api_types"
 import { getMessaging, onMessage, requestPermission } from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
+
 function LoginScreen() {
   const navigation = useNavigation()
-
   const {
     handleLogin,
     // loginDataMessage,
     otp: fetchedOtp,
     // setOtp: setFetchedOtp,
     setIsLogin,
+    loginData
   } = useContext<AppStoreContext>(AppStore)
 
   const theme = usePaperColorScheme()
@@ -123,29 +124,19 @@ useEffect(() => {
   const handleLoginAfterGettingOtp = () => {
     
     if ((parseInt(passwordText) === fetchedOtp || parseInt(passwordText) === 1234) && timer != 0 && otpSent) {
-    // if (parseInt(passwordText) ===1234) {
-    // if (parseInt(passwordText) === 1234) {
       const creds: UpdateLoginFlagCredentials = {
         user_id: loginText,
         fcm_token:tokenVal
       }
           setIsLogin(true)
-
-      updateLoginFlag(creds).then(res => {
-        // if (res.suc === 1) {
-          console.log('res=========',res)
-          setIsLogin(true)
-        // } 
-        
-        // else {
-        //   console.log('res=========',res)
-
-        //   ToastAndroid.show("Login Flag not updated.", ToastAndroid.SHORT)
-        //   return
-        // }
-      }).catch(err => {
-        ToastAndroid.show("Error while updating Login Flag!", ToastAndroid.SHORT)
-      })
+         loginStorage.set("login-data", JSON.stringify(loginData?.msg))
+      // updateLoginFlag(creds).then(res => {
+      //     console.log('res=========',res)
+      //     setIsLogin(true)
+      
+      // }).catch(err => {
+      //   ToastAndroid.show("Error while updating Login Flag!", ToastAndroid.SHORT)
+      // })
     } else {
       setIsLogin(false)
       Alert.alert("Message", "Provided OTP is wrong! Re-enter OTP.")
@@ -188,15 +179,15 @@ useEffect(() => {
   return (
     <SafeAreaView>
       <ScrollView keyboardShouldPersistTaps="handled">
-        <ImageBackground
+        {/* <ImageBackground
           resizeMode="cover"
           blurRadius={10}
           source={colorScheme === "dark" ? flower2Dark : flower2}
           style={[
             styles.loginWrapper,
             { backgroundColor: theme.colors.background },
-          ]}>
-          <LinearGradient
+          ]}> */}
+          {/* <LinearGradient
             start={{ x: 0, y: 1 }}
             end={{ x: 0, y: 0 }}
             colors={[theme.colors.onPrimary, theme.colors.primaryContainer]}
@@ -208,9 +199,21 @@ useEffect(() => {
               <Image
                 source={colorScheme === "dark" ? logoDark : logo}
                 style={{ height: 477 / 4.5, width: 384 / 4.5 }}
+              /> */}
+            {/* </View> */}
+          <View style={colorScheme === "dark" ? styles.loginWrapperDark : styles.loginWrapper}>
+            <View style={colorScheme === "dark" ? styles.containerBoxDark : styles.containerBox}>
+              <View
+              style={{
+                alignSelf: "center",
+                backgroundColor: colorScheme === "dark" ? '#2e2929ff' : 'white',
+              }}>
+            <Image
+                source={colorScheme === "dark" ? logo : logo}
+                style={{ height: 477 / 7, width: 384 / 1.7 }}
               />
-            </View>
-            <View>
+              </View>
+            <View style={{backgroundColor: colorScheme === "dark" ? '#2e2929ff' : 'white'}}>
               {!next && (
                 <View
                   style={{
@@ -224,7 +227,7 @@ useEffect(() => {
                       value={loginText}
                       label={"Mobile Number"}
                       onChangeText={onChangeCustomerMobileNumber}
-                      customStyle={{ backgroundColor: theme.colors.onPrimary }}
+                      customStyle={{ backgroundColor: colorScheme === "dark" ? '#2e2929ff' : theme.colors.onPrimary }}
                       leftIcon="account-circle-outline"
                       keyboardType="phone-pad"
                       autoFocus
@@ -236,12 +239,15 @@ useEffect(() => {
                       onPress={() => {
                         if (loginText !== "") {
                           setNext(!next)
-                          handleLogin(loginText,tokenVal)
+                          const res = handleLogin(loginText,tokenVal)
+                          console.log('res=',res)
                           setOtpSent(true)
                         }
                       }}
+                      buttonColor={colorScheme === "dark" ? "#009689" : "#008181"}
+                      textColor={colorScheme === "dark" ? "white" : "white"}
                       icon="arrow-right">
-                      NEXT
+                      Next
                     </ButtonPaper>
                   </View>
 
@@ -325,8 +331,8 @@ useEffect(() => {
                     }}>
                     <ButtonPaper
                       mode="contained"
-                      buttonColor={theme.colors.error}
-                      textColor={theme.colors.onError}
+                      buttonColor={'#C3423F'}
+                      textColor={colorScheme === "dark" ? "white" : theme.colors.onError}
                       onPress={() => {
                         setNext(!next)
                       }}
@@ -336,6 +342,8 @@ useEffect(() => {
                     </ButtonPaper>
                     <ButtonPaper
                       mode="contained"
+                      buttonColor={colorScheme === "dark" ? "#009689" : "#008181"}
+                      textColor={colorScheme === "dark" ? "white" : "white"}
                       onPress={handleLoginAfterGettingOtp}
                       icon="login"
                       style={{
@@ -382,13 +390,18 @@ useEffect(() => {
                 style={{
                   textAlign: "center",
                   justifyContent: "flex-end",
-                  backgroundColor: theme.colors.surface,
+                  backgroundColor: colorScheme === "dark" ? '#2e2929ff' : 'white',
                   color: theme.colors.onSurface,
-                  padding: normalize(5),
+                  borderBottomEndRadius:20,
+                  borderBottomStartRadius:20,
+                  padding: normalize(20),
                 }}>
                 Powered by, Synergic Softek Solutions Pvt. Ltd.
               </Text>
             </View>
+            </View>
+              </View>
+
             {/* <View style={{ flexDirection: "row", position: "absolute", top: 442, alignSelf: "center" }}>
               {
                 new Array(25).fill(2).map((item, i) => (
@@ -396,8 +409,8 @@ useEffect(() => {
                 ))
               }
             </View> */}
-          </LinearGradient>
-        </ImageBackground>
+          {/* </LinearGradient>
+        </ImageBackground> */}
       </ScrollView>
     </SafeAreaView>
   )
@@ -411,14 +424,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: normalize(20, "width"),
     width: SCREEN_WIDTH,
+    backgroundColor:'#008181'
+  },
+  loginWrapperDark: {
+    height: SCREEN_HEIGHT,
+    justifyContent: "center",
+    padding: normalize(20, "width"),
+    width: SCREEN_WIDTH,
+    backgroundColor:'black'
   },
 
   containerBox: {
     paddingTop: normalize(30),
     height: SCREEN_HEIGHT / 1.8,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     justifyContent: "space-between",
+    backgroundColor:'white'
+  },
+    containerBoxDark: {
+    paddingTop: normalize(30),
+    height: SCREEN_HEIGHT / 1.8,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: "space-between",
+    backgroundColor:'#2e2929ff'
   },
 
   forgotOrResetText: {

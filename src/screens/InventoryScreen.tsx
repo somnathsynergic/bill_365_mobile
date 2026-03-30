@@ -202,6 +202,7 @@ export default function InventoryScreen() {
                 onChangeText={onChangeSearch}
                 value={search}
                 elevation={search && 2}
+                style={{backgroundColor:'#def0ddff'}}
                 // loading={search ? true : false}
                 autoFocus
               />
@@ -304,7 +305,7 @@ export default function InventoryScreen() {
             <View>
               <Text variant="titleMedium">{product?.item_name}</Text>
             </View>
-            <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{receiptSettings.stock_alert_prtg > stock && receiptSettings.stock_alert_flag === "Y" ? "Low stock!" : ""}</Text>
+            <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{updatedStock< product?.low_stock_qty && receiptSettings.stock_alert_flag === "Y" && receiptSettings?.stock_flag=='Y' ? "Low stock!" : ""}</Text>
 
           </View>
 

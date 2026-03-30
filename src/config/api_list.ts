@@ -19,7 +19,7 @@ export const ADDRESSES = {
    */
   CREATE_PIN: `${BASE_URL}/api/create_pin`,
 
-  LOGIN: `${BASE_URL}/api/login`,
+  LOGIN: `${BASE_URL}/api/login_test`,
   // LOGIN: `${BASE_URL}/login`,
   UPDATE_LOGIN_FLAG: `${BASE_URL}/api/update_login_status`,
   RECEIPT_SETTINGS: `${BASE_URL}/api/receipt_settings`,

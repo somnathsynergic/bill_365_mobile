@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   View,
   ToastAndroid,
+  useColorScheme,
 } from "react-native"
 import { List, Searchbar } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
@@ -24,7 +25,7 @@ import { AppStoreContext } from "../models/custom_types"
 function RefundItemsScreen() {
   const theme = usePaperColorScheme()
   const navigation = useNavigation()
-
+  const colorScheme = useColorScheme()
   const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
   const { receiptSettings } = useContext<AppStoreContext>(AppStore)
@@ -167,7 +168,7 @@ function RefundItemsScreen() {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      style={[styles.container, { backgroundColor: colorScheme === "dark" ? "black" :theme.colors.background }]}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -196,8 +197,8 @@ function RefundItemsScreen() {
               keyboardType="numeric"
               maxLength={10}
               style={{
-                backgroundColor: theme.colors.secondaryContainer,
-                color: theme.colors.onSecondaryContainer,
+                backgroundColor: colorScheme === "dark" ? "#2e2929ff" : '#def0ddff',
+                color: colorScheme === 'dark' ? '#ffffff' : '#000000',
               }}
             // loading={search ? true : false}
             />
@@ -208,9 +209,11 @@ function RefundItemsScreen() {
           <ButtonPaper
             onPress={() => handleBillListClick(search)}
             mode="contained-tonal"
+            textColor="white"
             style={{
-              backgroundColor: theme.colors.primaryContainer,
-              color: theme.colors.onPrimaryContainer,
+              backgroundColor: colorScheme === "dark" ? "#009689" : '#008181',
+              color: 'white',
+              borderRadius: 0,
             }}>
             SUBMIT
           </ButtonPaper>

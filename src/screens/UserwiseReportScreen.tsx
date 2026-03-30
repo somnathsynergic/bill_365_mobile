@@ -6,6 +6,7 @@ import {
   ToastAndroid,
   TextStyle,
   ViewStyle,
+  useColorScheme,
 } from "react-native"
 
 import HeaderImage from "../components/HeaderImage"
@@ -30,7 +31,7 @@ import useUserwiseReport from "../hooks/api/useUserwiseReport"
 
 function UserwiseReportScreen() {
   const theme = usePaperColorScheme()
-
+  const colorScheme = useColorScheme()
   const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
   // const { fetchCollectionReport } = useCollectionReport()
@@ -105,7 +106,7 @@ function UserwiseReportScreen() {
   }
 
   const titleStyle: ViewStyle = {
-    backgroundColor: '#404198'
+    backgroundColor: '#008181'
   }
 
   let totalSummary: number = 0
@@ -113,146 +114,302 @@ function UserwiseReportScreen() {
   let totalCancelled: number = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            imgLight={blurReport}
-            imgDark={blurReportDark}
-            borderRadius={30}
-            blur={10}>
-            Userwise Report
-          </HeaderImage>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         imgLight={blurReport}
+    //         imgDark={blurReportDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         Userwise Report
+    //       </HeaderImage>
+    //     </View>
+    //     <View
+    //       style={{
+    //         padding: normalize(10),
+    //         flexDirection: "row",
+    //         justifyContent: "space-around",
+    //         alignItems: "center",
+    //       }}>
+    //       <ButtonPaper
+    //         textColor={'#008181'}
+    //         onPress={() => setOpenFromDate(true)}
+    //         mode="text">
+    //         FROM: {fromDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
+    //       <ButtonPaper
+    //         textColor={'#008181'}
+    //         onPress={() => setOpenToDate(true)}
+    //         mode="text">
+    //         TO: {toDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
+
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
+    //         open={openFromDate}
+    //         date={fromDate}
+    //         onConfirm={date => {
+    //           setOpenFromDate(false)
+    //           setFromDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenFromDate(false)
+    //         }}
+    //       />
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         open={openToDate}
+    //         date={toDate}
+    //         onConfirm={date => {
+    //           setOpenToDate(false)
+    //           setToDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenToDate(false)
+    //         }}
+    //       />
+    //     </View>
+
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <ButtonPaper
+    //         onPress={() =>
+    //           handleGetCollectionReport(
+    //             formattedFromDate,
+    //             formattedToDate,
+    //             loginStore.comp_id,
+    //             loginStore.br_id,
+    //             loginStore?.user_id,
+    //           )
+    //         }
+    //         mode="contained-tonal"
+    //         buttonColor={'#008181'}
+    //         textColor={theme.colors.onPrimary}
+    //         loading={isLoading}
+    //         disabled={isDisabled}>
+    //         SUBMIT
+    //       </ButtonPaper>
+    //     </View>
+
+    //     {userwiseReport?.length> 0 &&<SurfacePaper backgroundColor={theme.colors.surface}>
+    //       <DataTable>
+    //         <DataTable.Header style={titleStyle}>
+    //           {/* <DataTable.Title textStyle={titleTextStyle}>Created By</DataTable.Title> */}
+    //           <DataTable.Title textStyle={titleTextStyle}>Sl. No.</DataTable.Title>
+    //           <DataTable.Title textStyle={titleTextStyle}>Username</DataTable.Title>
+    //           <DataTable.Title textStyle={titleTextStyle} numeric>RCPTs</DataTable.Title>
+    //           <DataTable.Title textStyle={titleTextStyle} numeric>Net Amt.</DataTable.Title>
+    //           <DataTable.Title textStyle={titleTextStyle} numeric>Cncl Amt.</DataTable.Title>
+    //         </DataTable.Header>
+
+    //         {userwiseReport?.map((item, i) => {
+    //           totalSummary += item?.net_amt
+    //           totalReceipts += item?.no_of_receipts
+    //           totalCancelled += item?.cancelled_amt
+
+    //           return (
+    //             <DataTable.Row key={i}>
+    //               {/* <DataTable.Cell>{item?.user_name}</DataTable.Cell> */}
+    //               <DataTable.Cell>{i + 1}</DataTable.Cell>
+    //               <DataTable.Cell>
+    //                 {item?.user_name}
+    //               </DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.no_of_receipts}</DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.net_amt}</DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.cancelled_amt}</DataTable.Cell>
+    //             </DataTable.Row>
+    //           )
+    //         })}
+    //       </DataTable>
+    //       <View style={{ padding: normalize(10) }}>
+    //         <Text variant="labelMedium" style={{ color: '#008181'}}>
+    //           {totalReceipts} Bills, NET: ₹{totalSummary?.toFixed(2)}, CANCELLED: ₹{totalCancelled}
+    //         </Text>
+    //       </View>
+    //     </SurfacePaper>}
+    //     {userwiseReport?.length> 0 &&<View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <ButtonPaper
+    //         icon={"cloud-print-outline"}
+    //         onPress={() =>
+    //           handlePrint(userwiseReport, formattedFromDate, formattedToDate)
+    //         }
+    //         mode="contained-tonal"
+    //         buttonColor={theme.colors.primaryContainer}
+    //         textColor={theme.colors.onPrimaryContainer}>
+    //         PRINT
+    //       </ButtonPaper>
+    //     </View>}
+    //   </ScrollView>
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <HeaderImage
+        isBackEnabled
+        imgLight={blurReport}
+        imgDark={blurReportDark}
+        borderRadius={30}
+        blur={10}
+      >
+        Userwise Report
+      </HeaderImage>
+    </View>
+
+    <View
+      style={{
+        padding: normalize(10),
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: colorScheme === "dark" ? "#2e2929ff" :'#f5f9ff',
+        borderRadius: normalize(8),
+        marginHorizontal: normalize(16),
+        marginBottom: normalize(16),
+        elevation: 1,
+      }}
+    >
+      <ButtonPaper
+        textColor="#008181"
+        onPress={() => setOpenFromDate(true)}
+        mode="text"
+      >
+        FROM: {fromDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+      <ButtonPaper
+        textColor="#008181"
+        onPress={() => setOpenToDate(true)}
+        mode="text"
+      >
+        TO: {toDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+    </View>
+
+    <DatePicker
+      modal
+      mode="date"
+      open={openFromDate}
+      date={fromDate}
+      onConfirm={date => {
+        setOpenFromDate(false);
+        setFromDate(date);
+      }}
+      onCancel={() => setOpenFromDate(false)}
+    />
+    <DatePicker
+      modal
+      mode="date"
+      open={openToDate}
+      date={toDate}
+      onConfirm={date => {
+        setOpenToDate(false);
+        setToDate(date);
+      }}
+      onCancel={() => setOpenToDate(false)}
+    />
+
+    <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(16) }}>
+      <ButtonPaper
+        onPress={() =>
+          handleGetCollectionReport(
+            formattedFromDate,
+            formattedToDate,
+            loginStore.comp_id,
+            loginStore.br_id,
+            loginStore?.user_id,
+          )
+        }
+        mode="contained-tonal"
+        buttonColor={colorScheme === "dark" ? "#009689" :'#008181'}
+        textColor="white"
+        loading={isLoading}
+        disabled={isDisabled}
+        style={{ borderRadius: normalize(8) }}
+      >
+        SUBMIT
+      </ButtonPaper>
+    </View>
+
+    {userwiseReport?.length > 0 && (
+      <SurfacePaper
+        backgroundColor={colorScheme === "dark" ? "#2e2929ff" : '#fff'}
+        style={{
+          marginHorizontal: normalize(16),
+          borderRadius: normalize(8),
+          elevation: 1,
+          borderWidth: 1,
+          borderColor: colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
+          marginBottom: normalize(16),
+          padding: normalize(12),
+        }}
+      >
+        <DataTable>
+          <DataTable.Header style={[titleStyle, { backgroundColor:colorScheme === "dark" ? "#009689" :'#008181', borderRadius: normalize(6) }]}>
+            <DataTable.Title textStyle={[titleTextStyle, { color: '#fff' }]}>Sl. No.</DataTable.Title>
+            <DataTable.Title textStyle={[titleTextStyle, { color: '#fff' }]}>Username</DataTable.Title>
+            <DataTable.Title textStyle={[titleTextStyle, { color: '#fff' }]} numeric>RCPTs</DataTable.Title>
+            <DataTable.Title textStyle={[titleTextStyle, { color: '#fff' }]} numeric>Net Amt.</DataTable.Title>
+            <DataTable.Title textStyle={[titleTextStyle, { color: '#fff' }]} numeric>Cncl Amt.</DataTable.Title>
+          </DataTable.Header>
+          {userwiseReport?.map((item, i) => {
+            totalSummary += item?.net_amt;
+            totalReceipts += item?.no_of_receipts;
+            totalCancelled += item?.cancelled_amt;
+            return (
+              <DataTable.Row key={i}>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }}>{i + 1}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }}>{item?.user_name}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.no_of_receipts}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.net_amt}</DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: normalize(14), fontWeight: '500' }} numeric>{item?.cancelled_amt}</DataTable.Cell>
+              </DataTable.Row>
+            );
+          })}
+        </DataTable>
+        <View style={{ padding: normalize(10), borderTopWidth: 1, borderTopColor: '#ececf0ff', marginTop: normalize(10) }}>
+          <Text
+            variant="labelMedium"
+            style={{
+              color: colorScheme === "dark" ? "#009689" :'#008181',
+              fontWeight: '500',
+              fontSize: normalize(14),
+            }}
+          >
+            {totalReceipts} Bills, NET: ₹{totalSummary?.toFixed(2)}, CANCELLED: ₹{totalCancelled}
+          </Text>
         </View>
-        <View
-          style={{
-            padding: normalize(10),
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}>
-          <ButtonPaper
-            textColor={'#404198'}
-            onPress={() => setOpenFromDate(true)}
-            mode="text">
-            FROM: {fromDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
-          <ButtonPaper
-            textColor={'#404198'}
-            onPress={() => setOpenToDate(true)}
-            mode="text">
-            TO: {toDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
+      </SurfacePaper>
+    )}
 
-          <DatePicker
-            modal
-            mode="date"
-            // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
-            open={openFromDate}
-            date={fromDate}
-            onConfirm={date => {
-              setOpenFromDate(false)
-              setFromDate(date)
-            }}
-            onCancel={() => {
-              setOpenFromDate(false)
-            }}
-          />
-          <DatePicker
-            modal
-            mode="date"
-            open={openToDate}
-            date={toDate}
-            onConfirm={date => {
-              setOpenToDate(false)
-              setToDate(date)
-            }}
-            onCancel={() => {
-              setOpenToDate(false)
-            }}
-          />
-        </View>
+    {userwiseReport?.length > 0 && (
+      <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(16) }}>
+        <ButtonPaper
+          icon="cloud-print-outline"
+          onPress={() => handlePrint(userwiseReport, formattedFromDate, formattedToDate)}
+          mode="contained-tonal"
+          buttonColor={colorScheme === "dark" ? "#009689" :'#008181'}
+          textColor="white"
+          style={{ borderRadius: normalize(8) }}
+        >
+          PRINT
+        </ButtonPaper>
+      </View>
+    )}
+  </ScrollView>
+</SafeAreaView>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <ButtonPaper
-            onPress={() =>
-              handleGetCollectionReport(
-                formattedFromDate,
-                formattedToDate,
-                loginStore.comp_id,
-                loginStore.br_id,
-                loginStore?.user_id,
-              )
-            }
-            mode="contained-tonal"
-            buttonColor={'#404198'}
-            textColor={theme.colors.onPrimary}
-            loading={isLoading}
-            disabled={isDisabled}>
-            SUBMIT
-          </ButtonPaper>
-        </View>
-
-        {userwiseReport?.length> 0 &&<SurfacePaper backgroundColor={theme.colors.surface}>
-          <DataTable>
-            <DataTable.Header style={titleStyle}>
-              {/* <DataTable.Title textStyle={titleTextStyle}>Created By</DataTable.Title> */}
-              <DataTable.Title textStyle={titleTextStyle}>Sl. No.</DataTable.Title>
-              <DataTable.Title textStyle={titleTextStyle}>Username</DataTable.Title>
-              <DataTable.Title textStyle={titleTextStyle} numeric>RCPTs</DataTable.Title>
-              <DataTable.Title textStyle={titleTextStyle} numeric>Net Amt.</DataTable.Title>
-              <DataTable.Title textStyle={titleTextStyle} numeric>Cncl Amt.</DataTable.Title>
-            </DataTable.Header>
-
-            {userwiseReport?.map((item, i) => {
-              totalSummary += item?.net_amt
-              totalReceipts += item?.no_of_receipts
-              totalCancelled += item?.cancelled_amt
-
-              return (
-                <DataTable.Row key={i}>
-                  {/* <DataTable.Cell>{item?.user_name}</DataTable.Cell> */}
-                  <DataTable.Cell>{i + 1}</DataTable.Cell>
-                  <DataTable.Cell>
-                    {item?.user_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.no_of_receipts}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.net_amt}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.cancelled_amt}</DataTable.Cell>
-                </DataTable.Row>
-              )
-            })}
-          </DataTable>
-          <View style={{ padding: normalize(10) }}>
-            <Text variant="labelMedium" style={{ color: '#404198'}}>
-              {totalReceipts} Bills, NET: ₹{totalSummary?.toFixed(2)}, CANCELLED: ₹{totalCancelled}
-            </Text>
-          </View>
-        </SurfacePaper>}
-        {userwiseReport?.length> 0 &&<View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <ButtonPaper
-            icon={"cloud-print-outline"}
-            onPress={() =>
-              handlePrint(userwiseReport, formattedFromDate, formattedToDate)
-            }
-            mode="contained-tonal"
-            buttonColor={theme.colors.primaryContainer}
-            textColor={theme.colors.onPrimaryContainer}>
-            PRINT
-          </ButtonPaper>
-        </View>}
-      </ScrollView>
-    </SafeAreaView>
   )
 }
 

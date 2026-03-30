@@ -25,10 +25,11 @@ export const AppStore = createContext<AppStoreContext>(null)
 
 const AppContext = ({ children }) => {
   const appState = useRef(AppState.currentState)
+  const [loginData, setLoginData] = useState<any>()
 
   const [isLogin, setIsLogin] = useState<boolean>(() => false)
   const [loading, setLoading] = useState<boolean>(() => false)
-  const [otp, setOtp] = useState<number>()
+  const [otp, setOtp] = useState<any>()
   const [receiptSettings, setReceiptSettings] = useState<ReceiptSettingsData>()
   const [items, setItems] = useState<ItemsData[]>(() => [])
   const [categories, setCategories] = useState<CategoryListData[]>(() => [])
@@ -62,20 +63,21 @@ const AppContext = ({ children }) => {
             comp_id: loginData?.msg?.comp_id,
             phone: loginData?.msg?.user_id,
           }
-
-          getOtp(otpCreds)
-            .then(res => {
-              // setOtp(res)
-              setOtp(res?.otp)
-              loginStorage.set("login-data", JSON.stringify(loginData?.msg))
-            })
-            .catch(err => {
-              ToastAndroid.show(
-                "Some error while sending otp." + err,
-                ToastAndroid.SHORT,
-              )
-              console.log("ERRR OTP: ", err)
-            })
+          setOtp(loginData?.otp)
+          setLoginData(loginData)
+          // getOtp(otpCreds)
+          //   .then(res => {
+          //     setOtp(res?.otp)
+          //     //changed on 18-12-2025
+          //     // loginStorage.set("login-data", JSON.stringify(loginData?.msg))
+          //   })
+          //   .catch(err => {
+          //     ToastAndroid.show(
+          //       "Some error while sending otp." + err,
+          //       ToastAndroid.SHORT,
+          //     )
+          //     console.log("ERRR OTP: ", err)
+          //   })
 
           // loginStorage.set("login-data", JSON.stringify(loginData?.msg))
         }
@@ -235,7 +237,8 @@ const AppContext = ({ children }) => {
         handleGetCategories,
         units,
         handleGetUnits,
-        loading
+        loading,
+        loginData
       }}>
       {children}
     </AppStore.Provider>

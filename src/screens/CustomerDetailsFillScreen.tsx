@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   ToastAndroid,
+  useColorScheme,
   View,
 } from "react-native"
 import { List, RadioButton, Text } from "react-native-paper"
@@ -45,6 +46,7 @@ import QRCode from "react-native-qrcode-svg"
 const CustomerDetailsFillScreen = () => {
   const isFocused = useIsFocused()
   const navigation = useNavigation()
+  const colorScheme = useColorScheme()
   const { params } = useRoute<ProductsScreenRouteProp>()
   const theme = usePaperColorScheme()
 
@@ -409,59 +411,422 @@ const CustomerDetailsFillScreen = () => {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View
-          style={{
-            backgroundColor: theme.colors.background,
-            minHeight: SCREEN_HEIGHT,
-            height: "auto",
-          }}>
-          <View style={{ alignItems: "center" }}>
-            <HeaderImage
-              imgLight={productHeader}
-              imgDark={productHeaderDark}
-              borderRadius={30}
-              blur={10}
-              isBackEnabled>
-              {receiptSettings?.cust_inf === "Y"
-                ? "Customer Details & Print"
-                : "Print"}
-            </HeaderImage>
-          </View>
+    // <SafeAreaView>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View
+    //       style={{
+    //         backgroundColor: theme.colors.background,
+    //         minHeight: SCREEN_HEIGHT,
+    //         height: "auto",
+    //       }}>
+    //       <View style={{ alignItems: "center" }}>
+    //         <HeaderImage
+    //           imgLight={productHeader}
+    //           imgDark={productHeaderDark}
+    //           borderRadius={30}
+    //           blur={10}
+    //           isBackEnabled>
+    //           {receiptSettings?.cust_inf === "Y"
+    //             ? "Customer Details & Print"
+    //             : "Print"}
+    //         </HeaderImage>
+    //       </View>
 
-          <View style={{
-            backgroundColor: theme.colors.surfaceVariant,
-            borderRadius: 40,
-            width: SCREEN_WIDTH / 1.15,
-            alignSelf: "center",
-            marginTop: normalize(-8),
-            height: "auto",
-            paddingVertical: normalize(15)
-          }}>
-            {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" && (
-              <View
-                style={{
-                  paddingHorizontal: SCREEN_WIDTH / 20,
-                }}>
-                <InputPaper
-                  selectTextOnFocus
-                  label={
-                    receiptSettings?.discount_type === "A"
-                      ? "Discount (₹)"
-                      : "Discount (%)"
-                  }
-                  onChangeText={handleDiscountBillwise}
-                  value={discountBillwise}
-                  keyboardType="numeric"
-                  mode="flat"
-                />
-              </View>
-            )}
-            <NetTotalButton
-              width={290}
+    //       <View style={{
+    //         backgroundColor: '#008181',
+    //         borderRadius: 4,
+    //         width: SCREEN_WIDTH / 1.15,
+    //         alignSelf: "center",
+    //         marginTop: normalize(-8),
+    //         height: "auto",
+    //         paddingVertical: normalize(15)
+    //       }}>
+    //         {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" && (
+    //           <View
+    //             style={{
+    //               paddingHorizontal: SCREEN_WIDTH / 20,
+    //             }}>
+    //             <InputPaper
+    //               selectTextOnFocus
+    //               label={
+    //                 receiptSettings?.discount_type === "A"
+    //                   ? "Discount (₹)"
+    //                   : "Discount (%)"
+    //               }
+    //               onChangeText={handleDiscountBillwise}
+    //               value={discountBillwise}
+    //               keyboardType="numeric"
+    //               mode="flat"
+    //             />
+    //           </View>
+    //         )}
+    //         <NetTotalButton
+    //           width={290}
+    //           disabled
+    //           backgroundColor={'#008181'}
+    //           textColor={theme.colors.surfaceVariant}
+    //           addedProductsList={params?.added_products}
+    //           netTotal={params?.net_total}
+    //           totalDiscount={
+    //             receiptSettings?.discount_position !== "B"
+    //               ? params?.total_discount
+    //               : receiptSettings?.discount_type === "A"
+    //                 ? discountBillwise
+    //                 : (params?.net_total * discountBillwise) / 100
+    //           }
+    //         />
+    //       </View>
+
+    //       <View
+    //         style={{
+    //           backgroundColor: '#fbf1cb',
+    //           borderRadius: 4,
+    //           width: SCREEN_WIDTH / 1.15,
+    //           alignSelf: "center",
+    //           marginTop: normalize(10),
+    //         }}>
+    //         <View style={{ justifyContent: "center" }}>
+    //           <View
+    //             style={{
+    //               paddingHorizontal: normalize(20),
+    //               paddingVertical: normalize(5),
+    //               marginVertical: SCREEN_HEIGHT / 100,
+    //               gap: 2
+    //             }}>
+    //                {receiptSettings?.cust_inf === "Y" && (
+    //             <InputPaper
+    //               label="Enter Mobile"
+    //               value={customerMobileNumber}
+    //               onChangeText={onChangeCustomerMobileNumber}
+    //               keyboardType="number-pad"
+    //               leftIcon="card-account-phone-outline"
+    //               maxLength={10}
+    //               customStyle={{backgroundColor:'white', marginBottom: normalize(12) }}
+    //             />)}
+    //             {receiptSettings?.cust_inf === "Y" && (
+    //               <InputPaper
+    //                 selectTextOnFocus
+    //                 label="Enter Name (Optional)"
+    //                 value={customerName}
+    //                 onChangeText={(customerName: string) =>
+    //                   setCustomerName(customerName)
+    //                 }
+    //                 keyboardType="default"
+    //                 leftIcon="account-circle-outline"
+    //                 maxLength={18}
+    //                 customStyle={{ marginBottom: normalize(2),backgroundColor:'white' }}
+    //               />
+    //             )}
+    //           </View>
+    //         </View>
+
+    //         {receiptSettings?.pay_mode === "Y" && (
+    //           <View
+    //             style={{
+    //               flexDirection: "row",
+    //               justifyContent: "space-between",
+    //               alignItems: "center",
+    //               backgroundColor:'white',
+    //               borderRadius:10,
+    //               padding:20,
+    //               // marginRight: normalize(18),
+    //               // marginLeft: normalize(4),
+    //               marginVertical: normalize(5),
+    //               marginHorizontal: normalize(25),
+    //               flexWrap: "wrap"
+    //             }}>
+    //             <View style={styles.eachRadioBtn}>
+    //               <RadioButton
+    //                 value="C"
+    //                 status={checked === "C" ? "checked" : "unchecked"}
+    //                 color={'#008181'}
+    //                 onPress={() => setChecked("C")}
+                   
+    //               />
+    //               <Text
+    //                 variant="labelLarge"
+    //                 style={
+    //                   checked === "C" && {
+    //                     color: '#008181',
+    //                   }
+    //                 }>
+    //                 Cash
+    //               </Text>
+    //             </View>
+    //             {/* <View style={styles.eachRadioBtn}>
+    //               <RadioButton
+    //                 value="D"
+    //                 status={checked === "D" ? "checked" : "unchecked"}
+    //                 color={'#008181'}
+    //                 onPress={() => setChecked("D")}
+    //               />
+    //               <Text
+    //                 variant="labelLarge"
+    //                 style={
+    //                   checked === "D" && {
+    //                     color: '#008181',
+    //                   }
+    //                 }>
+    //                 Card
+    //               </Text>
+    //             </View> */}
+
+    //             <View style={styles.eachRadioBtn}>
+    //               <RadioButton
+    //                 value="U"
+    //                 status={checked === "U" ? "checked" : "unchecked"}
+    //                 color={'#008181'}
+    //                 onPress={() => setChecked("U")}
+    //               />
+    //               <Text
+    //                 variant="labelLarge"
+    //                 style={
+    //                   checked === "U" && {
+    //                     color: '#008181',
+    //                   }
+    //                 }>
+    //                 UPI
+    //               </Text>
+    //             </View>
+
+    //             <View style={styles.eachRadioBtn}>
+    //               <RadioButton
+    //                 value="R"
+    //                 status={checked === "R" ? "checked" : "unchecked"}
+    //                 color={'#008181'}
+    //                 onPress={() => setChecked("R")}
+    //               />
+    //               <Text
+    //                 variant="labelLarge"
+    //                 style={
+    //                   checked === "R" && {
+    //                     color: '#008181',
+    //                   }
+    //                 }>
+    //                 Credit
+    //               </Text>
+    //             </View>
+
+    //             {/* <List.Item
+    //               style={{ width: "100%" }}
+    //               title="Payment Mode"
+    //               description={
+    //                 checked === "C"
+    //                   ? "Cash"
+    //                   : checked === "D"
+    //                     ? "Card"
+    //                     : checked === "U"
+    //                       ? "UPI"
+    //                       : checked === "R"
+    //                         ? "Credit"
+    //                         : "Error Occurred"
+    //               }
+    //               left={props => <List.Icon {...props} icon="contactless-payment-circle-outline" />}
+    //               right={props => {
+    //                 return <MenuPaperWithoutRestriction menuArrOfObjects={paymentModeOptionsArr} customStyle={{ backgroundColor: theme.colors.surface }} textColor={theme.colors.onSurface} />
+    //               }}
+    //               descriptionStyle={{
+    //                 color: theme.colors.purple,
+    //               }}
+    //             /> */}
+    //           </View>
+    //         )}
+
+    //         <View style={{ paddingVertical: normalize(10) }}></View>
+
+    //         {checked === "C" && (
+    //           <View>
+    //             <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(12) }}>
+    //               <InputPaper
+    //                 selectTextOnFocus
+    //                 label="Received"
+    //                 value={
+    //                   receiptSettings?.rcv_cash_flag === "N"
+    //                     ? Math.abs(finalCashAmount)
+    //                     : cashAmount
+    //                 }
+    //                 onChangeText={(cash: number) => setCashAmount(cash)}
+    //                 keyboardType="number-pad"
+    //                 leftIcon="cash-multiple"
+    //                 maxLength={8}
+    //                 customStyle={{ marginBottom: normalize(10), backgroundColor: 'white'}}
+    //                 disabled={receiptSettings?.rcv_cash_flag === "N"}
+    //               />
+    //             </View>
+    //             {
+    //               receiptSettings?.rcv_cash_flag === "Y" &&
+    //               <SquircleBox
+    //                 backgroundColor={'#ffcd04'}
+    //                 textColor={'white'}
+    //                 height={SCREEN_HEIGHT / 15}>
+    //                Returned Amount: ₹{finalCashAmount}
+    //               </SquircleBox>
+    //             }
+    //           </View>
+    //         )}
+
+    //         {checked === "R" && (
+    //           <View>
+    //             <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(12) }}>
+    //               <InputPaper
+    //                 selectTextOnFocus
+    //                 label="Received Amount"
+    //                 value={cashAmount}
+    //                 onChangeText={(cash: number) => setCashAmount(cash)}
+    //                 keyboardType="number-pad"
+    //                 leftIcon="cash-multiple"
+    //                 maxLength={8}
+    //                 customStyle={{ marginBottom: normalize(10) }}
+    //               />
+    //             </View>
+    //             <SquircleBox
+    //               backgroundColor={theme.colors.surface}
+    //               textColor={theme.colors.onSurface}
+    //               height={SCREEN_HEIGHT / 15}>
+    //               Due Amount: ₹{Math.abs(finalCashAmount)}
+    //             </SquircleBox>
+    //           </View>
+    //         )}
+
+    //         {
+    //           checked === "U" && upiData !== undefined && (
+    //             <View>
+    //               <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(12), alignSelf: "center" }}>
+    //                 {
+    //                   receiptSettings?.gst_flag === "Y"
+    //                     ? <QRCode
+    //                       size={150}
+    //                       value={`${upiData}&am=${receiptSettings?.gst_type === "E"
+    //                         ? grandTotalWithGSTCalculate(
+    //                           params?.net_total,
+    //                           receiptSettings?.discount_position !== "B"
+    //                             ? params?.total_discount
+    //                             : receiptSettings?.discount_type === "A"
+    //                               ? discountBillwise
+    //                               : (params?.net_total * discountBillwise) / 100,
+    //                           totalGST,
+    //                         )
+    //                         : grandTotalWithGSTInclCalculate(
+    //                           params?.net_total,
+    //                           receiptSettings?.discount_position !== "B"
+    //                             ? params?.total_discount
+    //                             : receiptSettings?.discount_type === "A"
+    //                               ? discountBillwise
+    //                               : (params?.net_total * discountBillwise) / 100,
+    //                         )
+    //                         }`}
+    //                       color={theme.colors.onBackground}
+    //                       backgroundColor={theme.colors.surfaceVariant}
+    //                     />
+    //                     : <QRCode
+    //                       size={150}
+    //                       value={`${upiData}&am=${grandTotalCalculate(
+    //                         params?.net_total,
+    //                         receiptSettings?.discount_position !== "B"
+    //                           ? params?.total_discount
+    //                           : receiptSettings?.discount_type === "A"
+    //                             ? discountBillwise
+    //                             : (params?.net_total * discountBillwise) / 100,
+    //                       )}`}
+    //                       color={theme.colors.onBackground}
+    //                       backgroundColor={theme.colors.surfaceVariant}
+    //                     />
+    //                 }
+
+    //               </View>
+    //             </View>
+    //           )
+    //         }
+
+    //         <View style={{ padding: normalize(20), flexDirection: "row", gap: 10, alignSelf: "center" }}>
+    //           <ButtonPaper
+    //             mode="contained"
+    //             buttonColor={'#008181'}
+    //             textColor={theme.colors.onPrimary}
+    //             onPress={() => handlePrintReceipt(true)}
+    //             icon="cloud-print-outline"
+    //             loading={isLoading}
+    //             disabled={isDisabled}>
+    //             Save
+    //           </ButtonPaper>
+    //           {/* <ButtonPaper
+    //             mode="contained"
+    //             buttonColor={'white'}
+    //             textColor={'#008181'}
+    //             onPress={() => handlePrintReceipt()}
+    //             icon="content-save-outline"
+    //             loading={isLoading}
+    //             disabled={isDisabled}>
+    //             Save
+    //           </ButtonPaper> */}
+    //         </View>
+    //       </View>
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+   <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000000' : 'white' }}>
+  <ScrollView style={{ flex: 1, paddingHorizontal: 16 }}>
+     <View style={{ alignItems: "center" }}>
+             <HeaderImage
+               imgLight={productHeader}
+               imgDark={productHeaderDark}
+               borderRadius={30}
+               blur={10}
+               isBackEnabled>
+               {receiptSettings?.cust_inf === "Y"
+                 ? "Customer Details & Print"
+                 : "Print"}
+             </HeaderImage>
+           </View>
+
+    {/* <View style={{
+      backgroundColor: colorScheme === 'dark' ? '#009689' : '#008181',
+      borderRadius: 8,
+      padding: 16,
+      marginVertical: 12,
+      elevation: 2,
+      shadowColor: '#008181',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.1,
+      shadowRadius: 2,
+    }}>
+      <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>Net Total: ₹{params?.net_total}</Text>
+    </View> */}
+          {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" &&<View style={{
+             backgroundColor: '#008181',
+             borderRadius: 4,
+             width: SCREEN_WIDTH / 1.15,
+             alignSelf: "center",
+             marginTop: normalize(-8),
+             height: "auto",
+             paddingVertical: normalize(15)
+           }}>
+             {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" && (
+               <View
+                 style={{
+                   paddingHorizontal: SCREEN_WIDTH / 20,
+                 }}>
+                 <InputPaper
+                   selectTextOnFocus
+                  // backgroundColor= '#008181'
+                   label={
+                     receiptSettings?.discount_type === "A"
+                       ? "Discount (₹)"
+                       : "Discount (%)"
+                   }
+                   onChangeText={handleDiscountBillwise}
+                   value={discountBillwise}
+                   keyboardType="numeric"
+                   mode="flat"
+                 />
+               </View>
+             )}
+   
+           </View>}
+       <NetTotalButton
+              width={SCREEN_WIDTH/1.25}
               disabled
-              backgroundColor={theme.colors.onSurfaceVariant}
+              backgroundColor={'#008181'}
               textColor={theme.colors.surfaceVariant}
               addedProductsList={params?.added_products}
               netTotal={params?.net_total}
@@ -473,290 +838,135 @@ const CustomerDetailsFillScreen = () => {
                     : (params?.net_total * discountBillwise) / 100
               }
             />
+    <View style={{
+      backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff',
+      borderRadius: 8,
+      padding: 16,
+      marginVertical: 12,
+      borderWidth: 1,
+      borderColor: colorScheme === 'dark' ? '#2e2929ff' : '#ececf0ff',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 1,
+    }}>
+      {receiptSettings?.cust_inf === "Y" && (<View>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#009689' : '#008181', marginBottom: 12 }}>Customer Information</Text>
+      <InputPaper
+        label="Enter Mobile"
+        value={customerMobileNumber}
+        onChangeText={onChangeCustomerMobileNumber}
+        keyboardType="number-pad"
+        customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8, marginBottom: 12 }}
+      />
+      <InputPaper
+        label="Enter Name (Optional)"
+        value={customerName}
+        onChangeText={(name:any) => setCustomerName(name)}
+        keyboardType="default"
+        customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
+      />
+      </View>)}
+
+      <View style={{ marginVertical: 16 }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#009689' : '#008181', marginBottom: 12 }}>Payment Mode</Text>
+        <View style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center",
+          backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff',
+          borderRadius: 10,
+          padding: 12,
+          marginVertical: 8,
+        }}>
+          <View style={{ alignItems: "center" }}>
+            <RadioButton value="C" status={checked === "C" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("C")} />
+            <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>Cash</Text>
           </View>
-
-          <View
-            style={{
-              backgroundColor: theme.colors.surfaceVariant,
-              borderRadius: 40,
-              width: SCREEN_WIDTH / 1.15,
-              alignSelf: "center",
-              marginTop: normalize(10),
-            }}>
-            <View style={{ justifyContent: "center" }}>
-              <View
-                style={{
-                  paddingHorizontal: normalize(20),
-                  paddingVertical: normalize(5),
-                  marginVertical: SCREEN_HEIGHT / 100,
-                  gap: 2
-                }}>
-                   {receiptSettings?.cust_inf === "Y" && (
-                <InputPaper
-                  label="Enter Mobile"
-                  value={customerMobileNumber}
-                  onChangeText={onChangeCustomerMobileNumber}
-                  keyboardType="number-pad"
-                  leftIcon="card-account-phone-outline"
-                  maxLength={10}
-                />)}
-                {receiptSettings?.cust_inf === "Y" && (
-                  <InputPaper
-                    selectTextOnFocus
-                    label="Enter Name (Optional)"
-                    value={customerName}
-                    onChangeText={(customerName: string) =>
-                      setCustomerName(customerName)
-                    }
-                    keyboardType="default"
-                    leftIcon="account-circle-outline"
-                    maxLength={18}
-                    customStyle={{ marginBottom: normalize(2) }}
-                  />
-                )}
-              </View>
-            </View>
-
-            {receiptSettings?.pay_mode === "Y" && (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  // marginRight: normalize(18),
-                  // marginLeft: normalize(4),
-                  marginVertical: normalize(5),
-                  marginHorizontal: normalize(25),
-                  flexWrap: "wrap"
-                }}>
-                <View style={styles.eachRadioBtn}>
-                  <RadioButton
-                    value="C"
-                    status={checked === "C" ? "checked" : "unchecked"}
-                    color={theme.colors.onTertiaryContainer}
-                    onPress={() => setChecked("C")}
-                  />
-                  <Text
-                    variant="labelLarge"
-                    style={
-                      checked === "C" && {
-                        color: theme.colors.onTertiaryContainer,
-                      }
-                    }>
-                    Cash
-                  </Text>
-                </View>
-                <View style={styles.eachRadioBtn}>
-                  <RadioButton
-                    value="D"
-                    status={checked === "D" ? "checked" : "unchecked"}
-                    color={theme.colors.onTertiaryContainer}
-                    onPress={() => setChecked("D")}
-                  />
-                  <Text
-                    variant="labelLarge"
-                    style={
-                      checked === "D" && {
-                        color: theme.colors.onTertiaryContainer,
-                      }
-                    }>
-                    Card
-                  </Text>
-                </View>
-
-                <View style={styles.eachRadioBtn}>
-                  <RadioButton
-                    value="U"
-                    status={checked === "U" ? "checked" : "unchecked"}
-                    color={theme.colors.onTertiaryContainer}
-                    onPress={() => setChecked("U")}
-                  />
-                  <Text
-                    variant="labelLarge"
-                    style={
-                      checked === "U" && {
-                        color: theme.colors.onTertiaryContainer,
-                      }
-                    }>
-                    UPI
-                  </Text>
-                </View>
-
-                <View style={styles.eachRadioBtn}>
-                  <RadioButton
-                    value="R"
-                    status={checked === "R" ? "checked" : "unchecked"}
-                    color={theme.colors.onTertiaryContainer}
-                    onPress={() => setChecked("R")}
-                  />
-                  <Text
-                    variant="labelLarge"
-                    style={
-                      checked === "R" && {
-                        color: theme.colors.onTertiaryContainer,
-                      }
-                    }>
-                    Credit
-                  </Text>
-                </View>
-
-                {/* <List.Item
-                  style={{ width: "100%" }}
-                  title="Payment Mode"
-                  description={
-                    checked === "C"
-                      ? "Cash"
-                      : checked === "D"
-                        ? "Card"
-                        : checked === "U"
-                          ? "UPI"
-                          : checked === "R"
-                            ? "Credit"
-                            : "Error Occurred"
-                  }
-                  left={props => <List.Icon {...props} icon="contactless-payment-circle-outline" />}
-                  right={props => {
-                    return <MenuPaperWithoutRestriction menuArrOfObjects={paymentModeOptionsArr} customStyle={{ backgroundColor: theme.colors.surface }} textColor={theme.colors.onSurface} />
-                  }}
-                  descriptionStyle={{
-                    color: theme.colors.purple,
-                  }}
-                /> */}
-              </View>
-            )}
-
-            <View style={{ paddingVertical: normalize(10) }}></View>
-
-            {checked === "C" && (
-              <View>
-                <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(12) }}>
-                  <InputPaper
-                    selectTextOnFocus
-                    label="Received"
-                    value={
-                      receiptSettings?.rcv_cash_flag === "N"
-                        ? Math.abs(finalCashAmount)
-                        : cashAmount
-                    }
-                    onChangeText={(cash: number) => setCashAmount(cash)}
-                    keyboardType="number-pad"
-                    leftIcon="cash-multiple"
-                    maxLength={8}
-                    customStyle={{ marginBottom: normalize(10) }}
-                    disabled={receiptSettings?.rcv_cash_flag === "N"}
-                  />
-                </View>
-                {
-                  receiptSettings?.rcv_cash_flag === "Y" &&
-                  <SquircleBox
-                    backgroundColor={theme.colors.surface}
-                    textColor={theme.colors.onSurface}
-                    height={SCREEN_HEIGHT / 15}>
-                    RETURNED AMOUNT: ₹{finalCashAmount}
-                  </SquircleBox>
-                }
-              </View>
-            )}
-
-            {checked === "R" && (
-              <View>
-                <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(12) }}>
-                  <InputPaper
-                    selectTextOnFocus
-                    label="Received Amount"
-                    value={cashAmount}
-                    onChangeText={(cash: number) => setCashAmount(cash)}
-                    keyboardType="number-pad"
-                    leftIcon="cash-multiple"
-                    maxLength={8}
-                    customStyle={{ marginBottom: normalize(10) }}
-                  />
-                </View>
-                <SquircleBox
-                  backgroundColor={theme.colors.surface}
-                  textColor={theme.colors.onSurface}
-                  height={SCREEN_HEIGHT / 15}>
-                  DUE AMOUNT: ₹{Math.abs(finalCashAmount)}
-                </SquircleBox>
-              </View>
-            )}
-
-            {
-              checked === "U" && upiData !== undefined && (
-                <View>
-                  <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(12), alignSelf: "center" }}>
-                    {
-                      receiptSettings?.gst_flag === "Y"
-                        ? <QRCode
-                          size={150}
-                          value={`${upiData}&am=${receiptSettings?.gst_type === "E"
-                            ? grandTotalWithGSTCalculate(
-                              params?.net_total,
-                              receiptSettings?.discount_position !== "B"
-                                ? params?.total_discount
-                                : receiptSettings?.discount_type === "A"
-                                  ? discountBillwise
-                                  : (params?.net_total * discountBillwise) / 100,
-                              totalGST,
-                            )
-                            : grandTotalWithGSTInclCalculate(
-                              params?.net_total,
-                              receiptSettings?.discount_position !== "B"
-                                ? params?.total_discount
-                                : receiptSettings?.discount_type === "A"
-                                  ? discountBillwise
-                                  : (params?.net_total * discountBillwise) / 100,
-                            )
-                            }`}
-                          color={theme.colors.onBackground}
-                          backgroundColor={theme.colors.surfaceVariant}
-                        />
-                        : <QRCode
-                          size={150}
-                          value={`${upiData}&am=${grandTotalCalculate(
-                            params?.net_total,
-                            receiptSettings?.discount_position !== "B"
-                              ? params?.total_discount
-                              : receiptSettings?.discount_type === "A"
-                                ? discountBillwise
-                                : (params?.net_total * discountBillwise) / 100,
-                          )}`}
-                          color={theme.colors.onBackground}
-                          backgroundColor={theme.colors.surfaceVariant}
-                        />
-                    }
-
-                  </View>
-                </View>
-              )
-            }
-
-            <View style={{ padding: normalize(20), flexDirection: "row", gap: 10, alignSelf: "center" }}>
-              <ButtonPaper
-                mode="contained"
-                buttonColor={theme.colors.primary}
-                textColor={theme.colors.onPrimary}
-                onPress={() => handlePrintReceipt(true)}
-                icon="cloud-print-outline"
-                loading={isLoading}
-                disabled={isDisabled}>
-                SAVE / PRINT
-              </ButtonPaper>
-              <ButtonPaper
-                mode="contained"
-                buttonColor={theme.colors.purple}
-                textColor={theme.colors.onPurple}
-                onPress={() => handlePrintReceipt()}
-                icon="content-save-outline"
-                loading={isLoading}
-                disabled={isDisabled}>
-                SAVE
-              </ButtonPaper>
-            </View>
+          <View style={{ alignItems: "center" }}>
+            <RadioButton value="U" status={checked === "U" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("U")} />
+            <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>UPI</Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <RadioButton value="R" status={checked === "R" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("R")} />
+            <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>Credit</Text>
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+
+      {checked === "C" && (
+        <View style={{ marginVertical: 12 }}>
+          <InputPaper
+            label="Received"
+            value={cashAmount}
+            onChangeText={(cash:any) => setCashAmount(cash)}
+            keyboardType="number-pad"
+            customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
+          />
+          <View style={{
+            backgroundColor: '#FFCD04',
+            borderRadius: 8,
+            padding: 12,
+            marginVertical: 8,
+            alignItems: "center",
+          }}>
+            <Text style={{ color: 'white', fontWeight: '600' }}>Returned Amount: ₹{finalCashAmount}</Text>
+          </View>
+        </View>
+      )}
+
+      {checked === "R" && (
+        <View style={{ marginVertical: 12 }}>
+          <InputPaper
+            label="Received Amount"
+            value={cashAmount}
+            onChangeText={(cash:any) => setCashAmount(cash)}
+            keyboardType="number-pad"
+            customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
+          />
+          <View style={{
+            backgroundColor:  '#FFCD04',
+            borderRadius: 8,
+            padding: 12,
+            marginVertical: 8,
+            alignItems: "center",
+            borderWidth: 0,
+            borderColor:  '#FFCD04',
+          }}>
+            <Text style={{ color: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', fontWeight: '600' }}>Due Amount: ₹{Math.abs(finalCashAmount)}</Text>
+          </View>
+        </View>
+      )}
+
+      {checked === "U" && upiData && (
+        <View style={{ alignItems: "center", marginVertical: 16 }}>
+          <QRCode
+            size={150}
+            value={`${upiData}&am=${params?.net_total}`}
+            color={colorScheme === 'dark' ? '#009689' : '#008181'}
+            backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+          />
+        </View>
+      )}
+
+      <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 16 }}>
+        <ButtonPaper
+          mode="contained"
+          buttonColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+          disabled={isDisabled}
+          loading={isLoading}
+          textColor="white"
+          onPress={() => handlePrintReceipt(true)}
+          icon="cloud-print-outline"
+          style={{ borderRadius: 8 }}
+        >
+          Save
+        </ButtonPaper>
+      </View>
+    </View>
+  </ScrollView>
+</SafeAreaView>
+
+
   )
 }
 
@@ -765,6 +975,7 @@ export default CustomerDetailsFillScreen
 const styles = StyleSheet.create({
   eachRadioBtn: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    // color:'white'
   }
 })

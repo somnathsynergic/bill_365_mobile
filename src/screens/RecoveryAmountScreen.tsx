@@ -8,8 +8,9 @@ import {
     ViewStyle,
     TextStyle,
     Alert,
+    useColorScheme,
 } from "react-native"
-import { RadioButton, Searchbar, Text } from "react-native-paper"
+import { Card, RadioButton, Searchbar, Text } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
 import {
     textureReport,
@@ -18,7 +19,7 @@ import {
 import { usePaperColorScheme } from "../theme/theme"
 import { useNavigation } from "@react-navigation/native"
 import ButtonPaper from "../components/ButtonPaper"
-import normalize, { SCREEN_HEIGHT } from "react-native-normalize"
+import normalize, { SCREEN_HEIGHT, SCREEN_WIDTH } from "react-native-normalize"
 import useShowBill from "../hooks/api/useShowBill"
 import {
     RecoveryAmountCredentials,
@@ -40,7 +41,7 @@ import useCancelBill from "../hooks/api/useCancelBill"
 function RecoveryAmountScreen() {
     const theme = usePaperColorScheme()
     const navigation = useNavigation()
-
+    const colorScheme = useColorScheme()
     const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
     const { receiptSettings } = useContext<AppStoreContext>(AppStore)
@@ -102,8 +103,8 @@ function RecoveryAmountScreen() {
         setIsLoading(false)
     }
     useEffect(() => {
-        if(!search){
-                setRecoveryDetailsData([])
+        if (!search) {
+            setRecoveryDetailsData([])
         }
     }, [search])
     const handleSearchClick = async (mobile: string) => {
@@ -199,17 +200,211 @@ function RecoveryAmountScreen() {
         flexDirection: "row",
         justifyContent: "space-between",
         width: "100%",
+        gap: 50,
         padding: 5,
         alignItems: "center",
-        borderWidth: 2,
         borderColor: theme.colors.vanilla,
-        borderStyle: "dotted",
         borderRadius: 10,
     }
 
     return (
-        <SafeAreaView
-            style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        // <SafeAreaView
+        //     style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        //     <ScrollView keyboardShouldPersistTaps="handled">
+        //         <View style={{ alignItems: "center" }}>
+        //             <HeaderImage
+        //                 imgLight={textureReport}
+        //                 imgDark={textureReportDark}
+        //                 borderRadius={30}
+        //                 blur={10}
+        //                 isBackEnabled>
+        //                 Recovery Amount
+        //             </HeaderImage>
+        //         </View>
+
+        //         <View
+        //             style={{
+        //                 paddingHorizontal: normalize(20),
+        //                 paddingBottom: normalize(10),
+        //             }}>
+        //             <View
+        //                 style={{
+        //                     paddingHorizontal: normalize(10),
+        //                     paddingBottom: normalize(10),
+        //                 }}>
+        //                 <Searchbar
+        //                     autoFocus
+        //                     // placeholder="Search Bills"
+        //                     placeholder="Mobile Number"
+        //                     onChangeText={onChangeSearch}
+        //                     value={search}
+        //                     elevation={search && 2}
+        //                     keyboardType="numeric"
+        //                     maxLength={10}
+        //                     style={{
+        //                         backgroundColor: theme.colors.vanillaSecondaryContainer,
+        //                         color: theme.colors.onVanillaSecondaryContainer,
+        //                     }}
+        //                     selectionColor={theme.colors.vanilla}
+        //                 // loading={search ? true : false}
+        //                 />
+        //             </View>
+        //             {/* <ButtonPaper onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)} mode="contained-tonal">
+        //                 SUBMIT
+        //             </ButtonPaper> */}
+        //             <View
+        //                 style={{
+        //                     paddingHorizontal: normalize(10),
+        //                 }}>
+        //                 <ButtonPaper
+        //                     onPress={() => handleSearchClick(search)}
+        //                     mode="contained-tonal"
+        //                     buttonColor={theme.colors.vanillaContainer}
+        //                     loading={isLoading}
+        //                     disabled={isDisabled}>
+        //                     SUBMIT
+        //                 </ButtonPaper>
+        //             </View>
+        //         </View>
+
+        //         {recoveryDetailsData?.length > 0
+        //             &&
+        //             (recoveryDetailsData[0]?.net_amt > recoveryDetailsData[0]?.paid_amt)
+        //             && <SurfacePaper backgroundColor={theme.colors.vanillaSurfaceLow} elevation={1} borderRadiusEnabled smallWidthEnabled style={{
+        //                 padding: normalize(15),
+        //                 height: "auto",
+        //                 minHeight: SCREEN_HEIGHT / 3,
+        //                 justifyContent: 'space-evenly',
+        //                 gap: 5
+        //                 // borderWidth: 2,
+        //                 // borderStyle: "dashed",
+        //                 // borderColor: theme.colors.vanilla
+        //             }}>
+        //                 {/* <View style={ViewTextStyle}>
+        //                     <Text variant="titleLarge">TOTAL NET</Text>
+        //                     <Text variant="titleLarge" style={{ textAlign: "center" }}>:</Text>
+        //                     <Text variant="titleLarge" style={cellTextStyle2}>₹{recoveryDetailsData[0]?.net_amt}</Text>
+        //                 </View> */}
+        //                 <View style={ViewTextStyle}>
+        //                     <Text variant="titleLarge">TOTAL PAID</Text>
+        //                     <Text variant="titleLarge" style={{ textAlign: "center" }}>:</Text>
+        //                     <Text variant="titleLarge" style={cellTextStyle4}>₹{recoveryDetailsData[0]?.paid_amt}</Text>
+        //                 </View>
+        //                 <View style={ViewTextStyle}>
+        //                     <Text variant="titleLarge">TOTAL DUE</Text>
+        //                     <Text variant="titleLarge" style={{ textAlign: "center" }}>:</Text>
+        //                     <Text variant="titleLarge" style={cellTextStyle3}>₹{recoveryDetailsData[0]?.net_amt - recoveryDetailsData[0]?.paid_amt}</Text>
+        //                 </View>
+
+        //                 {receiptSettings?.pay_mode === "Y" && (
+        //                     <View
+        //                         style={{
+        //                             flexDirection: "row",
+        //                             justifyContent: "space-around",
+        //                             alignItems: "center",
+        //                             width: "100%",
+        //                             marginRight: normalize(15),
+        //                             // marginLeft: normalize(4),
+        //                             marginVertical: normalize(10),
+        //                             flexWrap: "wrap"
+        //                         }}>
+        //                         <RadioButton
+        //                             value="C"
+        //                             status={checked === "C" ? "checked" : "unchecked"}
+        //                             color={theme.colors.onTertiaryContainer}
+        //                             onPress={() => setChecked("C")}
+        //                         />
+        //                         <Text
+        //                             variant="labelLarge"
+        //                             style={
+        //                                 checked === "C" && {
+        //                                     color: theme.colors.onTertiaryContainer,
+        //                                 }
+        //                             }>
+        //                             Cash
+        //                         </Text>
+        //                         <RadioButton
+        //                             value="D"
+        //                             status={checked === "D" ? "checked" : "unchecked"}
+        //                             color={theme.colors.onTertiaryContainer}
+        //                             onPress={() => setChecked("D")}
+        //                         />
+        //                         <Text
+        //                             variant="labelLarge"
+        //                             style={
+        //                                 checked === "D" && {
+        //                                     color: theme.colors.onTertiaryContainer,
+        //                                 }
+        //                             }>
+        //                             Card
+        //                         </Text>
+        //                         <RadioButton
+        //                             value="U"
+        //                             status={checked === "U" ? "checked" : "unchecked"}
+        //                             color={theme.colors.onTertiaryContainer}
+        //                             onPress={() => setChecked("U")}
+        //                         />
+        //                         <Text
+        //                             variant="labelLarge"
+        //                             style={
+        //                                 checked === "U" && {
+        //                                     color: theme.colors.onTertiaryContainer,
+        //                                 }
+        //                             }>
+        //                             UPI
+        //                         </Text>
+        //                     </View>
+        //                 )}
+
+        //                 <View style={{
+        //                     width: "100%",
+        //                     marginBottom: normalize(5)
+        //                 }}>
+        //                     <InputPaper
+        //                         label="Received Amount"
+        //                         onChangeText={(e: number) => setDueAmount(e)} value={dueAmount} keyboardType="numeric"
+        //                         customStyle={{
+        //                             backgroundColor: theme.colors.vanillaSurfaceLow
+        //                         }}
+        //                         selectTextOnFocus
+        //                         clearTextOnFocus
+        //                     />
+        //                 </View>
+
+        //                 <View style={{
+        //                     flexDirection: "row",
+        //                     justifyContent: "space-between",
+        //                     gap: 10
+        //                 }}>
+        //                     <ButtonPaper
+        //                         onPress={handleGetDueAmount}
+        //                         mode="elevated"
+        //                         textColor={theme.colors.vanilla}
+        //                         icon={"arrow-u-down-left"}
+        //                         style={{
+        //                             backgroundColor: theme.colors.vanillaSurface
+        //                         }}
+        //                         disabled={!dueAmount}>
+        //                         Get Due Amount
+        //                     </ButtonPaper>
+        //                     <ButtonPaper
+        //                         onPress={handlePrint}
+        //                         mode="elevated"
+        //                         textColor={theme.colors.vanilla}
+        //                         icon={"cloud-print-outline"}
+        //                         style={{
+        //                             backgroundColor: theme.colors.vanillaSurface
+        //                         }}>
+        //                         Print
+        //                     </ButtonPaper>
+        //                 </View>
+
+        //             </SurfacePaper>
+        //         }
+        //     </ScrollView>
+
+        // </SafeAreaView>
+        <SafeAreaView style={[styles.container, { backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff' }]}>
             <ScrollView keyboardShouldPersistTaps="handled">
                 <View style={{ alignItems: "center" }}>
                     <HeaderImage
@@ -222,188 +417,258 @@ function RecoveryAmountScreen() {
                     </HeaderImage>
                 </View>
 
-                <View
-                    style={{
-                        paddingHorizontal: normalize(20),
-                        paddingBottom: normalize(10),
-                    }}>
-                    <View
-                        style={{
-                            paddingHorizontal: normalize(10),
-                            paddingBottom: normalize(10),
-                        }}>
+                <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(10) }}>
+                    <View style={{ paddingHorizontal: normalize(10), paddingBottom: normalize(10) }}>
                         <Searchbar
                             autoFocus
-                            // placeholder="Search Bills"
                             placeholder="Mobile Number"
                             onChangeText={onChangeSearch}
                             value={search}
-                            elevation={search && 2}
+                            elevation={search ? 2 : 0}
                             keyboardType="numeric"
                             maxLength={10}
                             style={{
-                                backgroundColor: theme.colors.vanillaSecondaryContainer,
-                                color: theme.colors.onVanillaSecondaryContainer,
+                                backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#def0ddff',
+                                color: '#008181',
+                                borderRadius: normalize(8),
+                                // borderWidth: 1,
+                                borderColor: '#008181',
                             }}
-                            selectionColor={theme.colors.vanilla}
-                        // loading={search ? true : false}
+                            selectionColor="#008181"
                         />
                     </View>
-                    {/* <ButtonPaper onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)} mode="contained-tonal">
-                        SUBMIT
-                    </ButtonPaper> */}
-                    <View
-                        style={{
-                            paddingHorizontal: normalize(10),
-                        }}>
+                    <View style={{ paddingHorizontal: normalize(10) }}>
                         <ButtonPaper
                             onPress={() => handleSearchClick(search)}
                             mode="contained-tonal"
-                            buttonColor={theme.colors.vanillaContainer}
+                            buttonColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+                            textColor="white"
                             loading={isLoading}
-                            disabled={isDisabled}>
+                            disabled={isDisabled}
+                            style={{ borderRadius: normalize(8) }}
+                        >
                             SUBMIT
                         </ButtonPaper>
                     </View>
                 </View>
 
-                {recoveryDetailsData?.length > 0
-                    &&
-                    (recoveryDetailsData[0]?.net_amt > recoveryDetailsData[0]?.paid_amt)
-                    && <SurfacePaper backgroundColor={theme.colors.vanillaSurfaceLow} elevation={1} borderRadiusEnabled smallWidthEnabled style={{
-                        padding: normalize(15),
-                        height: "auto",
-                        minHeight: SCREEN_HEIGHT / 3,
-                        justifyContent: 'space-evenly',
-                        gap: 5
-                        // borderWidth: 2,
-                        // borderStyle: "dashed",
-                        // borderColor: theme.colors.vanilla
-                    }}>
-                        {/* <View style={ViewTextStyle}>
-                            <Text variant="titleLarge">TOTAL NET</Text>
-                            <Text variant="titleLarge" style={{ textAlign: "center" }}>:</Text>
-                            <Text variant="titleLarge" style={cellTextStyle2}>₹{recoveryDetailsData[0]?.net_amt}</Text>
-                        </View> */}
-                        <View style={ViewTextStyle}>
-                            <Text variant="titleLarge">TOTAL PAID</Text>
-                            <Text variant="titleLarge" style={{ textAlign: "center" }}>:</Text>
-                            <Text variant="titleLarge" style={cellTextStyle4}>₹{recoveryDetailsData[0]?.paid_amt}</Text>
+                {recoveryDetailsData?.length > 0 && recoveryDetailsData[0]?.net_amt > recoveryDetailsData[0]?.paid_amt && (
+                    <SurfacePaper
+                        backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : "#f5f9ff"}
+                        elevation={1}
+                        borderRadiusEnabled
+                        smallWidthEnabled
+                        style={{
+                            padding: normalize(15),
+                            minHeight: SCREEN_HEIGHT / 3,
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            gap: 5,
+                            borderRadius: normalize(12),
+                            //   borderWidth: 1,
+                            borderColor: '#008181',
+                            elevation: 0
+                        }}
+                    >
+                        <View style={{ flexDirection: 'row', gap: 40, width: SCREEN_WIDTH / 3, marginLeft: -180 }}>
+                            <View style={ViewTextStyle}>
+                                <Card
+                                    style={{
+                                        elevation: 4,
+                                        borderRadius: normalize(12),
+                                        backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff',
+                                        paddingHorizontal: normalize(16),
+                                        paddingVertical: normalize(12),
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        minWidth: 130,
+                                        alignContent: 'center',
+                                        flexWrap: 'nowrap',
+                                    }}
+                                >
+                                    <Text
+                                        //   variant="titleLarge"
+                                        style={{
+                                            fontWeight: 'bold',
+                                            color: colorScheme === 'dark' ? '#009689' : '#008181',
+                                            marginRight: normalize(8),
+                                            alignItems: 'center'
+                                        }}
+                                    >
+                                        Total Paid
+                                    </Text>
+                                    <View
+                                        style={{
+                                            backgroundColor: colorScheme === 'dark' ? '#009689' : '#008181',
+                                            paddingHorizontal: normalize(12),
+                                            paddingVertical: normalize(6),
+                                            borderRadius: normalize(8),
+                                            alignItems: 'center'
+                                        }}
+                                    >
+                                        <Text
+                                            // variant="titleLarge"
+                                            style={{
+                                                color: 'white',
+                                                fontWeight: '600',
+                                                letterSpacing: 0.5,
+                                            }}
+                                        >
+                                            ₹{recoveryDetailsData[0]?.paid_amt}
+                                        </Text>
+                                    </View>
+                                </Card>
+                            </View>
+                            <View style={ViewTextStyle}>
+                                <Card
+                                    style={{
+                                        //   elevation: 4,
+                                        borderRadius: normalize(12),
+                                        backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff',
+                                        paddingHorizontal: normalize(16),
+                                        paddingVertical: normalize(12),
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        minWidth: 130,
+                                        flexWrap: 'nowrap',
+                                    }}
+                                >
+                                    <Text
+                                        //   variant="titleLarge"
+                                        style={{
+                                            fontWeight: 'bold',
+                                            color: '#FFCD04',
+                                            marginRight: normalize(8),
+                                        }}
+                                    >
+                                        Total Due
+                                    </Text>
+                                    <View
+                                        style={{
+                                            backgroundColor: '#FFCD04',
+                                            paddingHorizontal: normalize(12),
+                                            paddingVertical: normalize(6),
+                                            borderRadius: normalize(8),
+                                            alignItems: 'center'
+                                        }}
+                                    >
+                                        <Text
+                                            // variant="titleLarge"
+                                            style={{
+                                                color: colorScheme === 'dark' ? '#009689' : '#008181',
+                                                fontWeight: '600',
+                                                letterSpacing: 0.5,
+                                            }}
+                                        >
+                                            ₹{recoveryDetailsData[0]?.net_amt - recoveryDetailsData[0]?.paid_amt}
+                                        </Text>
+                                    </View>
+                                </Card>
+                            </View>
                         </View>
-                        <View style={ViewTextStyle}>
-                            <Text variant="titleLarge">TOTAL DUE</Text>
-                            <Text variant="titleLarge" style={{ textAlign: "center" }}>:</Text>
-                            <Text variant="titleLarge" style={cellTextStyle3}>₹{recoveryDetailsData[0]?.net_amt - recoveryDetailsData[0]?.paid_amt}</Text>
-                        </View>
+
+
+
 
                         {receiptSettings?.pay_mode === "Y" && (
                             <View
                                 style={{
+
                                     flexDirection: "row",
-                                    justifyContent: "space-around",
+                                    justifyContent: "space-between",
                                     alignItems: "center",
-                                    width: "100%",
-                                    marginRight: normalize(15),
-                                    // marginLeft: normalize(4),
+                                    marginBottom: normalize(20),
+                                    width: SCREEN_WIDTH / 1.25,
                                     marginVertical: normalize(10),
-                                    flexWrap: "wrap"
-                                }}>
+
+
+                                    marginHorizontal: normalize(10),
+                                    padding: normalize(12),
+                                    borderRadius: normalize(12),
+                                    backgroundColor: theme.colors.surface,
+                                    elevation: 2,
+                                    shadowColor: theme.colors.vanilla,
+                                    shadowOffset: { width: 0, height: 1 },
+                                    shadowOpacity: 0.1,
+                                    shadowRadius: 2,
+
+                                }}
+                            >
                                 <RadioButton
                                     value="C"
                                     status={checked === "C" ? "checked" : "unchecked"}
-                                    color={theme.colors.onTertiaryContainer}
+                                    color={colorScheme === 'dark' ? '#009689' : '#008181'}
                                     onPress={() => setChecked("C")}
                                 />
-                                <Text
-                                    variant="labelLarge"
-                                    style={
-                                        checked === "C" && {
-                                            color: theme.colors.onTertiaryContainer,
-                                        }
-                                    }>
-                                    Cash
-                                </Text>
+                                <Text variant="labelLarge" style={checked === "C" && { color: colorScheme === 'dark' ? '#009689' : '#008181', fontWeight: '600' }}>Cash</Text>
                                 <RadioButton
                                     value="D"
                                     status={checked === "D" ? "checked" : "unchecked"}
-                                    color={theme.colors.onTertiaryContainer}
+                                    color={colorScheme === 'dark' ? '#009689' : '#008181'}
                                     onPress={() => setChecked("D")}
                                 />
-                                <Text
-                                    variant="labelLarge"
-                                    style={
-                                        checked === "D" && {
-                                            color: theme.colors.onTertiaryContainer,
-                                        }
-                                    }>
-                                    Card
-                                </Text>
+                                <Text variant="labelLarge" style={checked === "D" && { color: colorScheme === 'dark' ? '#009689' : '#008181', fontWeight: '600' }}>Card</Text>
                                 <RadioButton
                                     value="U"
                                     status={checked === "U" ? "checked" : "unchecked"}
-                                    color={theme.colors.onTertiaryContainer}
+                                    color={colorScheme === 'dark' ? '#009689' : '#008181'}
                                     onPress={() => setChecked("U")}
                                 />
-                                <Text
-                                    variant="labelLarge"
-                                    style={
-                                        checked === "U" && {
-                                            color: theme.colors.onTertiaryContainer,
-                                        }
-                                    }>
-                                    UPI
-                                </Text>
+                                <Text variant="labelLarge" style={checked === "U" && { color: '#008181', fontWeight: '600' }}>UPI</Text>
                             </View>
                         )}
 
-                        <View style={{
-                            width: "100%",
-                            marginBottom: normalize(5)
-                        }}>
+                        <View style={{ width: "100%", marginBottom: normalize(5) }}>
                             <InputPaper
                                 label="Received Amount"
-                                onChangeText={(e: number) => setDueAmount(e)} value={dueAmount} keyboardType="numeric"
+                                onChangeText={(e: any) => setDueAmount(e)}
+                                value={dueAmount}
+                                keyboardType="numeric"
                                 customStyle={{
-                                    backgroundColor: theme.colors.vanillaSurfaceLow
+                                    backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#ececf0ff',
+                                    borderRadius: normalize(8),
+                                    borderWidth: 1,
+                                    borderColor: '#008181',
                                 }}
                                 selectTextOnFocus
                                 clearTextOnFocus
                             />
                         </View>
 
-                        <View style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            gap: 10
-                        }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 10 }}>
                             <ButtonPaper
                                 onPress={handleGetDueAmount}
                                 mode="elevated"
-                                textColor={theme.colors.vanilla}
-                                icon={"arrow-u-down-left"}
+                                textColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+                                icon="arrow-u-down-left"
                                 style={{
-                                    backgroundColor: theme.colors.vanillaSurface
+                                    backgroundColor: '#FFCD04',
+                                    borderRadius: normalize(8),
+                                    flex: 1,
                                 }}
-                                disabled={!dueAmount}>
+                                disabled={!dueAmount}
+                            >
                                 Get Due Amount
                             </ButtonPaper>
                             <ButtonPaper
                                 onPress={handlePrint}
                                 mode="elevated"
-                                textColor={theme.colors.vanilla}
-                                icon={"cloud-print-outline"}
+                                textColor="white"
+                                icon="cloud-print-outline"
                                 style={{
-                                    backgroundColor: theme.colors.vanillaSurface
-                                }}>
+                                    backgroundColor: colorScheme === 'dark' ? '#009689' : '#008181',
+                                    borderRadius: normalize(8),
+                                    flex: 1,
+                                }}
+                            >
                                 Print
                             </ButtonPaper>
                         </View>
-
                     </SurfacePaper>
-                }
+                )}
             </ScrollView>
-
         </SafeAreaView>
+
     )
 }
 

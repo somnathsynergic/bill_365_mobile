@@ -5,8 +5,9 @@ import {
   SafeAreaView,
   View,
   ToastAndroid,
+  useColorScheme,
 } from "react-native"
-import { List, Text } from "react-native-paper"
+import { List, Text, Card } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
 import { textureBill, textureBillDark } from "../resources/images"
 import { usePaperColorScheme } from "../theme/theme"
@@ -37,6 +38,7 @@ import useCalculatorShowBill from "../hooks/api/useCalculatorShowBill"
 function AllBillsScreen() {
   const theme = usePaperColorScheme()
   const navigation = useNavigation()
+  const colorScheme = useColorScheme()
 
   const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
@@ -152,7 +154,7 @@ function AllBillsScreen() {
             : 0,
           billedSaleData[0]?.cust_name,
           billedSaleData[0]?.phone_no,
-          receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+          receiptSettings?.custom_sl_flag == 'N' ? billedSaleData[0]?.receipt_no : billedSaleData[0]?.rcpt_sl_no,
 
           billedSaleData[0]?.pay_mode,
           false,
@@ -179,7 +181,7 @@ function AllBillsScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+            receiptSettings?.custom_sl_flag == 'N' ? billedSaleData[0]?.receipt_no : billedSaleData[0]?.rcpt_sl_no,
 
             billedSaleData[0]?.pay_mode,
             false,
@@ -201,7 +203,7 @@ function AllBillsScreen() {
               : 0,
             billedSaleData[0]?.cust_name,
             billedSaleData[0]?.phone_no,
-            receiptSettings?.custom_sl_flag=='N'?billedSaleData[0]?.receipt_no:billedSaleData[0]?.rcpt_sl_no,
+            receiptSettings?.custom_sl_flag == 'N' ? billedSaleData[0]?.receipt_no : billedSaleData[0]?.rcpt_sl_no,
 
             billedSaleData[0]?.pay_mode,
             false,
@@ -259,251 +261,411 @@ function AllBillsScreen() {
   let totalDiscount = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView>
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            imgLight={textureBill}
-            imgDark={textureBillDark}
-            borderRadius={30}
-            blur={10}
-            isBackEnabled>
-            My Bills
-          </HeaderImage>
-        </View>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView>
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         imgLight={textureBill}
+    //         imgDark={textureBillDark}
+    //         borderRadius={30}
+    //         blur={10}
+    //         isBackEnabled>
+    //         My Bills
+    //       </HeaderImage>
+    //     </View>
 
-        <View
-          style={{
-            padding: 10,
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}>
-          <ButtonPaper onPress={() => setOpenFromDate(true)} mode="text">
-            FROM: {fromDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
-          <ButtonPaper onPress={() => setOpenToDate(true)} mode="text">
-            TO: {toDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
+    //     <View
+    //       style={{
+    //         padding: 10,
+    //         flexDirection: "row",
+    //         justifyContent: "space-around",
+    //         alignItems: "center",
+    //       }}>
+    //       <ButtonPaper textColor="#008181" onPress={() => setOpenFromDate(true)} mode="text">
+    //         FROM: {fromDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
+    //       <ButtonPaper textColor="#008181" onPress={() => setOpenToDate(true)} mode="text">
+    //         TO: {toDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
 
-          <DatePicker
-            modal
-            mode="date"
-            // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
-            open={openFromDate}
-            date={fromDate}
-            onConfirm={date => {
-              setOpenFromDate(false)
-              setFromDate(date)
-            }}
-            onCancel={() => {
-              setOpenFromDate(false)
-            }}
-          />
-          <DatePicker
-            modal
-            mode="date"
-            open={openToDate}
-            date={toDate}
-            onConfirm={date => {
-              setOpenToDate(false)
-              setToDate(date)
-            }}
-            onCancel={() => {
-              setOpenToDate(false)
-            }}
-          />
-        </View>
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
+    //         open={openFromDate}
+    //         date={fromDate}
+    //         onConfirm={date => {
+    //           setOpenFromDate(false)
+    //           setFromDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenFromDate(false)
+    //         }}
+    //       />
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         open={openToDate}
+    //         date={toDate}
+    //         onConfirm={date => {
+    //           setOpenToDate(false)
+    //           setToDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenToDate(false)
+    //         }}
+    //       />
+    //     </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <ButtonPaper
-            onPress={() =>
-              handleGetBillsByDate(formattedFromDate, formattedToDate)
-            }
-            mode="contained-tonal"
-            loading={isLoading}
-            disabled={isDisabled}>
-            SUBMIT
-          </ButtonPaper>
-        </View>
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <ButtonPaper
+    //         onPress={() =>
+    //           handleGetBillsByDate(formattedFromDate, formattedToDate)
+    //         }
+    //         buttonColor="#008181"
+    //         textColor="white"
+    //         mode="contained-tonal"
+    //         loading={isLoading}
+    //         disabled={isDisabled}>
+    //         SUBMIT
+    //       </ButtonPaper>
+    //     </View>
 
-        <View style={{ width: "100%" }}>
-          {billsArray?.map((item, i) => (
-            <List.Item
-              key={i}
-              title={`Bill ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
-              description={`₹${item?.net_amt}`}
-              onPress={() => {
-                loginStore?.mode !== "C"
-                  ? handleBillListClick(item?.receipt_no)
-                  : handleBillListClickCalculatorMode(item?.receipt_no)
-              }}
-              left={props => <List.Icon {...props} icon="basket" />}
-            // right={props => (
-            //   <List.Icon {...props} icon="download" />
-            // )}
-            />
-          ))}
-        </View>
-      </ScrollView>
-      {/* <DialogBoxForReprint
-        iconSize={30}
-        visible={visible}
-        hide={hideDialog}
-        titleStyle={styles.title}
-      // title="Print Bill"
+    //     <View style={styles.container1}>
+    //       {/* {billsArray?.map((item, i) => (
+    //         <List.Item
+    //           key={i}
+    //           title={`Bill ${receiptSettings?.custom_sl_flag == 'N' ? item?.receipt_no : item?.rcpt_sl_no}`}
+    //           description={`₹${item?.net_amt}`}
+    //           onPress={() => {
+    //             loginStore?.mode !== "C"
+    //               ? handleBillListClick(item?.receipt_no)
+    //               : handleBillListClickCalculatorMode(item?.receipt_no)
+    //           }}
+    //           left={props => <List.Icon {...props} icon="basket" />}
+    //         // right={props => (
+    //         //   <List.Icon {...props} icon="download" />
+    //         // )}
+    //         />
+    //       ))} */}
+    //       {billsArray?.map((item, i) => {
+    //         const billNo = receiptSettings?.custom_sl_flag === 'N'
+    //           ? item?.receipt_no
+    //           : item?.rcpt_sl_no;
+    //         const dt = new Date(item.trn_date).toLocaleDateString();
+
+    //         return (
+    //           <Card
+    //             key={i}
+    //             style={styles.card}
+    //             onPress={() =>
+    //               loginStore?.mode !== 'C'
+    //                 ? handleBillListClick(item?.receipt_no)
+    //                 : handleBillListClickCalculatorMode(item?.receipt_no)
+    //             }
+    //           >
+    //             <List.Item
+    //               titleStyle={styles.title1}
+    //               descriptionStyle={styles.description}
+    //               key={i}
+    //               title={`Bill ${receiptSettings?.custom_sl_flag == 'N' ? item?.receipt_no : item?.rcpt_sl_no}`}
+    //               description={`₹${item?.net_amt}`}
+    //               left={props => <List.Icon {...props} icon="receipt" color="#008181" />}
+    //             />
+    //           </Card>
+    //         );
+    //       })}
+    //     </View>
+    //   </ScrollView>
+    //   {/* <DialogBoxForReprint
+    //     iconSize={30}
+    //     visible={visible}
+    //     hide={hideDialog}
+    //     titleStyle={styles.title}
+    //   // title="Print Bill"
+    //   >
+    //     <View style={{ paddingBottom: 5 }}>
+    //       <Text
+    //         style={{ textAlign: "center", color: theme.colors.primary }}
+    //         variant="bodyLarge">
+    //         {currentReceiptNo}
+    //       </Text>
+    //       <Text
+    //         style={{ textAlign: "center", color: theme.colors.secondary }}
+    //         variant="bodyLarge">
+    //         {new Date(billedSaleData[0]?.created_dt).toLocaleString("en-GB")}
+    //       </Text>
+    //       <View
+    //         style={{
+    //           borderWidth: 1,
+    //           borderStyle: "dashed",
+    //           width: "80%",
+    //           borderColor: theme.colors.secondary,
+    //           alignSelf: "center",
+    //         }}></View>
+    //       {billedSaleData[0]?.cust_name && (
+    //         <Text
+    //           style={{ textAlign: "center", color: theme.colors.primary }}
+    //           variant="bodyLarge">
+    //           {billedSaleData[0]?.cust_name}
+    //         </Text>
+    //       )}
+    //       <Text
+    //         style={{ textAlign: "center", color: theme.colors.secondary }}
+    //         variant="bodyLarge">
+    //         {billedSaleData[0]?.phone_no}
+    //       </Text>
+    //       <Text
+    //         style={{ textAlign: "center", color: theme.colors.peach }}
+    //         variant="bodyLarge">
+    //         Payment Mode: {`[${billedSaleData[0]?.pay_mode === "C" ? "Cash" : billedSaleData[0]?.pay_mode === "D" ? "Card" : billedSaleData[0]?.pay_mode === "U" ? "UPI" : billedSaleData[0]?.pay_mode === "R" ? "Credit" : "Error!"}]`}
+    //       </Text>
+    //     </View>
+    //     <ScrollableListContainer
+    //       backgroundColor={theme.colors.surfaceVariant}
+    //       height={250}
+    //       width={300}>
+    //       {billedSaleData?.map((item, i) => {
+    //         // console.log("billedSaleData - item.item_name", item.item_name)
+    //         // console.log("billedSaleData - item.qty", item.qty)
+    //         // console.log("billedSaleData - item.price", item.price)
+    //         netTotal += item.price * item.qty
+
+    //         // item?.discount_type === "P"
+    //         //   ? totalDiscount += item?.discount_amt
+    //         //   : totalDiscount += item?.discount_amt * item?.qty
+
+    //         // item?.discount_type === "P"
+    //         //   ? totalDiscount += item?.tdiscount_amt
+
+    //         //   : totalDiscount += item?.tdiscount_amt
+
+    //         totalDiscount = item?.tdiscount_amt
+    //         console.log(
+    //           "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
+    //           totalDiscount,
+    //         )
+    //         //@ts-ignore
+    //         // totalDiscount += item?.discount_amt
+    //         return (
+    //           <AddedProductList
+    //             disabled
+    //             itemName={item.item_name}
+    //             quantity={item.qty}
+    //             // unit={item.unit}
+    //             unitPrice={item.price}
+    //             discount={
+    //               item?.discount_flag === "Y" && item?.discount_position !== "B"
+    //                 ? item?.discount_type === "P"
+    //                   ? item?.dis_pertg
+    //                   : item?.discount_amt
+    //                 : 0
+    //             }
+    //             discountType={item?.discount_type}
+    //             gstFlag={item?.gst_flag}
+    //             key={i}
+    //           />
+    //         )
+    //       })}
+    //     </ScrollableListContainer>
+    //     <NetTotalForRePrints
+    //       width={300}
+    //       backgroundColor={theme.colors.primaryContainer}
+    //       textColor={theme.colors.onPrimaryContainer}
+    //       addedProductsList={billedSaleData}
+    //       netTotal={netTotal}
+    //       totalDiscount={totalDiscount}
+    //       disabled
+    //     />
+    //     <View style={{ paddingTop: normalize(10) }}>
+    //       <ButtonPaper icon="cancel" mode="contained-tonal" onPress={() => handleCancelBill(currentReceiptNo)} buttonColor={theme.colors.error} textColor={theme.colors.onError}>
+    //         CANCEL BILL
+    //       </ButtonPaper>
+    //     </View>
+    //     <View
+    //       style={{
+    //         justifyContent: "space-between",
+    //         flexDirection: "row",
+    //         paddingTop: 10,
+    //       }}>
+    //       <ButtonPaper
+    //         mode="text"
+    //         onPress={onDialogFailure}
+    //         textColor={theme.colors.error}>
+    //         Cancel
+    //       </ButtonPaper>
+    //       <ButtonPaper
+    //         mode="text"
+    //         onPress={onDialogSuccecss}
+    //         textColor={theme.colors.primary}>
+    //         Reprint
+    //       </ButtonPaper>
+    //     </View>
+    //   </DialogBoxForReprint> */}
+
+    //   <DialogBoxForReprint
+    //     iconSize={30}
+    //     visible={visible}
+    //     hide={hideDialog}
+    //     titleStyle={styles.title}
+
+    //     currentReceiptNo={currentReceiptNo}
+    //     billedSaleData={billedSaleData}
+    //     handleCancelBill={handleCancelBill}
+    //     cancelledBillStatus={cancelledBillStatus}
+
+    //     onDialogFailure={onDialogFailure}
+    //     onDialogSuccecss={onDialogSuccecss}
+    //     netTotalButtonColors={[theme.colors.primaryContainer, theme.colors.onPrimaryContainer]}
+    //   />
+
+    //   <DialogForBillsInCalculatorMode
+    //     visible={visible2}
+    //     hide={hideDialog2}
+
+    //     currentReceiptNumber={currentReceiptNo}
+    //     showCalculatedBillData={calculatorModeBillArray}
+
+    //     onDialogFailure={hideDialog2}
+    //     onDialogSuccecss={() => onDialogSuccecss(true)}
+    //   />
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+  <ScrollView>
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <HeaderImage
+        imgLight={textureBill}
+        imgDark={textureBillDark}
+        borderRadius={30}
+        blur={10}
+        isBackEnabled
       >
-        <View style={{ paddingBottom: 5 }}>
-          <Text
-            style={{ textAlign: "center", color: theme.colors.primary }}
-            variant="bodyLarge">
-            {currentReceiptNo}
-          </Text>
-          <Text
-            style={{ textAlign: "center", color: theme.colors.secondary }}
-            variant="bodyLarge">
-            {new Date(billedSaleData[0]?.created_dt).toLocaleString("en-GB")}
-          </Text>
-          <View
-            style={{
-              borderWidth: 1,
-              borderStyle: "dashed",
-              width: "80%",
-              borderColor: theme.colors.secondary,
-              alignSelf: "center",
-            }}></View>
-          {billedSaleData[0]?.cust_name && (
-            <Text
-              style={{ textAlign: "center", color: theme.colors.primary }}
-              variant="bodyLarge">
-              {billedSaleData[0]?.cust_name}
-            </Text>
-          )}
-          <Text
-            style={{ textAlign: "center", color: theme.colors.secondary }}
-            variant="bodyLarge">
-            {billedSaleData[0]?.phone_no}
-          </Text>
-          <Text
-            style={{ textAlign: "center", color: theme.colors.peach }}
-            variant="bodyLarge">
-            Payment Mode: {`[${billedSaleData[0]?.pay_mode === "C" ? "Cash" : billedSaleData[0]?.pay_mode === "D" ? "Card" : billedSaleData[0]?.pay_mode === "U" ? "UPI" : billedSaleData[0]?.pay_mode === "R" ? "Credit" : "Error!"}]`}
-          </Text>
-        </View>
-        <ScrollableListContainer
-          backgroundColor={theme.colors.surfaceVariant}
-          height={250}
-          width={300}>
-          {billedSaleData?.map((item, i) => {
-            // console.log("billedSaleData - item.item_name", item.item_name)
-            // console.log("billedSaleData - item.qty", item.qty)
-            // console.log("billedSaleData - item.price", item.price)
-            netTotal += item.price * item.qty
+        My Bills
+      </HeaderImage>
+    </View>
 
-            // item?.discount_type === "P"
-            //   ? totalDiscount += item?.discount_amt
-            //   : totalDiscount += item?.discount_amt * item?.qty
+    <View
+      style={{
+        padding: normalize(10),
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#f5f9ff",
+        borderRadius: normalize(8),
+        marginHorizontal: normalize(16),
+        marginBottom: normalize(16),
+        elevation: 1,
+      }}
+    >
+      <ButtonPaper
+        textColor={colorScheme === "dark" ? "#009698" : "#008181"}
+        onPress={() => setOpenFromDate(true)}
+        mode="text"
+      >
+        FROM: {fromDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+      <ButtonPaper
+        textColor={colorScheme === "dark" ? "#009698" : "#008181"}
+        onPress={() => setOpenToDate(true)}
+        mode="text"
+      >
+        TO: {toDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+    </View>
 
-            // item?.discount_type === "P"
-            //   ? totalDiscount += item?.tdiscount_amt
+    <DatePicker
+      modal
+      mode="date"
+      open={openFromDate}
+      date={fromDate}
+      onConfirm={date => {
+        setOpenFromDate(false);
+        setFromDate(date);
+      }}
+      onCancel={() => setOpenFromDate(false)}
+    />
+    <DatePicker
+      modal
+      mode="date"
+      open={openToDate}
+      date={toDate}
+      onConfirm={date => {
+        setOpenToDate(false);
+        setToDate(date);
+      }}
+      onCancel={() => setOpenToDate(false)}
+    />
 
-            //   : totalDiscount += item?.tdiscount_amt
+    <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(16) }}>
+      <ButtonPaper
+        onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)}
+        buttonColor={colorScheme === "dark" ? "#009698" : "#008181"}
+        textColor="white"
+        mode="contained-tonal"
+        loading={isLoading}
+        disabled={isDisabled}
+        style={{ borderRadius: normalize(8) }}
+      >
+        SUBMIT
+      </ButtonPaper>
+    </View>
 
-            totalDiscount = item?.tdiscount_amt
-            console.log(
-              "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
-              totalDiscount,
-            )
-            //@ts-ignore
-            // totalDiscount += item?.discount_amt
-            return (
-              <AddedProductList
-                disabled
-                itemName={item.item_name}
-                quantity={item.qty}
-                // unit={item.unit}
-                unitPrice={item.price}
-                discount={
-                  item?.discount_flag === "Y" && item?.discount_position !== "B"
-                    ? item?.discount_type === "P"
-                      ? item?.dis_pertg
-                      : item?.discount_amt
-                    : 0
-                }
-                discountType={item?.discount_type}
-                gstFlag={item?.gst_flag}
-                key={i}
-              />
-            )
-          })}
-        </ScrollableListContainer>
-        <NetTotalForRePrints
-          width={300}
-          backgroundColor={theme.colors.primaryContainer}
-          textColor={theme.colors.onPrimaryContainer}
-          addedProductsList={billedSaleData}
-          netTotal={netTotal}
-          totalDiscount={totalDiscount}
-          disabled
-        />
-        <View style={{ paddingTop: normalize(10) }}>
-          <ButtonPaper icon="cancel" mode="contained-tonal" onPress={() => handleCancelBill(currentReceiptNo)} buttonColor={theme.colors.error} textColor={theme.colors.onError}>
-            CANCEL BILL
-          </ButtonPaper>
-        </View>
-        <View
-          style={{
-            justifyContent: "space-between",
-            flexDirection: "row",
-            paddingTop: 10,
-          }}>
-          <ButtonPaper
-            mode="text"
-            onPress={onDialogFailure}
-            textColor={theme.colors.error}>
-            Cancel
-          </ButtonPaper>
-          <ButtonPaper
-            mode="text"
-            onPress={onDialogSuccecss}
-            textColor={theme.colors.primary}>
-            Reprint
-          </ButtonPaper>
-        </View>
-      </DialogBoxForReprint> */}
+    <View style={[styles.container1, { paddingHorizontal: normalize(16), paddingBottom: normalize(16) }]}>
+      {billsArray?.map((item, i) => {
+        const billNo = receiptSettings?.custom_sl_flag === 'N' ? item?.receipt_no : item?.rcpt_sl_no;
+        const dt = new Date(item.trn_date).toLocaleDateString();
+        return (
+          <Card
+            key={i}
+            style={[styles.card, { borderRadius: normalize(8), elevation: 1, backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#fff" }]}
+            onPress={() =>
+              loginStore?.mode !== 'C'
+                ? handleBillListClick(item?.receipt_no)
+                : handleBillListClickCalculatorMode(item?.receipt_no)
+            }
+          >
+            <List.Item
+              titleStyle={[styles.title1, { fontSize: normalize(16), fontWeight: '500' }]}
+              descriptionStyle={[styles.description, { fontSize: normalize(14), color: colorScheme === "dark" ? 'white' : 'gray'  }]}
+              title={`Bill ${billNo}`}
+              description={`₹${item?.net_amt}`}
+              left={props => <List.Icon {...props} icon="receipt" color={colorScheme === "dark" ? '#009698' : '#008181'} />}
+            />
+          </Card>
+        );
+      })}
+    </View>
+  </ScrollView>
 
-      <DialogBoxForReprint
-        iconSize={30}
-        visible={visible}
-        hide={hideDialog}
-        titleStyle={styles.title}
+  <DialogBoxForReprint
+    iconSize={30}
+    visible={visible}
+    hide={hideDialog}
+    titleStyle={styles.title}
+    currentReceiptNo={currentReceiptNo}
+    billedSaleData={billedSaleData}
+    handleCancelBill={handleCancelBill}
+    cancelledBillStatus={cancelledBillStatus}
+    onDialogFailure={onDialogFailure}
+    onDialogSuccecss={onDialogSuccecss}
+    netTotalButtonColors={[theme.colors.primaryContainer, theme.colors.onPrimaryContainer]}
+  />
 
-        currentReceiptNo={currentReceiptNo}
-        billedSaleData={billedSaleData}
-        handleCancelBill={handleCancelBill}
-        cancelledBillStatus={cancelledBillStatus}
+  <DialogForBillsInCalculatorMode
+    visible={visible2}
+    hide={hideDialog2}
+    currentReceiptNumber={currentReceiptNo}
+    showCalculatedBillData={calculatorModeBillArray}
+    onDialogFailure={hideDialog2}
+    onDialogSuccecss={() => onDialogSuccecss(true)}
+  />
+</SafeAreaView>
 
-        onDialogFailure={onDialogFailure}
-        onDialogSuccecss={onDialogSuccecss}
-        netTotalButtonColors={[theme.colors.primaryContainer, theme.colors.onPrimaryContainer]}
-      />
-
-      <DialogForBillsInCalculatorMode
-        visible={visible2}
-        hide={hideDialog2}
-
-        currentReceiptNumber={currentReceiptNo}
-        showCalculatedBillData={calculatorModeBillArray}
-
-        onDialogFailure={hideDialog2}
-        onDialogSuccecss={() => onDialogSuccecss(true)}
-      />
-    </SafeAreaView>
   )
 }
 
@@ -516,5 +678,27 @@ const styles = StyleSheet.create({
 
   title: {
     textAlign: "center",
+  },
+  container1: {
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  card: {
+    marginBottom: 8,
+    borderRadius: 8,
+    elevation: 2,          // for Android shadow
+    shadowColor: '#000',   // for iOS shadow
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    backgroundColor: 'white',
+  },
+  title1: {
+    color: '#008181',
+    fontWeight: '800',
+  },
+  description: {
+    color: '#6d6eacff',
   },
 })

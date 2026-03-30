@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image'
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon"
 import { BASE_URL, BASE_URL_CATEGORY_IMG } from "../config/config"
 import { Image } from 'react-native';
+import { home_flower_dark } from '../resources/images/home_flower_dark.png'
 type CategoryButtonProps = {
   text: string
   onPress?: () => void
@@ -26,46 +27,52 @@ export default function CategoryButton({
   imageSourceObject,
   onPress,
 }: PropsWithChildren<CategoryButtonProps>) {
-  console.log("RRRRRRRRRRRRRRRRRRRRRRRRR", )
+  console.log("RRRRRRRRRRRRRRRRRRRRRRRRR",)
   return (
-    
+
     <TouchableRipple
       onPress={onPress}
       style={{
         width: "45%",
         // maxWidth: "48%",
         height: 75,
-        flexDirection:"row",
+        flexDirection: "row",
         justifyContent: "center",
-        flexWrap:"wrap",
+        flexWrap: "wrap",
         alignItems: "center",
-        borderRadius: 8,
         backgroundColor: color,
         elevation: 2,
-        paddingVertical:25,
-        marginVertical:5,
-        borderBottomColor: "#f0f0f0",
-        borderBottomWidth: 1,
-        paddingHorizontal: 10,
-      }}>
-      <>
-        {/* {
-          imageSource
-            ? 
-            <FastImage
-              source={{
-                uri: `${BASE_URL_CATEGORY_IMG}${imageSource}`,
-                priority: FastImage.priority.high,
-                cache: FastImage.cacheControl.immutable
-              }}
-              style={{ width: 30, height: 30, backgroundColor: "#f5f9ff", borderRadius: 25, marginRight: 10 }}
-            />
+        // paddingVertical: 8,
+        marginVertical: 5,
+        // borderBottomColor: "#f0f0f0",
+        // borderBottomWidth: 1,
+        // paddingHorizontal: 10,
+        shadowColor: '#008181',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        borderRadius: 14,
+        transform: [{ scale: 1 }],
 
-            : ""
-              // <IconButton icon={icon} iconColor={textColor} containerColor={"#f5f9ff"} />
-        } */}
-        <Text style={{ textAlign: "center", color: textColor, fontWeight:'800' }}>{text}</Text>
-      </>
+
+      }}
+
+
+    >
+      <ImageBackground
+        source={imageSource ? { uri: `${BASE_URL_CATEGORY_IMG}${imageSource}` } : require(`../resources/images/home_flower_dark.webp`)}
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 14,
+          height: '100%',
+          width:'100%'
+        }}
+        imageStyle={{ borderRadius: 12 }}
+      >
+        <Text style={imageSource ? { textAlign: "center", color: 'white', fontWeight: '800' } : { textAlign: "center", color: 'white', fontWeight: '800' }}>{text}</Text>
+      </ImageBackground>
     </TouchableRipple>
     // </ImageBackground>
   )

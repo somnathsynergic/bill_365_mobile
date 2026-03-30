@@ -9,6 +9,7 @@ type SquircleBoxProps = {
   textColor: string
   height?: number | "auto"
   width?: number
+  padding?:number
 }
 
 const SquircleBox = ({
@@ -16,6 +17,7 @@ const SquircleBox = ({
   textColor,
   width = 295,
   height = "auto",
+  padding,
   children,
 }: PropsWithChildren<SquircleBoxProps>) => {
   const theme = usePaperColorScheme()
@@ -28,15 +30,15 @@ const SquircleBox = ({
         backgroundColor: backgroundColor,
         alignSelf: "center",
         borderRadius: normalize(20),
-        borderWidth: 2,
+        // borderWidth: 2,
         borderColor: theme.colors.onSurface,
-        borderStyle: "dashed",
-        padding: normalize(20),
+        // borderStyle: "dashed",
+        padding: padding ||normalize(20),
         justifyContent: "center",
         alignItems: "center",
       }}>
       <Text
-        style={{ color: textColor, textAlign: "center", fontWeight: "700" }}
+        style={{fontSize: normalize(18),color: textColor, textAlign: "center", fontWeight: "700" }}
         variant="bodyLarge">
         {children}
       </Text>

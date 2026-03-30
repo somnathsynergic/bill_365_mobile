@@ -13,13 +13,14 @@ import { getMessaging, onMessage, requestPermission } from '@react-native-fireba
 import messaging from '@react-native-firebase/messaging';
 import { useEffect } from "react"
 import { SCREEN_WIDTH } from "react-native-normalize"
+import { useColorScheme } from "react-native"
 const Tab = createMaterialBottomTabNavigator()
 
 function BottomNavigationPaper() {
   const theme = usePaperColorScheme()
   const currentRoute = useCurrentRouteName()
   const loginStore = JSON.parse(loginStorage.getString("login-data")) as LoginDataMessage
-
+  const colorScheme = useColorScheme()
   console.log("CURRNT ROUTE: ", currentRoute)
 
   const shouldHideTabBar = ["BottomNavigationPaper", "Home", "HomeScreen", "More", "MoreScreen", "Reports", "ReportsScreen", "Settings", "SettingsScreen", "CalculateMode", "CalculateModeScreen"].includes(currentRoute)
@@ -38,14 +39,14 @@ function BottomNavigationPaper() {
       theme={theme}
       initialRouteName="Home"
       // activeColor={theme.colors.primary}
-      activeColor={"#404198"}
-      inactiveColor={theme.colors.onSurface}
+      activeColor={colorScheme === "dark" ? "white" : "#008181"}
+      inactiveColor={colorScheme === "dark" ? "white" :theme.colors.onSurface}
       barStyle={{
         // backgroundColor: theme.colors.surface,
-        backgroundColor: theme.colors.surface,
-        borderTopWidth: 0.4,
+        backgroundColor: colorScheme === "dark" ? "#2e2929ff" : theme.colors.surface,
+        // borderTopWidth: 0.4,
         borderColor: theme.colors.secondaryContainer,
-        // borderColor: '#404198',
+        // borderColor: '#008181',
         display: shouldHideTabBar ? "flex" : "none",
         shadowColor: '#000',
         shadowOffset: { width: 1, height: 1 },
@@ -54,7 +55,7 @@ function BottomNavigationPaper() {
         elevation: 5,
         // width:SCREEN_WIDTH/1.1,
         // marginHorizontal:20,
-        marginBottom:5,
+        // marginBottom:5,
         borderRadius:100
 
       }}

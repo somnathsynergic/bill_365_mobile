@@ -4,6 +4,7 @@ import {
   StyleSheet,
   PixelRatio,
   ToastAndroid,
+  useColorScheme,
 } from "react-native"
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -30,7 +31,7 @@ import {
 } from "../models/api_types"
 import { Checkbox } from 'react-native-paper';
 import { loginStorage } from "../storage/appStorage"
-import { useIsFocused } from "@react-navigation/native"
+import { CommonActions, useIsFocused, useNavigation, useRoute } from "@react-navigation/native"
 import useEditItem from "../hooks/api/useEditItem"
 import { AppStore } from "../context/AppContext"
 import AnimatedFABPaper from "../components/AnimatedFABPaper"
@@ -42,13 +43,18 @@ import { SegmentedButtons } from 'react-native-paper';
 import { TouchableOpacity } from "react-native-gesture-handler"
 import ButtonPaper from "../components/ButtonPaper"
 import DatePicker from "react-native-date-picker"
+import navigationRoutes from "../routes/navigationRoutes"
+import { CameraScreenRouteProp } from "../models/route_types"
 export default function ManageProductsScreen() {
   const theme = usePaperColorScheme()
+  const colorScheme = useColorScheme()
   const isFocused = useIsFocused()
   const [value, setValue] = useState('1');
   const { items, handleGetItems, units, handleGetUnits, categories, handleGetCategories, receiptSettings } =
     useContext<AppStoreContext>(AppStore)
   const [value_pp, setValue_pp] = React.useState('1');
+  const { params } = useRoute<CameraScreenRouteProp>()
+
   const [value_sp, setValue_sp] = React.useState('1');
   const [value_disc, setValue_disc] = React.useState('1');
   const refRBSheet = useRef<any>(null);
@@ -133,6 +139,7 @@ export default function ManageProductsScreen() {
   const [exlusive_gst_pp, setExclusive_gst_pp] = useState(0)
   const [exlusive_gst_sp, setExclusive_gst_sp] = useState(0)
   const [isGstVisible,setIsGstVisible] =  useState(false)
+  const navigation = useNavigation()
   let unitMenuArr = []
   for (const unit of units) {
     unitMenuArr.push({
@@ -144,6 +151,19 @@ export default function ManageProductsScreen() {
     console.log('receiptsettings', receiptSettings)
     setDiscountFlag(receiptSettings?.discount_flag === 'Y' ? true : false)
   }, [])
+
+  useEffect(() => {
+    console.log('focused=========================')
+    if (isFocused) {
+      if (params?.navigatedFromCamera === true) {
+        console.log("PARAMS IN MANAGE PRODUCTS SCREEN: ", params)
+        // openModalWithHelpOfBarcodeScan(params?.barcode).then(() => {
+        //   navigation.dispatch(CommonActions.setParams({ navigatedFromCamera: false }))
+        // })
+        setBarcode(params?.barcode)
+      }
+    }
+  }, [isFocused])
   let categoryMenuArr = []
   for (const category of categories) {
     categoryMenuArr.push({
@@ -231,7 +251,7 @@ export default function ManageProductsScreen() {
     let editedItemObject: ItemEditRequestCredentials = {
       comp_id: +loginStore?.comp_id,
       item_id: +product?.item_id,
-      price: price,
+      price: +sale_price,
       discount: discount,
       cgst: CGST,
       sgst: SGST,
@@ -343,7 +363,7 @@ export default function ManageProductsScreen() {
       unit_id: +unitId || 0,
       catg_id: +categoryId,
       created_by: loginStore?.user_id,
-      price: price,
+      price: +sale_price,
       cgst: CGST,
       sgst: CGST,
       barcode: barcode,
@@ -351,14 +371,16 @@ export default function ManageProductsScreen() {
       sale_price: +sale_price,
       opening_stock: +opening_stock,
       batch_no: batch_no,
-      expiry_dt: new Date(toDate),
+      // expiry_dt: new Date(toDate).toString().slice(0, 10),
+      expiry_dt: new Date(toDate).getFullYear()+ '-'+  (new Date(toDate).getMonth() + 1) + "-" +new Date(toDate).getDate(),
       description: desc,
       alert: checked ? 'Y' : 'N',
       sp_gst_flag: value_sp == '0' ? 'N' : 'Y',
       pp_gst_flag: value_pp == '0' ? 'N' : 'Y',
       disc_prtg_flag: value_disc == '0' ? 'N' : 'Y',
-      as_on_dt: new Date(as_on),
-      mfg_dt: new Date(mfg_date),
+      as_on_dt: new Date(as_on).getFullYear()+"-"+(new Date(as_on).getMonth() + 1) + "-"  + new Date(as_on).getDate()  ,
+      // mfg_dt: new Date(mfg_date).toString().slice(0, 10),
+      mfg_dt: new Date(mfg_date).getFullYear()+"-"+ (new Date(mfg_date).getMonth() + 1) + "-" + new Date(mfg_date).getDate() ,
       low_stock_qty: +low_qty,
       batchwise_flag: isEnabled ? 'Y' : 'N',
     }
@@ -423,7 +445,6 @@ export default function ManageProductsScreen() {
         setLoading(false)
         console.log('=============errors===============',err.response.data)
         ToastAndroid.show(err, ToastAndroid.SHORT)
-        // console.log("########################", addedProductObject)
       })
   }
   // useEffect(() => {
@@ -493,8 +514,8 @@ export default function ManageProductsScreen() {
           <Button
             key={opt.val}
             style={[
-              styles.btn,
-              selected === opt.val ? styles.btnSelected : styles.btnUnselected
+              colorScheme === 'dark' ? styles.btnDark : styles.btn,
+              selected === opt.val ? colorScheme === 'dark' ? styles.btnSelectedDark : styles.btnSelected : colorScheme === 'dark' ? styles.btnUnselectedDark : styles.btnUnselected
             ]}
             onPress={() => {
               console.log(opt); setSelected(opt.val);
@@ -519,7 +540,7 @@ export default function ManageProductsScreen() {
               setVisible(!visible)
             }}
           >
-            <Text style={selected === opt.val ? styles.textSelected : styles.textUnselected}>
+            <Text style={selected === opt.val ? colorScheme === 'dark' ? styles.textSelectedDark : styles.textSelected : colorScheme === 'dark' ? styles.textUnselectedDark : styles.textUnselected}>
               {opt.name}
             </Text>
           </Button>
@@ -535,7 +556,7 @@ export default function ManageProductsScreen() {
               color: "white",
               shadowColor: '#d0e1fd',
               borderColor: '#d0e1fd',
-              backgroundColor: '#dce7f8ff',
+              backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff',
               shadowOffset: { width: 1, height: 1 },
               shadowOpacity: 0.4,
               shadowRadius: 3,
@@ -554,7 +575,7 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
             {search && visible && (
               <ScrollableListContainer
-                backgroundColor={'##f5f9ff'}>
+                backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}>
                 {filteredItems.map(item => (
                   <ProductListSuggestion
                     key={item.id}
@@ -608,7 +629,10 @@ export default function ManageProductsScreen() {
                 <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
                   {unitName && visibleUnitList && (
                     <ScrollableListContainer
-                      backgroundColor={'##f5f9ff'}>
+                                          backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+
+                      
+                      >
                       {units.filter(i => i.unit_name.toLowerCase().includes(unitName?.toLowerCase())).map(item => (
                         <ProductListSuggestion
                           key={item.sl_no}
@@ -635,7 +659,7 @@ export default function ManageProductsScreen() {
               <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 999, elevation: 999 }}>
                 {categoryName && visibleCatList && (
                   <ScrollableListContainer
-                    backgroundColor={'##f5f9ff'}
+                    backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
                   >
                     {categories.filter(i => i.category_name.toLowerCase().includes(categoryName?.toLowerCase())).map(item => (
                       <ProductListSuggestion
@@ -649,9 +673,9 @@ export default function ManageProductsScreen() {
                 )}
 
               </View>
-             <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
+             {/* <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
             <Switch
-              trackColor={{ false: '#767577', true: '#404198' }}
+              trackColor={{ false: '#767577', true: '#008181' }}
               thumbColor={isEnabled ? '#4042198' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
@@ -659,14 +683,25 @@ export default function ManageProductsScreen() {
             />
             <Text style={{ color: '#89898bff', fontWeight: '800' }}>Batchwise Entry</Text>
 
-          </View>
+          </View> */}
+              <View style={[styles.formElem]}
+              >
+                <InputPaper
+                  label="Bar Code"
+                  onChangeText={(txt: string) => setBarcode(txt)}
+                  value={barcode}
+                  keyboardType="default"
+                  mode="outlined"
+                  maxLength={30}
+                />
+              </View>
               <View style={styles.container}>
                 {subOptionsEdit.map(opt => (
                   <Button
                     key={opt.val}
                     style={[
-                      styles.btnSub,
-                      selectedSub === opt.val ? styles.btnSelectedSub : styles.btnUnselectedSub
+                      colorScheme === 'dark' ? styles.btnSubDark : styles.btnSub,
+                      selectedSub === opt.val ? colorScheme === 'dark' ? styles.btnSelectedSubDark : styles.btnSelectedSub : colorScheme === 'dark' ? styles.btnUnselectedSubDark : styles.btnUnselectedSub
                     ]}
                     onPress={() => {
                       console.log(opt); setSelectedSub(opt.val);
@@ -687,7 +722,7 @@ export default function ManageProductsScreen() {
                       // setVisible(!visible)
                     }}
                   >
-                    <Text style={selectedSub === opt.val ? styles.textSelectedSub : styles.textUnselectedSub}>
+                    <Text style={selectedSub === opt.val ? colorScheme=== 'dark' ? styles.textSelectedDark : styles.textSelectedSub : colorScheme === 'dark' ?styles.textSelectedDark:styles.textUnselectedSub}>
                       {opt.name}
                     </Text>
                   </Button>
@@ -708,7 +743,7 @@ export default function ManageProductsScreen() {
               {selectedSub == 1 && <View style={[styles.formElem]}>
                
 
-                <ButtonPaper buttonColor="#404198" onPress={() => setOpenToDate(true)} mode="contained">
+                <ButtonPaper buttonColor="#008181" onPress={() => setOpenToDate(true)} mode="contained">
                   Expiry Date : {toDate?.toLocaleDateString("en-GB")}
                 </ButtonPaper>
                 <DatePicker
@@ -733,17 +768,7 @@ export default function ManageProductsScreen() {
                   mode="outlined"
                 />
               </View>} */}
-              {selectedSub == 2 && <View style={[styles.formElem]}
-              >
-                <InputPaper
-                  label="Bar Code"
-                  onChangeText={(txt: string) => setBarcode(txt)}
-                  value={barcode}
-                  keyboardType="default"
-                  mode="outlined"
-                  maxLength={30}
-                />
-              </View>}
+         
               {selectedSub == 0 && <View style={[styles.formElem, styles.row]}
               >
                 <InputPaper
@@ -755,7 +780,7 @@ export default function ManageProductsScreen() {
                   mode="outlined"
                   maxLength={30}
                 />
-                <ButtonPaper style={styles.button} buttonColor="#acadc0ff" onPress={() => setVisible_pp(true)} mode="contained">
+                <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_pp(true)} mode="contained">
                   {value_pp == '0' ? 'Without GST' : "With GST"}
                 </ButtonPaper>
               </View>}
@@ -770,7 +795,7 @@ export default function ManageProductsScreen() {
                   mode="outlined"
                   maxLength={30}
                 />
-                <ButtonPaper style={styles.button} buttonColor="#acadc0ff" onPress={() => setVisible_sp(true)} mode="contained">
+                <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_sp(true)} mode="contained">
                   {value_sp == '0' ? 'Without GST' : "With GST"}
                 </ButtonPaper>
               </View>}
@@ -788,7 +813,7 @@ export default function ManageProductsScreen() {
                     { title: "18%", func: () => setCGST(18) },
                     { title: "40%", func: () => setCGST(40) },
                   ]}
-                  customStyle={{ borderRadius: 4, backgroundColor: '#404198' }}
+                  customStyle={{ borderRadius: 4, backgroundColor: '#008181' }}
                   textColor={'#ffffff'}
                   mode="contained"
                 /> */}
@@ -805,7 +830,9 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
             {+CGST > 0 && isGstVisible && (
               <ScrollableListContainer
-                backgroundColor={'##f5f9ff'}>
+                                    backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+
+                >
                 {menuGstArr.filter(i => i.title.toLowerCase().includes(CGST.toString()?.toLowerCase())).map(item => (
                   <ProductListSuggestion
                     key={item.val}
@@ -818,7 +845,7 @@ export default function ManageProductsScreen() {
               </ScrollableListContainer>
             )}
               </View>
-                        {selectedSub == 0 && <View style={[styles.formElem]}
+                        {selectedSub == 2 && <View style={[styles.formElem]}
           >
             <InputPaper
               selectTextOnFocus
@@ -866,6 +893,7 @@ export default function ManageProductsScreen() {
 
               {selectedSub == 1 &&
                 <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }]}>
+                  
                   <Switch
                     trackColor={{ false: '#767577', true: '#81b0ff' }}
                     thumbColor={checked ? '#f5dd4b' : '#f4f3f4'}
@@ -873,8 +901,8 @@ export default function ManageProductsScreen() {
                     onValueChange={toggleStockAlert}
                     value={checked}
                   />
-                  <Text style={{ color: '#404198', fontWeight: '800' }}>Low Stock Alert</Text>
-
+                  <Text style={{ color: '#008181', fontWeight: '800' }}>Low Stock Alert</Text>
+                
                 </View>
 
               }
@@ -887,6 +915,35 @@ export default function ManageProductsScreen() {
 
         </View>
         }
+        {selected == 0 &&
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, marginTop: 10 }}>
+         <View style={{width:'100%'}}
+          >
+            <InputPaper
+              label="Bar Code"
+              onChangeText={(txt: string) => setBarcode(txt)}
+              value={barcode}
+              keyboardType="default"
+              mode="outlined"
+              maxLength={30}
+            />
+          </View>
+        <ButtonPaper
+              // textColor={btnIdentifier === "U" ? '#008181' : "white"}
+              icon={"barcode-scan"}
+              onPress={() =>  navigation.dispatch(CommonActions.navigate(navigationRoutes.cameraScreen,{params:{from:1}}))}
+              mode="text"
+              buttonColor="transparent"
+              textColor="#008181"
+              style={{width:'8%',height:'20%',borderRadius:0, marginLeft:-SCREEN_WIDTH/6,justifyContent:'center',alignItems:'center'}}
+              
+              
+              // buttonColor={btnIdentifier === "U" ? "white" : "transparent"}
+            >
+              {/* User Profile */}
+              {/* Hello */}
+            </ButtonPaper>
+             </View>}
         {selected == 0 && <View >
 
           <View style={[styles.formElem]}>
@@ -917,7 +974,8 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
             {unitName && visibleUnitList && (
               <ScrollableListContainer
-                backgroundColor={'##f5f9ff'}>
+                backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+                >
                 {units.filter(i => i.unit_name.toLowerCase().includes(unitName?.toLowerCase())).map(item => (
                   <ProductListSuggestion
                     key={item.sl_no}
@@ -936,7 +994,7 @@ export default function ManageProductsScreen() {
             {/* <MenuPaper
               title={categoryName || "Category"}
               menuArrOfObjects={categoryMenuArr}
-              customStyle={{ borderRadius: 4, backgroundColor: '#404198' }}
+              customStyle={{ borderRadius: 4, backgroundColor: '#008181' }}
               textColor={'#ffffff'}
               mode="contained"
             /> */}
@@ -952,7 +1010,8 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 999, elevation: 999 }}>
             {categoryName && visibleCatList && (
               <ScrollableListContainer
-                backgroundColor={'##f5f9ff'}
+                                   backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+
               >
                 {categories.filter(i => i.category_name.toLowerCase().includes(categoryName?.toLowerCase())).map(item => (
                   <ProductListSuggestion
@@ -965,9 +1024,10 @@ export default function ManageProductsScreen() {
               </ScrollableListContainer>
             )}
           </View>
-          <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
+          
+          {/* <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
             <Switch
-              trackColor={{ false: '#767577', true: '#404198' }}
+              trackColor={{ false: '#767577', true: '#008181' }}
               thumbColor={isEnabled ? '#4042198' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
@@ -975,43 +1035,32 @@ export default function ManageProductsScreen() {
             />
             <Text style={{ color: '#89898bff', fontWeight: '800' }}>Batchwise Entry</Text>
 
-          </View>
+          </View> */}
           <View style={styles.container}>
             {subOptions.map(opt => (
               <Button
                 key={opt.val}
                 style={[
-                  styles.btnSub,
-                  selectedSub === opt.val ? styles.btnSelectedSub : styles.btnUnselectedSub
+                  colorScheme === 'dark' ? styles.btnSubDark : styles.btnSub,
+                  selectedSub === opt.val ? colorScheme === 'dark' ? styles.btnSelectedSubDark : styles.btnSelectedSub : colorScheme === 'dark' ? styles.btnUnselectedSubDark : styles.btnUnselectedSub
                 ]}
                 onPress={() => {
                   console.log(opt); setSelectedSub(opt.val);
 
                 }}
               >
-                <Text style={selectedSub === opt.val ? styles.textSelectedSub : styles.textUnselectedSub}>
+                <Text style={selectedSub === opt.val ? colorScheme === 'dark' ? styles.textSelectedDark : styles.textSelectedSub : colorScheme === 'dark' ? styles.textUnselectedDark : styles.textUnselectedSub}>
                   {opt.name}
                 </Text>
               </Button>
             ))}
           </View>
-          {/* {selectedSub == 0 && <View style={[styles.formElem]}>
-            <InputPaper
-              label="M.R.P."
-              onChangeText={(txt: number) => setPrice(txt)}
-              value={price}
-              keyboardType="numeric"
-              mode="outlined"
-              customStyle={styles.input}
-            />
-
-
-          </View>} */}
+        
           {selectedSub == 1 &&
             <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }]}>
 
               <Switch
-                trackColor={{ false: '#767577', true: '#404198' }}
+                trackColor={{ false: '#767577', true: '#008181' }}
                 thumbColor={checked ? '#4042198' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleStockAlert}
@@ -1033,7 +1082,10 @@ export default function ManageProductsScreen() {
             />
           </View>}
           {/* <View style={{ flexDirection: 'row', width: SCREEN_WIDTH / 1.2, gap: 0 }}> */}
+           
             {selectedSub == 1 && <View style={[styles.formElem]}>
+             
+             
               <InputPaper
                 label="Opening Stock"
                 onChangeText={(txt: number) => setOpeningStock(txt)}
@@ -1046,12 +1098,12 @@ export default function ManageProductsScreen() {
 
             {selectedSub == 1 && isEnabled && <View style={[styles.formElem]}>
 
-              <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#404198" onPress={() => setOpenToDate(true)} mode="outlined">
+              <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#008181" onPress={() => setOpenToDate(true)} mode="outlined">
                 As On : {toDate?.toLocaleDateString("en-GB")}
               </ButtonPaper>
               <DatePicker
                 modal
-                textColor="#404198"
+                textColor="#008181"
                 minimumDate={toDate}
                 mode="date"
                 open={openToDate}
@@ -1079,15 +1131,15 @@ export default function ManageProductsScreen() {
 
           </View>}
 
-          {isEnabled && <View style={{ flexDirection: 'row', width: SCREEN_WIDTH / 1.2 }}>
+          <View style={{ flexDirection: 'row', width: SCREEN_WIDTH / 1.2 }}>
             {selectedSub == 1 && <View style={[styles.formElem, { width: '50%' }]}>
 
-              <ButtonPaper buttonColor="white" style={{ borderRadius: 0, }} textColor="#404198" onPress={() => setOpenMfgDate(true)} mode="outlined">
-               <Text style={{ fontSize: 10,color:'#404198' }}>Mfg. Date : {mfg_date?.toLocaleDateString("en-GB")}</Text> 
+              <ButtonPaper buttonColor="white" style={{ borderRadius: 0, }} textColor="#008181" onPress={() => setOpenMfgDate(true)} mode="outlined">
+               <Text style={{ fontSize: 10,color:'#008181' }}>Mfg. Date : {mfg_date?.toLocaleDateString("en-GB")}</Text> 
               </ButtonPaper>
               <DatePicker
                 modal
-                textColor="#404198"
+                textColor="#008181"
                 minimumDate={mfg_date}
                 mode="date"
                 open={openMfgDate}
@@ -1102,12 +1154,12 @@ export default function ManageProductsScreen() {
             </View>}
             {selectedSub == 1 && <View style={[styles.formElem, { width: '50%' }]}>
 
-              <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#404198" onPress={() => setOpenExp(true)} mode="outlined">
-               <Text style={{ fontSize: 8,color:'#404198' }}> Expiry Date : {expiry_date?.toLocaleDateString("en-GB")} </Text>
+              <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#008181" onPress={() => setOpenExp(true)} mode="outlined">
+               <Text style={{ fontSize: 8,color:'#008181' }}> Expiry Date : {expiry_date?.toLocaleDateString("en-GB")} </Text>
               </ButtonPaper>
               <DatePicker
                 modal
-                textColor="#404198"
+                textColor="#008181"
                 minimumDate={toDate}
                 mode="date"
                 open={openExp}
@@ -1121,19 +1173,9 @@ export default function ManageProductsScreen() {
               />
             </View>}
 
-          </View>}
-          {selectedSub == 2 && <View style={[styles.formElem]}
-          >
-            <InputPaper
-              label="Bar Code"
-              onChangeText={(txt: string) => setBarcode(txt)}
-              value={barcode}
-              keyboardType="default"
-              mode="outlined"
-              maxLength={30}
-            />
-          </View>}
-
+          </View>
+        
+ 
           {selectedSub == 0 && <View style={[styles.formElem, styles.row]}
           >
             <InputPaper
@@ -1145,7 +1187,7 @@ export default function ManageProductsScreen() {
               maxLength={30}
               customStyle={styles.input}
             />
-            <ButtonPaper style={styles.button} buttonColor="#acadc0ff" onPress={() => setVisible_pp(true)} mode="contained">
+            <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_pp(true)} mode="contained">
               {value_pp == '0' ? 'Without GST' : "With GST"}
             </ButtonPaper>
           </View>}
@@ -1168,9 +1210,22 @@ export default function ManageProductsScreen() {
               maxLength={30}
               customStyle={styles.input}
             />
-            <ButtonPaper style={styles.button} buttonColor="#acadc0ff" onPress={() => setVisible_sp(true)} mode="contained">
+            <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_sp(true)} mode="contained">
               {value_sp == '0' ? 'Without GST' : "With GST"}
             </ButtonPaper>
+          </View>}
+           {selectedSub == 2 && <View style={[styles.formElem]}
+          >
+            <InputPaper
+              selectTextOnFocus
+              label="HSN Code"
+              onChangeText={(txt: string) => setHsnCode(txt)}
+              value={hsnCode}
+              keyboardType="numeric"
+              mode="outlined"
+              maxLength={6}
+
+            />
           </View>}
           {selectedSub == 2 && <View style={[styles.formElem]}
           >
@@ -1198,7 +1253,7 @@ export default function ManageProductsScreen() {
                 { title: "18%", func: () => setCGST(18) },
                 { title: "40%", func: () => setCGST(40) },
               ]}
-              customStyle={{ borderRadius: 4, backgroundColor: '#404198' }}
+              customStyle={{ borderRadius: 4, backgroundColor: '#008181' }}
               textColor={'#ffffff'}
               mode="outlined"
             /> */}
@@ -1215,7 +1270,10 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
             {+CGST > 0 && isGstVisible && (
               <ScrollableListContainer
-                backgroundColor={'##f5f9ff'}>
+                                 backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+
+                
+                >
                 {menuGstArr.filter(i => i.title.toLowerCase().includes(CGST.toString()?.toLowerCase())).map(item => (
                   <ProductListSuggestion
                     key={item.val}
@@ -1248,19 +1306,7 @@ export default function ManageProductsScreen() {
 
 
 
-          {selectedSub == 0 && <View style={[styles.formElem]}
-          >
-            <InputPaper
-              selectTextOnFocus
-              label="HSN Code"
-              onChangeText={(txt: string) => setHsnCode(txt)}
-              value={hsnCode}
-              keyboardType="numeric"
-              mode="outlined"
-              maxLength={6}
-
-            />
-          </View>}
+         
 
 
 
@@ -1276,7 +1322,7 @@ export default function ManageProductsScreen() {
                 { title: "40%", func: () => setSGST(40) },
               ]}
               customStyle={{ borderRadius: 4 }}
-              textColor={'#404198'}
+              textColor={'#008181'}
               mode="outlined"
             />
           </View> */}
@@ -1303,12 +1349,12 @@ export default function ManageProductsScreen() {
         <Dialog style={{ borderRadius: 0, backgroundColor: 'white', padding: 30 }} visible={visible_sp} onDismiss={hideDialog_sp}>
           <RadioButton.Group onValueChange={newValue => { setValue_sp(newValue); hideDialog_sp() }} value={value_sp}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <RadioButton color="#404198" value="1" />
+              <RadioButton color="#008181" value="1" />
               <Text>With GST</Text>
 
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <RadioButton color="#404198" value="0" />
+              <RadioButton color="#008181" value="0" />
               <Text>Without GST</Text>
 
             </View>
@@ -1323,12 +1369,12 @@ export default function ManageProductsScreen() {
         <Dialog style={{ borderRadius: 0, backgroundColor: 'white', padding: 30 }} visible={visible_pp} onDismiss={hideDialog_pp}>
           <RadioButton.Group onValueChange={newValue => { setValue_pp(newValue); hideDialog_pp() }} value={value_pp}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <RadioButton color="#404198" value="1" />
+              <RadioButton color="#008181" value="1" />
               <Text>With GST</Text>
 
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <RadioButton color="#404198" value="0" />
+              <RadioButton color="#008181" value="0" />
               <Text>Without GST</Text>
 
             </View>
@@ -1343,12 +1389,12 @@ export default function ManageProductsScreen() {
         <Dialog style={{ borderRadius: 0, backgroundColor: 'white', padding: 30 }} visible={visible_disc} onDismiss={hideDialog_disc}>
           <RadioButton.Group onValueChange={newValue => { setValue_disc(newValue); hideDialog_disc() }} value={value_disc}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <RadioButton color="#404198" value="0" />
+              <RadioButton color="#008181" value="0" />
               <Text>%</Text>
 
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-              <RadioButton color="#404198" value="1" />
+              <RadioButton color="#008181" value="1" />
               <Text>₹</Text>
 
             </View>
@@ -1378,18 +1424,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 2, elevation: 2
   },
   btn: { borderRadius: 0, padding: 1, marginBottom: 5, width: SCREEN_WIDTH / 2.1, justifyContent: 'center', alignItems: 'center' },
-  btnSelected: { color: '#404198', backgroundColor: "#f5f9ff", borderColor: '#404198', borderBottomColor: '#404198', borderBottomWidth: 2 },
+  btnSelected: { color: '#008181', backgroundColor: "#f5f9ff", borderColor: '#008181', borderBottomColor: '#008181', borderBottomWidth: 2 },
   btnUnselected: { backgroundColor: '#ffff', color: 'gray', borderBottomWidth: 2, borderBottomColor: 'gray' },
-  textSelected: { color: '#404198', fontWeight: '800' },
+  textSelected: { color: '#008181', fontWeight: '800' },
   textUnselected: { color: 'gray', fontWeight: '200' },
 
-  textSelectedSub: { color: '#404198', fontWeight: '800' },
+  btnDark: { borderRadius: 0, padding: 1, marginBottom: 5, width: SCREEN_WIDTH / 2.1, justifyContent: 'center', alignItems: 'center' },
+  btnSelectedDark: { color: '#f5f9ff', backgroundColor: "#009689", borderColor: '#ffcd04', borderBottomColor: '#ffcd04', borderBottomWidth: 2 },
+  btnUnselectedDark: { backgroundColor: '#2e2929ff', color: '#008181', borderBottomWidth: 2, borderBottomColor: '#008181' },
+  textSelectedDark: { color: '#f5f9ff', fontWeight: '800' },
+  textUnselectedDark: { color: 'gray', fontWeight: '200' },
+
+  textSelectedSub: { color: '#008181', fontWeight: '800' },
   textUnselectedSub: { color: 'gray', fontWeight: '200' },
   formElem: {
     marginVertical: 12,
     marginHorizontal: 15
   },
-  submitBtn: { borderRadius: 0, backgroundColor: '#4DAA57', color: '#fff', width: '50%' },
+  submitBtn: { borderRadius: 0, backgroundColor: '#008181', color: '#fff', width: '50%' },
 
   content: { flex: 1, padding: 16, backgroundColor: 'white' },
   containerSub: {
@@ -1397,9 +1449,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 2, elevation: 2,
   },
   btnSub: { borderRadius: 0, padding: 1, marginBottom: 5, marginTop: 5, width: SCREEN_WIDTH / 3.37, justifyContent: 'center', alignItems: 'center' },
-  btnSelectedSub: { color: '#404198', backgroundColor: "#f5f9ff", borderColor: '#404198', borderBottomColor: '#404198', borderBottomWidth: 2 },
+  btnSelectedSub: { color: '#008181', backgroundColor: "#f5f9ff", borderColor: '#008181', borderBottomColor: '#008181', borderBottomWidth: 2 },
   btnUnselectedSub: { backgroundColor: '#ffff', color: 'gray', borderBottomWidth: 2, borderBottomColor: 'gray' },
 
+  btnSubDark: { borderRadius: 0, padding: 1, marginBottom: 5, marginTop: 5, width: SCREEN_WIDTH / 3.37, justifyContent: 'center', alignItems: 'center' },
+  btnSelectedSubDark: { color: '#f5f9ff', backgroundColor: "#009689", borderColor: '#ffcd04', borderBottomColor: '#ffcd04', borderBottomWidth: 2 },
+  btnUnselectedSubDark: { backgroundColor: '#2e2929ff', color: '#008181', borderBottomWidth: 2, borderBottomColor: '#008181' },
   row: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -1408,10 +1463,10 @@ const styles = StyleSheet.create({
     flex: 1,                   // so input takes remaining space
   },
   button: {
-    marginLeft: -110,
+    marginLeft: -120,
     // marginBottom: 4,
     borderRadius: 3,
-    height: 42    // backgroundColor:"gray"            // space between input and button
+    height: 51    // backgroundColor:"gray"            // space between input and button
   },
   discBtn: {
     marginLeft: -66,

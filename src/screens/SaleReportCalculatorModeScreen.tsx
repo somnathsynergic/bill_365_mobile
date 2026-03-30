@@ -97,11 +97,11 @@ function SaleReportCalculatorModeScreen() {
     }
 
     const titleTextStyle: TextStyle = {
-        color: theme.colors.onPurpleContainer
+        color: 'white'
     }
 
     const titleStyle: ViewStyle = {
-        backgroundColor: theme.colors.purpleContainer
+        backgroundColor: '#008181'
     }
 
     let totalNetAmount: number = 0
@@ -129,13 +129,13 @@ function SaleReportCalculatorModeScreen() {
                         alignItems: "center",
                     }}>
                     <ButtonPaper
-                        textColor={theme.colors.purple}
+                        textColor={'#008181'}
                         onPress={() => setOpenFromDate(true)}
                         mode="text">
                         FROM: {fromDate?.toLocaleDateString("en-GB")}
                     </ButtonPaper>
                     <ButtonPaper
-                        textColor={theme.colors.purple}
+                        textColor={'#008181'}
                         onPress={() => setOpenToDate(true)}
                         mode="text">
                         TO: {toDate?.toLocaleDateString("en-GB")}
@@ -186,8 +186,8 @@ function SaleReportCalculatorModeScreen() {
                             )
                         }
                         mode="contained-tonal"
-                        buttonColor={theme.colors.purple}
-                        textColor={theme.colors.onPurple}
+                        buttonColor={'#008181'}
+                        textColor={'white'}
                         loading={isLoading}
                         disabled={isDisabled}>
                         SUBMIT
@@ -224,7 +224,7 @@ function SaleReportCalculatorModeScreen() {
                     </DataTable>
                     {/* </ScrollView> */}
                     <View style={{ padding: normalize(10) }}>
-                        <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
+                        <Text variant="labelMedium" style={{ color: '#008181' }}>
                             QUANTITY: {totalQty} TOTAL: ₹{totalNetAmount?.toFixed(2)}
                         </Text>
                     </View>

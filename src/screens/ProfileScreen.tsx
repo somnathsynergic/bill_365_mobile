@@ -2,11 +2,12 @@ import {
   View,
   ScrollView,
   StyleSheet,
+  useColorScheme,
 } from "react-native"
 import React, { useContext, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Text, TouchableRipple } from "react-native-paper"
-import normalize from "react-native-normalize"
+import normalize, { SCREEN_WIDTH } from "react-native-normalize"
 import HeaderImage from "../components/HeaderImage"
 import { flowerHome, flowerHomeDark } from "../resources/images"
 import { usePaperColorScheme } from "../theme/theme"
@@ -18,11 +19,12 @@ import ButtonPaper from "../components/ButtonPaper"
 import ProfileSection from "../components/ProfileSection"
 import { AppStoreContext } from "../models/custom_types"
 import { LoginDataMessage } from "../models/api_types"
+import CollectionReportScreen from "./backups/CollectionReportScreen copy"
 
 export default function ProfileScreen() {
   const isFocused = useIsFocused()
   const theme = usePaperColorScheme()
-
+  const colorScheme = useColorScheme()
   const loginStore = JSON.parse(loginStorage.getString("login-data")) as LoginDataMessage
 
   const { handleLogout } = useContext<AppStoreContext>(AppStore)
@@ -75,220 +77,427 @@ export default function ProfileScreen() {
   ]
 
   return (
-    <SafeAreaView
-      style={[{ backgroundColor:'#dde6f5ff', height: "100%" }]}>
-      <ScrollView>
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            imgLight={flowerHome}
-            imgDark={flowerHomeDark}
-            borderRadius={30}
-            blur={10}>
-            My Profile
-          </HeaderImage>
-        </View>
+    // <SafeAreaView
+    //   style={[{ backgroundColor:'#dde6f5ff', height: "100%" }]}>
+    //   <ScrollView>
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         imgLight={flowerHome}
+    //         imgDark={flowerHomeDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         My Profile
+    //       </HeaderImage>
+    //     </View>
 
-        <DialogBox
-          visible={visible}
-          hide={hideDialog}
-          onFailure={hideDialog}
-          onSuccess={loggingOut}
-          title="Logging Out"
-          btnSuccess="YES">
-          <Text variant="bodyMedium">Are you sure you want to log out?</Text>
-        </DialogBox>
+    //     <DialogBox
+    //       visible={visible}
+    //       hide={hideDialog}
+    //       onFailure={hideDialog}
+    //       onSuccess={loggingOut}
+    //       title="Logging Out"
+    //       btnSuccess="YES">
+    //       <Text variant="bodyMedium">Are you sure you want to log out?</Text>
+    //     </DialogBox>
 
-        {/* <View style={{ padding: 20 }}>
-                    <ButtonPaper icon="logout" mode="text" onPress={showDialog}>
-                        LOG OUT
-                    </ButtonPaper>
-                </View> */}
-        <View
-          style={{
-            gap: 15,
-          }}>
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-            <TouchableRipple
-              style={{
-                width: "80%",
-                height: normalize(50),
-                // backgroundColor: theme.colors.vanillaSecondaryContainer,
-                backgroundColor: '#404198',
-                paddingHorizontal: normalize(6),
-                justifyContent: "center",
-                borderRadius: normalize(50),
-              }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}>
-                <ButtonPaper
-                  // textColor={theme.colors.onVanillaSecondaryContainer}
-                  textColor={btnIdentifier === "S" ? '#404198':"white"}
-                  icon={"storefront-outline"}
-                  onPress={() => handleStoreOrUserShow(1)}
-                  mode="text"
-                  // buttonColor={btnIdentifier === "S" && "#191d0825"}>
-                  buttonColor={btnIdentifier === "S" && "white"}>
-                  Store Profile
-                </ButtonPaper>
-                <ButtonPaper
-                  textColor={btnIdentifier === "U" ? '#404198':"white"}
-                  icon={"account-circle-outline"}
-                  onPress={() => handleStoreOrUserShow(2)}
-                  mode="text"
-                  buttonColor={btnIdentifier === "U" && "white"}>
-                  User Profile
-                </ButtonPaper>
-              </View>
-            </TouchableRipple>
-          </View>
+    //     {/* <View style={{ padding: 20 }}>
+    //                 <ButtonPaper icon="logout" mode="text" onPress={showDialog}>
+    //                     LOG OUT
+    //                 </ButtonPaper>
+    //             </View> */}
+    //     <View
+    //       style={{
+    //         gap: 15,
+    //       }}>
+    //       <View
+    //         style={{
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //         }}>
+    //         <TouchableRipple
+    //           style={{
+    //             width: "80%",
+    //             height: normalize(50),
+    //             // backgroundColor: theme.colors.vanillaSecondaryContainer,
+    //             backgroundColor: '#008181',
+    //             paddingHorizontal: normalize(6),
+    //             justifyContent: "center",
+    //             borderRadius: normalize(50),
+    //           }}>
+    //           <View
+    //             style={{
+    //               flexDirection: "row",
+    //               justifyContent: "space-between",
+    //               alignItems: "center",
+    //             }}>
+    //             <ButtonPaper
+    //               // textColor={theme.colors.onVanillaSecondaryContainer}
+    //               textColor={btnIdentifier === "S" ? '#008181':"white"}
+    //               icon={"storefront-outline"}
+    //               onPress={() => handleStoreOrUserShow(1)}
+    //               mode="text"
+    //               // buttonColor={btnIdentifier === "S" && "#191d0825"}>
+    //               buttonColor={btnIdentifier === "S" && "white"}>
+    //               Store Profile
+    //             </ButtonPaper>
+    //             <ButtonPaper
+    //               textColor={btnIdentifier === "U" ? '#008181':"white"}
+    //               icon={"account-circle-outline"}
+    //               onPress={() => handleStoreOrUserShow(2)}
+    //               mode="text"
+    //               buttonColor={btnIdentifier === "U" && "white"}>
+    //               User Profile
+    //             </ButtonPaper>
+    //           </View>
+    //         </TouchableRipple>
+    //       </View>
 
-          <View
-            style={{
-              alignSelf: "center",
-              width: "88%",
-            }}>
-            {storeOrUser ? (<>
-             <Text
-                  variant="displaySmall"
-                  style={{
-                    textAlign: "center",
-                    padding: normalize(5),
-                    color: '#404198',
-                  }}>
-                  {loginStore?.company_name}
-                </Text>
-                <Text style={{fontSize:15, marginVertical:10, marginHorizontal:10, color:'gray'}}>
-                Store Location
-               </Text>
-              <ProfileSection bgColor={'white'} >
+    //       <View
+    //         style={{
+    //           alignSelf: "center",
+    //           width: "88%",
+    //         }}>
+    //         {storeOrUser ? (<>
+    //          <Text
+    //               variant="displaySmall"
+    //               style={{
+    //                 textAlign: "center",
+    //                 padding: normalize(5),
+    //                 color: '#008181',
+    //               }}>
+    //               {loginStore?.company_name}
+    //             </Text>
+    //             <Text style={{fontSize:15, marginVertical:10, marginHorizontal:10, color:'gray'}}>
+    //             Store Location
+    //            </Text>
+    //           <ProfileSection bgColor={'white'} >
                
 
-                {/* <View
-                  style={{
-                    borderWidth: 1,
-                    width: "90%",
-                    borderColor: 'black',
-                    borderStyle: "dashed",
-                    alignSelf: "center"
-                  }}></View> */}
+    //             {/* <View
+    //               style={{
+    //                 borderWidth: 1,
+    //                 width: "90%",
+    //                 borderColor: 'black',
+    //                 borderStyle: "dashed",
+    //                 alignSelf: "center"
+    //               }}></View> */}
 
-                <>
-                  {tabsStore?.filter((item,index)=>index<=2).map((i, k) => (
-                    <View key={k} style={styles.tabular}>
-                      <Text style={{ color: '#404198',fontWeight:'bold', fontSize: 15}} variant="bodyMedium">{i.left}</Text>
-                      <Text
-                        variant="bodyMedium"
-                        style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
-                        {i.right}
-                      </Text>
-                    </View>
-                  ))}
+    //             <>
+    //               {tabsStore?.filter((item,index)=>index<=2).map((i, k) => (
+    //                 <View key={k} style={styles.tabular}>
+    //                   <Text style={{ color: '#008181',fontWeight:'bold', fontSize: 15}} variant="bodyMedium">{i.left}</Text>
+    //                   <Text
+    //                     variant="bodyMedium"
+    //                     style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
+    //                     {i.right}
+    //                   </Text>
+    //                 </View>
+    //               ))}
 
 
-                </>
+    //             </>
 
-                {/* <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: normalize(5) }}>
-                                            <ButtonPaper
-                                                textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
-                                        </View> */}
-              </ProfileSection>
-               <Text style={{fontSize:15, marginTop:10, marginHorizontal:10, color:'gray'}}>
-                Store Credentials
-               </Text>
-              <View style={{marginVertical:10}}>
-               <ProfileSection  bgColor={'white'}  >
+    //             {/* <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: normalize(5) }}>
+    //                                         <ButtonPaper
+    //                                             textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
+    //                                     </View> */}
+    //           </ProfileSection>
+    //            <Text style={{fontSize:15, marginTop:10, marginHorizontal:10, color:'gray'}}>
+    //             Store Credentials
+    //            </Text>
+    //           <View style={{marginVertical:10}}>
+    //            <ProfileSection  bgColor={'white'}  >
                
               
 
-                <View>
-                  {tabsStore?.filter((item,index)=>index>2).map((i, k) => (
-                    <View key={k} style={styles.tabular}>
-                      <Text style={{ color: '#404198',fontWeight:'bold', fontSize: 15}} variant="bodyMedium">{i.left}</Text>
-                      <Text
-                        variant="bodyMedium"
-                        style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
-                        {i.right}
-                      </Text>
-                    </View>
-                  ))}
+    //             <View>
+    //               {tabsStore?.filter((item,index)=>index>2).map((i, k) => (
+    //                 <View key={k} style={styles.tabular}>
+    //                   <Text style={{ color: '#008181',fontWeight:'bold', fontSize: 15}} variant="bodyMedium">{i.left}</Text>
+    //                   <Text
+    //                     variant="bodyMedium"
+    //                     style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
+    //                     {i.right}
+    //                   </Text>
+    //                 </View>
+    //               ))}
 
                   
-                </View>
+    //             </View>
 
-                {/* <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: normalize(5) }}>
-                                            <ButtonPaper
-                                                textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
-                                        </View> */}
-              </ProfileSection>
-              </View>
-              </>
-            ) : (<>
-              <Text
-                    variant="displaySmall"
-                    style={{
-                      textAlign: "center",
-                      padding: normalize(5),
-                      color: '#404198',
-                    }}>
-                    {loginStore?.user_name}
-                  </Text>
-              <ProfileSection bgColor={'white'}>
+    //             {/* <View style={{ justifyContent: "center", alignItems: "center", paddingBottom: normalize(5) }}>
+    //                                         <ButtonPaper
+    //                                             textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
+    //                                     </View> */}
+    //           </ProfileSection>
+    //           </View>
+    //           </>
+    //         ) : (<>
+    //           <Text
+    //                 variant="displaySmall"
+    //                 style={{
+    //                   textAlign: "center",
+    //                   padding: normalize(5),
+    //                   color: '#008181',
+    //                 }}>
+    //                 {loginStore?.user_name}
+    //               </Text>
+    //           <ProfileSection bgColor={'white'}>
               
 
-                <View
-                  style={{
-                    justifyContent: "space-between",
-                  }}>
-                  <View>
-                    {tabsUser?.map((i, k) => (
-                      <View key={k} style={styles.tabular}>
-                        <Text style={{ color: '#404198',fontWeight:'bold',fontSize: 15}} variant="bodyMedium">{i.left}</Text>
-                        <Text
-                          variant="bodyMedium"
-                          style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
-                          {i.right}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
+    //             <View
+    //               style={{
+    //                 justifyContent: "space-between",
+    //               }}>
+    //               <View>
+    //                 {tabsUser?.map((i, k) => (
+    //                   <View key={k} style={styles.tabular}>
+    //                     <Text style={{ color: '#008181',fontWeight:'bold',fontSize: 15}} variant="bodyMedium">{i.left}</Text>
+    //                     <Text
+    //                       variant="bodyMedium"
+    //                       style={{ flex: 0.6, textAlign: "right", color:'gray',fontSize: 15}}>
+    //                       {i.right}
+    //                     </Text>
+    //                   </View>
+    //                 ))}
+    //               </View>
 
-                  {/* <View style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: normalize(5) }}>
-                                                <ButtonPaper
-                                                    textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
-                                            </View> */}
-                </View>
-              </ProfileSection>
-          </>  )}
-          </View>
+    //               {/* <View style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: normalize(5) }}>
+    //                                             <ButtonPaper
+    //                                                 textColor={theme.colors.teal} icon="circle-edit-outline" mode="text" onPress={() => console.log("EDITT PRF.")}>Edit</ButtonPaper>
+    //                                         </View> */}
+    //             </View>
+    //           </ProfileSection>
+    //       </>  )}
+    //       </View>
 
-          <View
-            style={{
-              alignSelf: "center",
-              width: "85%",
-              paddingBottom: normalize(10),
-            }}>
+    //       <View
+    //         style={{
+    //           alignSelf: "center",
+    //           width: "85%",
+    //           paddingBottom: normalize(10),
+    //         }}>
+    //         <ButtonPaper
+    //           icon="logout"
+    //           mode="elevated"
+    //           // buttonColor={'#A72608'}
+    //           buttonColor={'white'}
+    //           onPress={showDialog}
+    //           textColor={'#A72608'}>
+    //           LOG OUT
+    //         </ButtonPaper>
+    //       </View>
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+ <SafeAreaView style={{ backgroundColor: colorScheme === "dark" ? "black" : '#f5f9ff', height: "100%" }}>
+  <ScrollView>
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <HeaderImage
+        isBackEnabled
+        imgLight={flowerHome}
+        imgDark={flowerHomeDark}
+        borderRadius={30}
+        blur={10}>
+        My Profile
+      </HeaderImage>
+    </View>
+
+    <DialogBox
+      visible={visible}
+      hide={hideDialog}
+      onFailure={hideDialog}
+      onSuccess={loggingOut}
+      title="Logging Out"
+      btnSuccess="YES"
+    >
+      <Text variant="bodyMedium">Are you sure you want to log out?</Text>
+    </DialogBox>
+
+    <View style={{ paddingHorizontal: normalize(16), gap: normalize(20) }}>
+      <View style={{ alignItems: "center" }}>
+        <View
+          style={{
+            width: SCREEN_WIDTH * 0.889,
+            height: normalize(50),
+            backgroundColor: colorScheme === "dark" ? "#009689" : '#008181',
+            paddingHorizontal: normalize(6),
+            justifyContent: "center",
+            borderRadius: normalize(50),
+            elevation: 2,
+            shadowColor: '#008181',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.1,
+            shadowRadius: 2,
+          }}
+        >
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <ButtonPaper
-              icon="logout"
-              mode="elevated"
-              // buttonColor={'#A72608'}
-              buttonColor={'white'}
-              onPress={showDialog}
-              textColor={'#A72608'}>
-              LOG OUT
+              textColor={btnIdentifier === "S" ? colorScheme === "dark" ? "#009689" :'#008181' :  "white"}
+              icon={"storefront-outline"}
+              onPress={() => handleStoreOrUserShow(1)}
+              mode="text"
+              buttonColor={btnIdentifier === "S" ? colorScheme === "dark" ? "black" : "white" : "transparent"}
+            >
+              Store Profile
+            </ButtonPaper>
+            <ButtonPaper
+              textColor={btnIdentifier === "U" ? colorScheme === "dark" ? "#009689" :'#008181' : "white"}
+              icon={"account-circle-outline"}
+              onPress={() => handleStoreOrUserShow(2)}
+              mode="text"
+              buttonColor={btnIdentifier === "U" ? colorScheme === "dark" ? "black" : "white" : "transparent"}
+            >
+              User Profile
             </ButtonPaper>
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+
+      <View style={{ alignSelf: "center", width: "90%" }}>
+        {storeOrUser ? (
+          <>
+            <View style={{ alignItems: "center", marginVertical: normalize(10) }}>
+              <Text
+                variant="displaySmall"
+                style={{
+                  textAlign: "center",
+                  color: colorScheme === "dark" ? "#009689" :'#008181',
+                  fontWeight: '600',
+                }}
+              >
+                {loginStore?.company_name}
+              </Text>
+            </View>
+            <View style={{ marginVertical: normalize(10) }}>
+              <Text style={{ fontSize: 16, color: colorScheme === "dark" ? "#009689" :'#97979eff', marginBottom: normalize(8) }}>
+                Store Location
+              </Text>
+              <View
+                style={{
+                  backgroundColor: colorScheme === "dark" ? "#2e2929ff" :'#fff',
+                  borderRadius: normalize(10),
+                  elevation: 1,
+                  borderWidth: 1,
+                  borderColor: colorScheme === "dark" ? "#2e2929ff" :'#ececf0ff',
+                  padding: normalize(15),
+                  marginBottom: normalize(15),
+                }}
+              >
+                {tabsStore?.filter((item, index) => index <= 2).map((i, k) => (
+                  <View key={k} style={[styles.tabular, { marginBottom: normalize(8) }]}>
+                    <Text style={{ color: colorScheme === "dark" ? "#009689" :'#008181', fontWeight: '600', fontSize: 15 }} variant="bodyMedium">
+                      {i.left}
+                    </Text>
+                    <Text
+                      variant="bodyMedium"
+                      style={{ flex: 0.6, textAlign: "right", color: colorScheme === "dark" ? "white" :'#97979eff', fontSize: 15 }}
+                    >
+                      {i.right}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+            <View style={{ marginVertical: normalize(10) }}>
+              <Text style={{ fontSize: 16, color: colorScheme === "dark" ? "#009689" :'#97979eff', marginBottom: normalize(8) }}>
+                Store Credentials
+              </Text>
+              <View
+                style={{
+                  backgroundColor: colorScheme === "dark" ? "#2e2929ff" :'#fff',
+                  borderRadius: normalize(10),
+                  elevation: 1,
+                  borderWidth: 1,
+                  borderColor: colorScheme === "dark" ? "#2e2929ff" :'#ececf0ff',
+                  padding: normalize(15),
+                  marginBottom: normalize(15),
+                }}
+              >
+                {tabsStore?.filter((item, index) => index > 2).map((i, k) => (
+                  <View key={k} style={[styles.tabular, { marginBottom: normalize(8) }]}>
+                    <Text style={{ color: colorScheme === "dark" ? "#009689" :'#008181', fontWeight: '600', fontSize: 15 }} variant="bodyMedium">
+                      {i.left}
+                    </Text>
+                    <Text
+                      variant="bodyMedium"
+                      style={{ flex: 0.6, textAlign: "right", color: colorScheme === "dark" ? "white" :'#97979eff', fontSize: 15 }}
+                    >
+                      {i.right}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={{ alignItems: "center", marginVertical: normalize(10) }}>
+              <Text
+                variant="displaySmall"
+                style={{
+                  textAlign: "center",
+                  color: colorScheme === "dark" ? "#009689" :'#008181',
+                  fontWeight: '600',
+                }}
+              >
+                {loginStore?.user_name}
+              </Text>
+            </View>
+            <View style={{ marginVertical: normalize(10) }}>
+              <View
+                style={{
+                  backgroundColor: colorScheme === "dark" ? "#2e2929ff" :'#fff',
+                  borderRadius: normalize(10),
+                  elevation: 1,
+                  borderWidth: 1,
+                  borderColor: colorScheme === "dark" ? "#2e2929ff" :'#ececf0ff',
+                  padding: normalize(15),
+                  marginBottom: normalize(15),
+                }}
+              >
+                {tabsUser?.map((i, k) => (
+                  <View key={k} style={[styles.tabular, { marginBottom: normalize(8) }]}>
+                    <Text style={{ color: colorScheme === "dark" ? "#009689" :'#008181', fontWeight: '600', fontSize: 15 }} variant="bodyMedium">
+                      {i.left}
+                    </Text>
+                    <Text
+                      variant="bodyMedium"
+                      style={{ flex: 0.6, textAlign: "right", color: colorScheme === "dark" ? "white" :'#97979eff', fontSize: 15 }}
+                    >
+                      {i.right}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </>
+        )}
+      </View>
+
+      <View style={{ alignSelf: "center", width: "85%", paddingBottom: normalize(10) }}>
+        <ButtonPaper
+          icon="logout"
+          mode="elevated"
+          buttonColor={colorScheme === "dark" ? "#009689" : "white"}
+          onPress={showDialog}
+          textColor={colorScheme === "dark" ? "white" : "#A72608"}
+          style={{
+            borderRadius: normalize(8),
+            elevation: 1,
+            borderWidth: 1,
+            borderColor: colorScheme === "dark" ? "#009689" :'#ececf0ff',
+          }}
+        >
+          LOG OUT
+        </ButtonPaper>
+      </View>
+    </View>
+  </ScrollView>
+</SafeAreaView>
+
+
   )
 }
 

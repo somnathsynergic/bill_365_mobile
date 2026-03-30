@@ -32,8 +32,8 @@ function CalculateModeScreen() {
               <ReportButton
                 key={index}
                 text={item.text}
-                color={index % 2 === 0 ? theme.colors.primaryContainer : theme.colors.secondaryContainer}
-                textColor={index % 2 === 0 ? theme.colors.onPrimaryContainer : theme.colors.onSecondaryContainer}
+                color={'white'}
+                textColor={'#008181'}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({

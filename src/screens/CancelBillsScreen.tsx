@@ -6,8 +6,9 @@ import {
   View,
   ToastAndroid,
   Alert,
+  useColorScheme,
 } from "react-native"
-import { List, RadioButton, Searchbar, Text } from "react-native-paper"
+import { Card, List, RadioButton, Searchbar, Text } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
 import {
   textureReport,
@@ -39,6 +40,7 @@ import { AppStore } from "../context/AppContext"
 function CancelBillsScreen() {
   const theme = usePaperColorScheme()
   const navigation = useNavigation()
+  const colorScheme = useColorScheme()
 
   const loginStore = JSON.parse(loginStorage.getString("login-data") as string)
 
@@ -364,193 +366,427 @@ function CancelBillsScreen() {
   let totalDiscount: number = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            imgLight={textureReport}
-            imgDark={textureReportDark}
-            borderRadius={30}
-            blur={10}
-            isBackEnabled>
-            Search By, <Text style={{
-              textDecorationLine: "underline",
-              textDecorationStyle: "dashed",
-              textTransform: "uppercase",
-            }}>{checked === "R" ? "Receipt" : checked === "M" ? "Mobile" : checked === "C" ? "Customer" : "UI Err"}</Text>
-          </HeaderImage>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         imgLight={textureReport}
+    //         imgDark={textureReportDark}
+    //         borderRadius={30}
+    //         blur={10}
+    //         isBackEnabled>
+    //         Search By, <Text style={{
+    //           textDecorationLine: "underline",
+    //           textDecorationStyle: "dashed",
+    //           textTransform: "uppercase",
+    //         }}>{checked === "R" ? "Receipt" : checked === "M" ? "Mobile" : checked === "C" ? "Customer" : "UI Err"}</Text>
+    //       </HeaderImage>
+    //     </View>
+
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(15),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <View
+    //         style={{
+    //           flexDirection: "row",
+    //           justifyContent: "space-between",
+    //           alignItems: "center",
+    //           // marginRight: normalize(18),
+    //           // marginLeft: normalize(4),
+    //           marginBottom: normalize(20),
+    //           marginHorizontal: normalize(10),
+    //           padding: normalize(10),
+    //           flexWrap: "wrap",
+    //           borderWidth: 3,
+    //           borderStyle: "dashed",
+    //           borderRadius: normalize(20),
+    //           borderColor: theme.colors.vanillaSecondary
+    //         }}>
+    //         <View style={styles.eachRadioBtn}>
+    //           <RadioButton
+    //             value="R"
+    //             status={checked === "R" ? "checked" : "unchecked"}
+    //             color={theme.colors.vanilla}
+    //             onPress={() => setChecked("R")}
+    //           />
+    //           <Text
+    //             variant="labelLarge"
+    //             style={
+    //               checked === "R" && {
+    //                 color: theme.colors.vanillaTertiary,
+    //                 fontSize: 18,
+    //               }
+    //             }>
+    //             Receipt
+    //           </Text>
+    //         </View>
+
+    //         <View style={styles.eachRadioBtn}>
+    //           <RadioButton
+    //             value="M"
+    //             status={checked === "M" ? "checked" : "unchecked"}
+    //             color={theme.colors.vanilla}
+    //             onPress={() => setChecked("M")}
+    //           />
+    //           <Text
+    //             variant="labelLarge"
+    //             style={
+    //               checked === "M" && {
+    //                 color: theme.colors.vanillaTertiary,
+    //                 fontSize: 18
+    //               }
+    //             }>
+    //             Mobile
+    //           </Text>
+    //         </View>
+
+    //         <View style={styles.eachRadioBtn}>
+    //           <RadioButton
+    //             value="C"
+    //             status={checked === "C" ? "checked" : "unchecked"}
+    //             color={theme.colors.vanilla}
+    //             onPress={() => setChecked("C")}
+    //           />
+    //           <Text
+    //             variant="labelLarge"
+    //             style={
+    //               checked === "C" && {
+    //                 color: theme.colors.vanillaTertiary,
+    //                 fontSize: 18
+    //               }
+    //             }>
+    //             Customer
+    //           </Text>
+    //         </View>
+    //       </View>
+
+    //       <View
+    //         style={{
+    //           paddingHorizontal: normalize(10),
+    //           paddingBottom: normalize(10),
+    //         }}>
+    //         <Searchbar
+    //           autoFocus
+    //           // placeholder="Search Bills"
+    //           placeholder={checked === "R" ? "Receipt Number" : checked === "M" ? "Mobile Number" : checked === "C" ? "Customer Name" : "UI Error"}
+    //           onChangeText={onChangeSearch}
+    //           value={search}
+    //           elevation={search ? 2 : 0}
+    //           keyboardType={checked === "R" ? "numeric" : checked === "M" ? "numeric" : "default"}
+    //           maxLength={10}
+    //           style={{
+    //             backgroundColor: theme.colors.vanillaSecondaryContainer,
+    //             color: theme.colors.onVanillaSecondaryContainer,
+    //           }}
+    //         // loading={search ? true : false}
+    //         />
+    //       </View>
+    //       {/* <ButtonPaper onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)} mode="contained-tonal">
+    //                     SUBMIT
+    //                 </ButtonPaper> */}
+    //       <View
+    //         style={{
+    //           paddingHorizontal: normalize(10),
+    //         }}>
+    //         <ButtonPaper
+    //           onPress={() => handleSearchClick(search, checked)}
+    //           mode="contained-tonal"
+    //           buttonColor={theme.colors.vanillaContainer}
+    //           loading={isLoading}
+    //           disabled={isDisabled}>
+    //           SUBMIT
+    //         </ButtonPaper>
+    //       </View>
+    //     </View>
+
+    //     <View style={{ width: "100%" }}>
+    //       {fetchedBillsData?.map((item, i) => (
+    //         <List.Item
+    //           titleStyle={{
+    //             color: theme.colors.vanilla,
+    //           }}
+    //           descriptionStyle={{
+    //             color: theme.colors.vanillaSecondary,
+    //           }}
+    //           key={i}
+    //           title={`${item?.trn_date}`}
+    //           description={`${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no} - ₹${item?.net_amt}`}
+    //           onPress={() => handleBillListClick(item?.receipt_no)}
+    //           left={props => <List.Icon {...props} icon="basket" />}
+    //           right={props => (
+    //             <Text
+    //               variant="bodyMedium"
+    //               {...props}
+    //               style={{ color: theme.colors.vanillaTertiary }}>
+    //               ₹{item?.net_amt}
+    //             </Text>
+    //           )}
+    //         // right={props => (
+    //         //   <List.Icon {...props} icon="download" />
+    //         // )}
+    //         />
+    //       ))}
+    //     </View>
+    //   </ScrollView>
+
+
+
+    //   <DialogBoxForReprint
+    //     iconSize={30}
+    //     visible={visible}
+    //     hide={hideDialog}
+    //     titleStyle={styles.title}
+
+    //     currentReceiptNo={currentReceiptNo}
+    //     billedSaleData={billedSaleData}
+    //     handleCancelBill={handleCancelBill}
+    //     cancelledBillStatus={cancelledBillStatus}
+    //     netTotalButtonColors={[theme.colors.vanillaContainer, theme.colors.onVanillaContainer]}
+
+    //     onDialogFailure={onDialogFailure}
+    //     onDialogSuccecss={onDialogSuccecss}
+    //   />
+
+
+
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center" }}>
+      <HeaderImage
+        imgLight={textureReport}
+        imgDark={textureReportDark}
+        borderRadius={30}
+        blur={10}
+        isBackEnabled>
+        Search By, <Text style={{
+          textDecorationLine: "underline",
+          textDecorationStyle: "dashed",
+          textTransform: "uppercase",
+        }}>{checked === "R" ? "Receipt" : checked === "M" ? "Mobile" : checked === "C" ? "Customer" : "UI Err"}</Text>
+      </HeaderImage>
+    </View>
+
+    <View style={{ paddingHorizontal: normalize(15), paddingBottom: normalize(10) }}>
+      {/* <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: normalize(20),
+          marginHorizontal: normalize(10),
+          padding: normalize(10),
+          flexWrap: "wrap",
+          borderWidth: 3,
+          borderStyle: "dashed",
+          borderRadius: normalize(20),
+          borderColor: theme.colors.vanillaSecondary
+        }}>
+        <View style={styles.eachRadioBtn}>
+          <RadioButton
+            value="R"
+            status={checked === "R" ? "checked" : "unchecked"}
+            color={theme.colors.vanilla}
+            onPress={() => setChecked("R")}
+          />
+          <Text
+            variant="labelLarge"
+            style={checked === "R" && {
+              color: theme.colors.vanillaTertiary,
+              fontSize: 18,
+            }}>
+            Receipt
+          </Text>
         </View>
 
-        <View
+        <View style={styles.eachRadioBtn}>
+          <RadioButton
+            value="M"
+            status={checked === "M" ? "checked" : "unchecked"}
+            color={theme.colors.vanilla}
+            onPress={() => setChecked("M")}
+          />
+          <Text
+            variant="labelLarge"
+            style={checked === "M" && {
+              color: theme.colors.vanillaTertiary,
+              fontSize: 18,
+            }}>
+            Mobile
+          </Text>
+        </View>
+
+        <View style={styles.eachRadioBtn}>
+          <RadioButton
+            value="C"
+            status={checked === "C" ? "checked" : "unchecked"}
+            color={theme.colors.vanilla}
+            onPress={() => setChecked("C")}
+          />
+          <Text
+            variant="labelLarge"
+            style={checked === "C" && {
+              color: theme.colors.vanillaTertiary,
+              fontSize: 18,
+            }}>
+            Customer
+          </Text>
+        </View>
+      </View> */}
+      <View
+  style={{
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: normalize(20),
+    marginHorizontal: normalize(10),
+    padding: normalize(12),
+    borderRadius: normalize(12),
+                backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#f5f9ff",
+    // backgroundColor: colorScheme === 'dark' ?theme.colors.surface,
+    elevation: 1,
+    shadowColor: theme.colors.vanilla,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  }}
+>
+  <View style={styles.eachRadioBtn}>
+    <RadioButton
+      value="R"
+      status={checked === "R" ? "checked" : "unchecked"}
+      color={colorScheme === 'dark' ? '#009689' : '#008181'}
+      onPress={() => setChecked("R")}
+    />
+    <Text
+      // variant="labelSmall"
+      style={[
+        styles.radioText,
+        checked === "R" && { color: colorScheme === 'dark' ? '#009689' : '#008181', fontWeight: '600' },
+      ]}
+    >
+      Receipt
+    </Text>
+  </View>
+
+  <View style={styles.eachRadioBtn}>
+    <RadioButton
+      value="M"
+      status={checked === "M" ? "checked" : "unchecked"}
+      color={colorScheme === 'dark' ? '#009689' : '#008181'}
+      onPress={() => setChecked("M")}
+    />
+    <Text
+      // variant="labelLarge"
+      style={[
+        styles.radioText,
+        checked === "M" && { color: colorScheme === 'dark' ? '#009689' : '#008181', fontWeight: '600' },
+      ]}
+    >
+      Mobile
+    </Text>
+  </View>
+
+  <View style={styles.eachRadioBtn}>
+    <RadioButton
+      value="C"
+      status={checked === "C" ? "checked" : "unchecked"}
+      color={colorScheme === 'dark' ? '#009689' : '#008181'}
+      onPress={() => setChecked("C")}
+    />
+    <Text
+      // variant="labelLarge"
+      style={[
+        styles.radioText,
+        checked === "C" && { color: colorScheme === 'dark' ? '#009689' : '#008181', fontWeight: '600' },
+      ]}
+    >
+      Customer
+    </Text>
+  </View>
+</View>
+
+
+      <View style={{ paddingHorizontal: normalize(10), paddingBottom: normalize(10) }}>
+        <Searchbar
+          autoFocus
+          placeholder={checked === "R" ? "Receipt Number" : checked === "M" ? "Mobile Number" : checked === "C" ? "Customer Name" : "UI Error"}
+          onChangeText={onChangeSearch}
+          value={search}
+          elevation={search ? 2 : 0}
+          keyboardType={checked === "R" ? "numeric" : checked === "M" ? "numeric" : "default"}
+          maxLength={10}
           style={{
-            paddingHorizontal: normalize(15),
-            paddingBottom: normalize(10),
-          }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              // marginRight: normalize(18),
-              // marginLeft: normalize(4),
-              marginBottom: normalize(20),
-              marginHorizontal: normalize(10),
-              padding: normalize(10),
-              flexWrap: "wrap",
-              borderWidth: 3,
-              borderStyle: "dashed",
-              borderRadius: normalize(20),
-              borderColor: theme.colors.vanillaSecondary
-            }}>
-            <View style={styles.eachRadioBtn}>
-              <RadioButton
-                value="R"
-                status={checked === "R" ? "checked" : "unchecked"}
-                color={theme.colors.vanilla}
-                onPress={() => setChecked("R")}
-              />
-              <Text
-                variant="labelLarge"
-                style={
-                  checked === "R" && {
-                    color: theme.colors.vanillaTertiary,
-                    fontSize: 18,
-                  }
-                }>
-                Receipt
-              </Text>
-            </View>
+            backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : 'def0ddff',
+            color: theme.colors.onVanillaSecondaryContainer,
+            borderRadius: normalize(8),
+            // borderWidth: 1,
+            borderColor: theme.colors.vanillaSecondary,
+          }}
+        />
+      </View>
 
-            <View style={styles.eachRadioBtn}>
-              <RadioButton
-                value="M"
-                status={checked === "M" ? "checked" : "unchecked"}
-                color={theme.colors.vanilla}
-                onPress={() => setChecked("M")}
-              />
-              <Text
-                variant="labelLarge"
-                style={
-                  checked === "M" && {
-                    color: theme.colors.vanillaTertiary,
-                    fontSize: 18
-                  }
-                }>
-                Mobile
-              </Text>
-            </View>
+      <View style={{ paddingHorizontal: normalize(10) }}>
+        <ButtonPaper
+          onPress={() => handleSearchClick(search, checked)}
+          mode="contained-tonal"
+          buttonColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+          textColor={'white'}
+          loading={isLoading}
+          disabled={isDisabled}
+          style={{ borderRadius: normalize(8) }}
+        >
+          SUBMIT
+        </ButtonPaper>
+      </View>
+    </View>
 
-            <View style={styles.eachRadioBtn}>
-              <RadioButton
-                value="C"
-                status={checked === "C" ? "checked" : "unchecked"}
-                color={theme.colors.vanilla}
-                onPress={() => setChecked("C")}
-              />
-              <Text
-                variant="labelLarge"
-                style={
-                  checked === "C" && {
-                    color: theme.colors.vanillaTertiary,
-                    fontSize: 18
-                  }
-                }>
-                Customer
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              paddingHorizontal: normalize(10),
-              paddingBottom: normalize(10),
-            }}>
-            <Searchbar
-              autoFocus
-              // placeholder="Search Bills"
-              placeholder={checked === "R" ? "Receipt Number" : checked === "M" ? "Mobile Number" : checked === "C" ? "Customer Name" : "UI Error"}
-              onChangeText={onChangeSearch}
-              value={search}
-              elevation={search ? 2 : 0}
-              keyboardType={checked === "R" ? "numeric" : checked === "M" ? "numeric" : "default"}
-              maxLength={10}
-              style={{
-                backgroundColor: theme.colors.vanillaSecondaryContainer,
-                color: theme.colors.onVanillaSecondaryContainer,
-              }}
-            // loading={search ? true : false}
-            />
-          </View>
-          {/* <ButtonPaper onPress={() => handleGetBillsByDate(formattedFromDate, formattedToDate)} mode="contained-tonal">
-                        SUBMIT
-                    </ButtonPaper> */}
-          <View
-            style={{
-              paddingHorizontal: normalize(10),
-            }}>
-            <ButtonPaper
-              onPress={() => handleSearchClick(search, checked)}
-              mode="contained-tonal"
-              buttonColor={theme.colors.vanillaContainer}
-              loading={isLoading}
-              disabled={isDisabled}>
-              SUBMIT
-            </ButtonPaper>
-          </View>
-        </View>
-
-        <View style={{ width: "100%" }}>
-          {fetchedBillsData?.map((item, i) => (
-            <List.Item
-              titleStyle={{
-                color: theme.colors.vanilla,
-              }}
-              descriptionStyle={{
-                color: theme.colors.vanillaSecondary,
-              }}
-              key={i}
-              title={`${item?.trn_date}`}
-              description={`${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no} - ₹${item?.net_amt}`}
-              onPress={() => handleBillListClick(item?.receipt_no)}
-              left={props => <List.Icon {...props} icon="basket" />}
-              right={props => (
-                <Text
-                  variant="bodyMedium"
-                  {...props}
-                  style={{ color: theme.colors.vanillaTertiary }}>
-                  ₹{item?.net_amt}
-                </Text>
-              )}
+    <View style={styles.container1}>
+      {fetchedBillsData?.map((item, i) => (
+        <Card
+          key={i}
+          style={colorScheme === 'dark' ? styles.cardDark : styles.card}
+          onPress={() => handleBillListClick(item?.receipt_no)}
+        >
+          <List.Item
+           titleStyle={colorScheme === 'dark' ? styles.titleDark : styles.title1}
+                    descriptionStyle={styles.description}
+            title={`${item?.trn_date}`}
+            description={`${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no} - ₹${item?.net_amt}`}
+                                left={props => <List.Icon {...props} icon="receipt" color={colorScheme=== 'dark' ? '#009689' :"#008181"} />}
+            
             // right={props => (
-            //   <List.Icon {...props} icon="download" />
+            //   <Text
+            //     variant="bodyMedium"
+            //     {...props}
+            //     style={{ color: theme.colors.vanillaTertiary }}>
+            //     ₹{item?.net_amt}
+            //   </Text>
             // )}
-            />
-          ))}
-        </View>
-      </ScrollView>
+          />
+        </Card>
+      ))}
+    </View>
+  </ScrollView>
 
+  <DialogBoxForReprint
+    iconSize={30}
+    visible={visible}
+    hide={hideDialog}
+    titleStyle={styles.title}
+    currentReceiptNo={currentReceiptNo}
+    billedSaleData={billedSaleData}
+    handleCancelBill={handleCancelBill}
+    cancelledBillStatus={cancelledBillStatus}
+    netTotalButtonColors={[theme.colors.vanillaContainer, theme.colors.onVanillaContainer]}
+    onDialogFailure={onDialogFailure}
+    onDialogSuccecss={onDialogSuccecss}
+  />
+</SafeAreaView>
 
-
-      <DialogBoxForReprint
-        iconSize={30}
-        visible={visible}
-        hide={hideDialog}
-        titleStyle={styles.title}
-
-        currentReceiptNo={currentReceiptNo}
-        billedSaleData={billedSaleData}
-        handleCancelBill={handleCancelBill}
-        cancelledBillStatus={cancelledBillStatus}
-        netTotalButtonColors={[theme.colors.vanillaContainer, theme.colors.onVanillaContainer]}
-
-        onDialogFailure={onDialogFailure}
-        onDialogSuccecss={onDialogSuccecss}
-      />
-
-
-
-    </SafeAreaView>
   )
 }
 
@@ -566,8 +802,61 @@ const styles = StyleSheet.create({
   },
 
   eachRadioBtn: {
-    justifyContent: "center",
-    alignItems: "center",
-    minWidth: normalize(100)
-  }
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: normalize(6),
+    color:'#008181'
+  },
+    eachRadioBtnDark: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: normalize(6),
+    color:'#009689'
+  },
+  radioText: {
+    marginLeft: normalize(6),
+    fontSize: 14,
+    color: '#008181',
+  },
+  container1: {
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+   card: {
+    marginBottom: 8,
+    borderRadius: 8,
+    elevation: 2,          // for Android shadow
+       // for iOS shadow
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    backgroundColor: 'white',
+  },
+  cardDark:{
+     marginBottom: 8,
+    borderRadius: 8,
+    elevation: 2,          // for Android shadow
+       // for iOS shadow
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+                    backgroundColor:  "#2e2929ff",
+
+  },
+  title1: {
+    color: '#008181',
+    fontWeight: '800',
+  },
+  description: {
+    color: '#97979eff',
+  },
+  titleDark:{
+    color: '#009689',
+    fontWeight: '800',
+  
+  },
+  descriptionDark:{
+    color: '#fff0f0ff',
+  },
 })

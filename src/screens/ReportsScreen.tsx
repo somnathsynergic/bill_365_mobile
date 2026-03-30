@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView, SafeAreaView, View } from "react-native"
 
-import { REPORT_SCREEN_DATA } from "../data/ui/REPORTS_SCREEN"
+import { REPORT_SCREEN_DATA, REPORT_SCREEN_DATA_INV_OFF } from "../data/ui/REPORTS_SCREEN"
 import HeaderImage from "../components/HeaderImage"
 import { blurReport, blurReportDark } from "../resources/images"
 import { usePaperColorScheme } from "../theme/theme"
@@ -11,15 +11,21 @@ import navigationRoutes from "../routes/navigationRoutes"
 import { useContext } from "react"
 import { AppStore } from "../context/AppContext"
 import { AppStoreContext } from "../models/custom_types"
+import { useColorScheme } from "react-native"
 
 function ReportsScreen() {
   const navigation = useNavigation()
   const theme = usePaperColorScheme()
+  const colorScheme = useColorScheme()
 
   const { receiptSettings } = useContext<AppStoreContext>(AppStore)
 
-  const filteredReportScreenData = REPORT_SCREEN_DATA.filter(item => {
+  const filteredReportScreenData = receiptSettings?.stock_flag === "N" ?REPORT_SCREEN_DATA_INV_OFF.filter(item => {
     if (item.route === navigationRoutes.gstStatementReportScreen || item.route === navigationRoutes.gstSummaryReportScreen) {
+      return receiptSettings?.gst_flag === "Y"
+    }
+    return true
+  }):REPORT_SCREEN_DATA.filter(item => {if (item.route === navigationRoutes.gstStatementReportScreen || item.route === navigationRoutes.gstSummaryReportScreen) {
       return receiptSettings?.gst_flag === "Y"
     }
     return true
@@ -27,7 +33,7 @@ function ReportsScreen() {
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
+      style={[styles.container, { backgroundColor: colorScheme === "dark" ? "#000000" : "#f5f9ff" }]}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -45,10 +51,10 @@ function ReportsScreen() {
                 <ReportButton
                   key={index}
                   text={item?.text}
-                  // color={index % 2 === 0 ? "#404198" : "white"}
-                  color={ "white"}
-                  // textColor={index % 2 === 0 ? "white" : "#404198"}
-                  textColor={"#404198"}
+                  // color={index % 2 === 0 ? "#008181" : "white"}
+                  color={ colorScheme === "dark" ? "#2e2929ff" : "white"}
+                  // textColor={index % 2 === 0 ? "white" : "#008181"}
+                  textColor={"#008181"}
                   icon={item?.icon}
                   onPress={() =>
                     navigation.dispatch(

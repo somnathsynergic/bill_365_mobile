@@ -1,4 +1,4 @@
-import { View } from "react-native"
+import { useColorScheme, View } from "react-native"
 import { TouchableRipple, Text } from "react-native-paper"
 import normalize from "react-native-normalize"
 import { useContext } from "react"
@@ -35,7 +35,7 @@ export default function NetTotalForRePrints({
   onPress,
 }: NetTotalForRePrintsProps) {
   const { receiptSettings } = useContext(AppStore)
-
+  const colorScheme = useColorScheme()
   const {
     netTotalCalculate,
     netTotalWithGSTCalculate,
@@ -72,12 +72,36 @@ export default function NetTotalForRePrints({
     <TouchableRipple
       disabled={disabled}
       style={{
+        //     width: normalize(width),
+        //     height: height,
+        //     backgroundColor: backgroundColor,
+        //     alignSelf: "center",
+        //     // borderRadius: normalize(30),
+        //     marginTop: normalize(15),
+        //      borderRadius: normalize(6),
+        // padding: normalize(10),
+        // marginBottom: normalize(8),
+        // elevation: 2,
+        // borderWidth: 1,
+        // borderColor: '#e0e0e0',
+
+        // paddingVertical: 12,
+        // paddingHorizontal: 16,
+        // marginVertical: 8,
         width: normalize(width),
         height: height,
         backgroundColor: backgroundColor,
         alignSelf: "center",
-        borderRadius: normalize(30),
+        // borderRadius: normalize(30),
         marginTop: normalize(15),
+        borderRadius: normalize(6),
+        padding: normalize(10),
+        marginBottom: normalize(8),
+        elevation: 1,
+        borderWidth: 1,
+        borderColor: colorScheme === 'dark' ? '#2e2929ff' : '#ececf0ff',
+
+
       }}
       onPress={onPress}>
       <View
@@ -88,13 +112,13 @@ export default function NetTotalForRePrints({
           flexDirection: "row",
         }}>
         <View>
-          <Text style={{ color: textColor }}>TOTAL AMOUNT</Text>
+          <Text style={{ color: textColor }}>Total Amount</Text>
           {totalDiscount !== 0 && totalDiscount.toString().length !== 0 && (
-            <Text style={{ color: textColor }}>DISCOUNT</Text>
+            <Text style={{ color: textColor }}>Discount</Text>
           )}
-          <Text style={{ color: textColor }}>NET TOTAL</Text>
-          <Text style={{ color: textColor }}>ROUNDING OFF</Text>
-          <Text style={{ color: textColor }}>GRAND TOTAL</Text>
+          <Text style={{ color: textColor }}>Net Total</Text>
+          <Text style={{ color: textColor }}>Rounding Off</Text>
+          <Text style={{ color: textColor }}>Grand Total</Text>
         </View>
         <View>
           <Text style={{ color: textColor }}>₹{netTotal?.toFixed(2)}</Text>
@@ -105,17 +129,17 @@ export default function NetTotalForRePrints({
             </Text>
           )}
           <Text style={{ color: textColor }}>
-            ₹{/* {(netTotal - totalDiscount).toFixed(2)} */}
+
             {netTotalCalculate(netTotal, totalDiscount)}
           </Text>
           <Text style={{ color: textColor }}>
             ₹
-            {/* {(Math.round(parseFloat((netTotal - totalDiscount).toFixed(2))) - parseFloat((netTotal - totalDiscount).toFixed(2))).toFixed(2)} */}
+
             {roundingOffCalculate(netTotal, totalDiscount)}
           </Text>
           <Text style={{ color: textColor }}>
             ₹
-            {/* {Math.round(parseFloat((netTotal - totalDiscount).toFixed(2)))} */}
+
             {grandTotalCalculate(netTotal, totalDiscount)}
           </Text>
         </View>
@@ -129,8 +153,14 @@ export default function NetTotalForRePrints({
         height: height,
         backgroundColor: backgroundColor,
         alignSelf: "center",
-        borderRadius: normalize(30),
+        // borderRadius: normalize(30),
         marginTop: normalize(15),
+        borderRadius: normalize(6),
+        padding: normalize(10),
+        marginBottom: normalize(8),
+        elevation: 1,
+        borderWidth: 1,
+        borderColor: '#ececf0ff',
       }}
       onPress={onPress}>
       <View
@@ -142,10 +172,10 @@ export default function NetTotalForRePrints({
         }}>
         <View>
           {gstType === "E" && (
-            <Text style={{ color: textColor }}>TOTAL AMOUNT</Text>
+            <Text style={{ color: textColor }}>Total Amount</Text>
           )}
 
-          {/* <Text style={{ color: textColor }}>DISCOUNT</Text> */}
+
 
           {gstKeys.map(key => (
             <Text key={key} style={{ color: textColor }}>
@@ -155,29 +185,23 @@ export default function NetTotalForRePrints({
           ))}
 
           {gstType === "I" && (
-            <Text style={{ color: textColor }}>TOTAL (INCL GST)</Text>
+            <Text style={{ color: textColor }}>Total (Incl. GST)</Text>
           )}
 
           {totalDiscount !== 0 && totalDiscount.toString().length !== 0 && (
-            <Text style={{ color: textColor }}>DISCOUNT</Text>
+            <Text style={{ color: textColor }}>Discount</Text>
           )}
 
-          <Text style={{ color: textColor }}>NET TOTAL</Text>
-          <Text style={{ color: textColor }}>ROUNDING OFF</Text>
-          <Text style={{ color: textColor }}>GRAND TOTAL</Text>
+          <Text style={{ color: textColor }}>Net Total</Text>
+          <Text style={{ color: textColor }}>Rounding Off</Text>
+          <Text style={{ color: textColor }}>Grand Total</Text>
         </View>
         <View>
-          {/* {
-                            gstType === "E"
-                                ? <Text style={{ color: textColor }}>₹{netTotal?.toFixed(2)}</Text>
-                                : <Text style={{ color: textColor }}>₹{totalAmountWithGSTInclCalculate(netTotal, totalGST)}</Text>
-                        } */}
+
           {gstType === "E" && (
             <Text style={{ color: textColor }}>₹{netTotal?.toFixed(2)}</Text>
           )}
-          {/* <Text style={{ color: textColor }}>₹{totalDiscount?.toFixed(2)}</Text> */}
-          {/* <Text style={{ color: textColor }}>{cgst}%</Text>
-            <Text style={{ color: textColor }}>{sgst}%</Text> */}
+
 
           {gstKeys.map(key => (
             <Text key={key} style={{ color: textColor }}>

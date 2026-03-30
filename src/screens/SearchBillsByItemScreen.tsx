@@ -6,6 +6,7 @@ import {
   ToastAndroid,
   PixelRatio,
   Alert,
+  useColorScheme,
 } from "react-native"
 
 import HeaderImage from "../components/HeaderImage"
@@ -88,7 +89,7 @@ function SearchBillsByItemScreen() {
   
   const formattedFromDate = formattedDate(fromDate)
   const formattedToDate = formattedDate(toDate)
-
+  const colorScheme = useColorScheme()
   const handleGetItems = async () => {
     const companyId = loginStore.comp_id
     let itemsData = await fetchItems(companyId)
@@ -317,183 +318,348 @@ function SearchBillsByItemScreen() {
   let totalDiscount = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            imgLight={blurReport}
-            imgDark={blurReportDark}
-            borderRadius={30}
-            blur={10}>
-            Search By Item
-          </HeaderImage>
-        </View>
-        <View
-          style={{
-            padding: normalize(10),
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}>
-          <ButtonPaper
-            textColor={theme.colors.purple}
-            onPress={() => setOpenFromDate(true)}
-            mode="text">
-            FROM: {fromDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
-          <ButtonPaper
-            textColor={theme.colors.purple}
-            onPress={() => setOpenToDate(true)}
-            mode="text">
-            TO: {toDate?.toLocaleDateString("en-GB")}
-          </ButtonPaper>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         imgLight={blurReport}
+    //         imgDark={blurReportDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         Search By Item
+    //       </HeaderImage>
+    //     </View>
+    //     <View
+    //       style={{
+    //         padding: normalize(10),
+    //         flexDirection: "row",
+    //         justifyContent: "space-around",
+    //         alignItems: "center",
+    //       }}>
+    //       <ButtonPaper
+    //         textColor={theme.colors.purple}
+    //         onPress={() => setOpenFromDate(true)}
+    //         mode="text">
+    //         FROM: {fromDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
+    //       <ButtonPaper
+    //         textColor={theme.colors.purple}
+    //         onPress={() => setOpenToDate(true)}
+    //         mode="text">
+    //         TO: {toDate?.toLocaleDateString("en-GB")}
+    //       </ButtonPaper>
 
-          <DatePicker
-            modal
-            mode="date"
-            // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
-            open={openFromDate}
-            date={fromDate}
-            onConfirm={date => {
-              setOpenFromDate(false)
-              setFromDate(date)
-            }}
-            onCancel={() => {
-              setOpenFromDate(false)
-            }}
-          />
-          <DatePicker
-            modal
-            mode="date"
-            open={openToDate}
-            date={toDate}
-            onConfirm={date => {
-              setOpenToDate(false)
-              setToDate(date)
-            }}
-            onCancel={() => {
-              setOpenToDate(false)
-            }}
-          />
-        </View>
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         // minimumDate={toDate.setMonth(toDate.getMonth() - 1)}
+    //         open={openFromDate}
+    //         date={fromDate}
+    //         onConfirm={date => {
+    //           setOpenFromDate(false)
+    //           setFromDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenFromDate(false)
+    //         }}
+    //       />
+    //       <DatePicker
+    //         modal
+    //         mode="date"
+    //         open={openToDate}
+    //         date={toDate}
+    //         onConfirm={date => {
+    //           setOpenToDate(false)
+    //           setToDate(date)
+    //         }}
+    //         onCancel={() => {
+    //           setOpenToDate(false)
+    //         }}
+    //       />
+    //     </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(25),
-            paddingBottom: normalize(10),
-          }}>
-          <Searchbar
-            style={{
-              backgroundColor: theme.colors.purpleContainer,
-              color: theme.colors.purple,
-            }}
-            placeholder="Search Products"
-            onChangeText={onChangeSearch}
-            value={search}
-            elevation={search && 2}
-            // loading={search ? true : false}
-            autoFocus
-          />
-        </View>
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(25),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <Searchbar
+    //         style={{
+    //           backgroundColor: theme.colors.purpleContainer,
+    //           color: theme.colors.purple,
+    //         }}
+    //         placeholder="Search Products"
+    //         onChangeText={onChangeSearch}
+    //         value={search}
+    //         elevation={search && 2}
+    //         // loading={search ? true : false}
+    //         autoFocus
+    //       />
+    //     </View>
 
-        <View style={{ paddingBottom: normalize(10) }}>
-          {search && (
-            <ScrollableListContainer
-              backgroundColor={theme.colors.surfaceVariant}>
-              {filteredItems.map(item => (
-                <ProductListSuggestion
-                  key={item?.id}
-                  itemName={item?.item_name}
-                  onPress={() => productDetails(item)}
-                  unitPrice={item?.price}
-                />
-              ))}
-            </ScrollableListContainer>
-          )}
-        </View>
+    //     <View style={{ paddingBottom: normalize(10) }}>
+    //       {search && (
+    //         <ScrollableListContainer
+    //           backgroundColor={theme.colors.surfaceVariant}>
+    //           {filteredItems.map(item => (
+    //             <ProductListSuggestion
+    //               key={item?.id}
+    //               itemName={item?.item_name}
+    //               onPress={() => productDetails(item)}
+    //               unitPrice={item?.price}
+    //             />
+    //           ))}
+    //         </ScrollableListContainer>
+    //       )}
+    //     </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <ButtonPaper
-            onPress={() =>
-              handleGetBillsByItem(
-                formattedFromDate,
-                formattedToDate,
-                productId,
-              )
-            }
-            mode="contained-tonal"
-            buttonColor={theme.colors.purple}
-            textColor={theme.colors.onPurple}
-            loading={isLoading}
-            disabled={isDisabled}>
-            SUBMIT
-          </ButtonPaper>
-        </View>
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <ButtonPaper
+    //         onPress={() =>
+    //           handleGetBillsByItem(
+    //             formattedFromDate,
+    //             formattedToDate,
+    //             productId,
+    //           )
+    //         }
+    //         mode="contained-tonal"
+    //         buttonColor={theme.colors.purple}
+    //         textColor={theme.colors.onPurple}
+    //         loading={isLoading}
+    //         disabled={isDisabled}>
+    //         SUBMIT
+    //       </ButtonPaper>
+    //     </View>
 
-        <SurfacePaper backgroundColor={theme.colors.surface}>
-          <View style={{ padding: normalize(10) }}>
-            <Text variant="bodyMedium">{itemName}</Text>
-          </View>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Rcpt. No.</DataTable.Title>
-              <DataTable.Title numeric>Qty.</DataTable.Title>
-              <DataTable.Title numeric>Unit Price</DataTable.Title>
-            </DataTable.Header>
+    //     <SurfacePaper backgroundColor={theme.colors.surface}>
+    //       <View style={{ padding: normalize(10) }}>
+    //         <Text variant="bodyMedium">{itemName}</Text>
+    //       </View>
+    //       <DataTable>
+    //         <DataTable.Header>
+    //           <DataTable.Title>Rcpt. No.</DataTable.Title>
+    //           <DataTable.Title numeric>Qty.</DataTable.Title>
+    //           <DataTable.Title numeric>Unit Price</DataTable.Title>
+    //         </DataTable.Header>
 
-            {itemBillsData.map((item, i) => {
-              // totalNetAmount += item?.amount
-              totalQty += item?.qty
+    //         {itemBillsData.map((item, i) => {
+    //           // totalNetAmount += item?.amount
+    //           totalQty += item?.qty
 
-              return (
-                <DataTable.Row
-                  key={i}
-                  onPress={() => handleBillListClick(item?.receipt_no)}>
-                  <DataTable.Cell>
-                    {receiptSettings?.custom_sl_flag === "N"
-                      ? item?.receipt_no?.toString():item?.rcpt_sl_no}
-                  </DataTable.Cell>
-                  <DataTable.Cell numeric>{item?.qty}</DataTable.Cell>
-                  <DataTable.Cell numeric>₹{item?.price}</DataTable.Cell>
-                </DataTable.Row>
-              )
-            })}
-          </DataTable>
-          <View style={{ padding: normalize(10) }}>
-            <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
-              QUANTITY: {totalQty}
-            </Text>
-          </View>
-        </SurfacePaper>
-        <View
-          style={{
-            paddingHorizontal: normalize(20),
-            paddingBottom: normalize(10),
-          }}>
-          <DialogBoxForReprint
-            iconSize={30}
-            visible={visible}
-            hide={hideDialog}
-            titleStyle={styles.title}
+    //           return (
+    //             <DataTable.Row
+    //               key={i}
+    //               onPress={() => handleBillListClick(item?.receipt_no)}>
+    //               <DataTable.Cell>
+    //                 {receiptSettings?.custom_sl_flag === "N"
+    //                   ? item?.receipt_no?.toString():item?.rcpt_sl_no}
+    //               </DataTable.Cell>
+    //               <DataTable.Cell numeric>{item?.qty}</DataTable.Cell>
+    //               <DataTable.Cell numeric>₹{item?.price}</DataTable.Cell>
+    //             </DataTable.Row>
+    //           )
+    //         })}
+    //       </DataTable>
+    //       <View style={{ padding: normalize(10) }}>
+    //         <Text variant="labelMedium" style={{ color: theme.colors.purple }}>
+    //           QUANTITY: {totalQty}
+    //         </Text>
+    //       </View>
+    //     </SurfacePaper>
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(20),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       <DialogBoxForReprint
+    //         iconSize={30}
+    //         visible={visible}
+    //         hide={hideDialog}
+    //         titleStyle={styles.title}
 
-            currentReceiptNo={currentReceiptNo}
-            billedSaleData={billedSaleData}
-            handleCancelBill={handleCancelBill}
-            cancelledBillStatus={cancelledBillStatus}
+    //         currentReceiptNo={currentReceiptNo}
+    //         billedSaleData={billedSaleData}
+    //         handleCancelBill={handleCancelBill}
+    //         cancelledBillStatus={cancelledBillStatus}
 
-            onDialogFailure={onDialogFailure}
-            onDialogSuccecss={onDialogSuccecss}
-            netTotalButtonColors={[theme.colors.purpleContainer, theme.colors.onPurpleContainer]}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    //         onDialogFailure={onDialogFailure}
+    //         onDialogSuccecss={onDialogSuccecss}
+    //         netTotalButtonColors={[theme.colors.purpleContainer, theme.colors.onPurpleContainer]}
+    //       />
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+ <SafeAreaView style={[styles.container, { backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff' }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center" }}>
+      <HeaderImage
+        isBackEnabled
+        imgLight={blurReport}
+        imgDark={blurReportDark}
+        borderRadius={30}
+        blur={10}>
+        Search By Item
+      </HeaderImage>
+    </View>
+
+    <View
+      style={{
+        padding: normalize(10),
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: colorScheme === 'dark' ? '#2e2929ff' :'#f5f9ff',
+        borderRadius: normalize(12),
+        elevation: 1,
+        shadowColor: '#008181',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+      }}>
+      <ButtonPaper
+                        textColor={colorScheme === "dark" ? "#009689" : "#008181"}
+
+        onPress={() => setOpenFromDate(true)}
+        mode="text">
+        FROM: {fromDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+      <ButtonPaper
+                        textColor={colorScheme === "dark" ? "#009689" : "#008181"}
+
+        onPress={() => setOpenToDate(true)}
+        mode="text">
+        TO: {toDate?.toLocaleDateString("en-GB")}
+      </ButtonPaper>
+
+      <DatePicker
+        modal
+        mode="date"
+        open={openFromDate}
+        date={fromDate}
+        onConfirm={date => {
+          setOpenFromDate(false);
+          setFromDate(date);
+        }}
+        onCancel={() => setOpenFromDate(false)}
+      />
+      <DatePicker
+        modal
+        mode="date"
+        open={openToDate}
+        date={toDate}
+        onConfirm={date => {
+          setOpenToDate(false);
+          setToDate(date);
+        }}
+        onCancel={() => setOpenToDate(false)}
+      />
+    </View>
+
+    <View style={{marginVertical: normalize(10), paddingHorizontal: normalize(25), paddingBottom: normalize(10) }}>
+      <Searchbar
+        style={{
+          backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#def0ddff',
+          color: '#008181',
+          borderRadius: normalize(8),
+          // borderWidth: 1,
+          borderColor: '#008181',
+        }}
+        placeholder="Search Products"
+        onChangeText={onChangeSearch}
+        value={search}
+        elevation={search ? 2 : 0}
+        autoFocus
+      />
+    </View>
+
+    <View style={{ paddingBottom: normalize(10) }}>
+      {search && (
+        <ScrollableListContainer backgroundColor= {colorScheme === 'dark' ? '#2e2929ff' : "#ececf0ff"}>
+          {filteredItems.map(item => (
+            <ProductListSuggestion
+              key={item?.id}
+              itemName={item?.item_name}
+              onPress={() => productDetails(item)}
+              unitPrice={item?.price}
+            />
+          ))}
+        </ScrollableListContainer>
+      )}
+    </View>
+
+    <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(10) }}>
+      <ButtonPaper
+        onPress={() => handleGetBillsByItem(formattedFromDate, formattedToDate, productId)}
+        mode="contained-tonal"
+        buttonColor={colorScheme === "dark" ? "#009689" : "#008181"}
+        textColor="white"
+        loading={isLoading}
+        disabled={isDisabled}
+        style={{ borderRadius: normalize(8) }}
+      >
+        SUBMIT
+      </ButtonPaper>
+    </View>
+
+    <SurfacePaper backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : "#f5f9ff"}>
+      <View style={{ padding: normalize(10) }}>
+        <Text variant="bodyMedium" style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>{itemName}</Text>
+      </View>
+      <DataTable>
+        <DataTable.Header style={{ backgroundColor: colorScheme === 'dark' ? '#009689' : '#008181' }}>
+          <DataTable.Title textStyle={{ color: 'white' }}>Rcpt. No.</DataTable.Title>
+          <DataTable.Title numeric textStyle={{ color: 'white' }}>Qty.</DataTable.Title>
+          <DataTable.Title numeric textStyle={{ color: 'white' }}>Unit Price</DataTable.Title>
+        </DataTable.Header>
+        {itemBillsData.map((item, i) => {
+          totalQty += item?.qty;
+          return (
+            <DataTable.Row
+              key={i}
+              onPress={() => handleBillListClick(item?.receipt_no)}>
+              <DataTable.Cell >
+                {receiptSettings?.custom_sl_flag === "N"
+                  ? item?.receipt_no?.toString()
+                  : item?.rcpt_sl_no}
+              </DataTable.Cell>
+              <DataTable.Cell numeric >{item?.qty}</DataTable.Cell>
+              <DataTable.Cell numeric >₹{item?.price}</DataTable.Cell>
+            </DataTable.Row>
+          );
+        })}
+      </DataTable>
+      <View style={{ padding: normalize(10) }}>
+        <Text variant="labelMedium" style={{ color: '#008181' }}>
+          QUANTITY: {totalQty}
+        </Text>
+      </View>
+    </SurfacePaper>
+
+    <View style={{ paddingHorizontal: normalize(20), paddingBottom: normalize(10) }}>
+      <DialogBoxForReprint
+        iconSize={30}
+        visible={visible}
+        hide={hideDialog}
+        titleStyle={styles.title}
+        currentReceiptNo={currentReceiptNo}
+        billedSaleData={billedSaleData}
+        handleCancelBill={handleCancelBill}
+        cancelledBillStatus={cancelledBillStatus}
+        onDialogFailure={onDialogFailure}
+        onDialogSuccecss={onDialogSuccecss}
+        netTotalButtonColors={['#008181', 'white']}
+      />
+    </View>
+  </ScrollView>
+</SafeAreaView>
+
+
   )
 }
 

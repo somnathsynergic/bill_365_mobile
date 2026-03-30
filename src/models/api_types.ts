@@ -84,7 +84,10 @@ export type ReceiptSettingsData = {
   on_off_flag4: "Y" | "N"
   kot_flag: "Y" | "N"
   stock_alert_flag: "Y" | "N"
+  logo_flag: "Y" | "N"
   stock_alert_prtg: number
+  print_op: string
+
 }
 
 /**
@@ -123,6 +126,7 @@ export type GeneralSettingsEditCredentials = {
   custom_sl_flag: string
   stock_alert_flag: string
   stock_alert_prtg: number
+  print_op:string
 }
 
 export type DiscountSettingsEditCredentials = {
@@ -174,6 +178,7 @@ export type ItemsData = {
   sp_gst_flag?: string
   disc_prtg_flag?: string
   batchwise_flag?:string
+  low_stock_qty?:number
 }
 
 export type UnitData = {

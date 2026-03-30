@@ -46,8 +46,8 @@ function CalculateModeBillScreen() {
         marginHorizontal: normalize(25),
         padding: normalize(10),
         flexWrap: "wrap",
-        borderColor: theme.colors.primaryContainer,
-        backgroundColor: theme.colors.primaryContainer,
+        borderColor: '#008181',
+        backgroundColor: '#008181',
         // borderStyle: "dashed",
         borderWidth: 3,
         borderRadius: normalize(100),
@@ -167,7 +167,7 @@ function CalculateModeBillScreen() {
                         color: theme.colors.onSurface
                     }} placeholderTextColor={theme.colors.onSurface} cursorColor={theme.colors.onSurface} />
 
-                    <Text variant="displaySmall">×</Text>
+                    <Text variant="displaySmall" style={{color:'white'}}>×</Text>
 
                     <TextInput placeholder="Price" onChangeText={(p: string) => setPrice(p)} value={price} keyboardType="numeric" clearTextOnFocus maxLength={6} style={{
                         backgroundColor: theme.colors.surface,
@@ -180,16 +180,16 @@ function CalculateModeBillScreen() {
                         color: theme.colors.onSurface
                     }} placeholderTextColor={theme.colors.onSurface} cursorColor={theme.colors.onSurface} />
 
-                    <Text variant="displaySmall">=</Text>
+                    <Text variant="displaySmall" style={{color:'white'}}>=</Text>
 
-                    <Text variant="headlineLarge" >₹{parseFloat((+qty * +price)?.toFixed(2)) || 0}</Text>
+                    <Text variant="headlineLarge" style={{color:'white'}}>₹{parseFloat((+qty * +price)?.toFixed(2)) || 0}</Text>
 
                     <IconButton icon="arrow-bottom-right" size={30} mode="contained" style={{
-                        backgroundColor: theme.colors.primary,
+                        backgroundColor: 'white',
                         borderRadius: normalize(15),
                         borderBottomRightRadius: normalize(50),
                         borderTopRightRadius: normalize(50),
-                    }} iconColor={theme.colors.onPrimary} onPress={handleAddBills} />
+                    }} iconColor={'#008181'} onPress={handleAddBills} />
                 </View>
 
                 {
@@ -267,7 +267,7 @@ function CalculateModeBillScreen() {
                                 alignSelf: "center",
                             }} textColor={theme.colors.error}>Reset</ButtonPaper>
 
-                            <ButtonPaper mode="contained" onPress={() => handlePrint(totalQty, totalPrice)} style={{
+                            <ButtonPaper buttonColor="#008181" mode="contained" onPress={() => handlePrint(totalQty, totalPrice)} style={{
                                 alignSelf: "center"
                             }} icon="cloud-print-outline">Save/Print</ButtonPaper>
                         </View>

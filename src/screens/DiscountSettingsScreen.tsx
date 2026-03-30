@@ -5,6 +5,7 @@ import {
   ToastAndroid,
   Alert,
   BackHandler,
+  useColorScheme,
 } from "react-native"
 import React, { useContext, useEffect, useState } from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -26,6 +27,7 @@ export default function DiscountSettingsScreen() {
   const theme = usePaperColorScheme()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
+  const colorScheme = useColorScheme()
 
   const loginStore = JSON.parse(loginStorage.getString("login-data"))
 
@@ -142,107 +144,241 @@ export default function DiscountSettingsScreen() {
   }
 
   return (
-    <SafeAreaView
-      style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            isBackCustom={true}
-            backPressed={backPressed}
-            imgLight={flowerHome}
-            imgDark={flowerHomeDark}
-            borderRadius={30}
-            blur={10}>
-            Discount Settings
-          </HeaderImage>
-        </View>
+    // <SafeAreaView
+    //   style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         isBackCustom={true}
+    //         backPressed={backPressed}
+    //         imgLight={flowerHome}
+    //         imgDark={flowerHomeDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         Discount Settings
+    //       </HeaderImage>
+    //     </View>
 
-        <View
-          style={{
-            paddingHorizontal: normalize(25),
-            paddingBottom: normalize(10),
+    //     <View
+    //       style={{
+    //         paddingHorizontal: normalize(25),
+    //         paddingBottom: normalize(10),
+    //       }}>
+    //       {loginStore?.user_type === "M" ? (
+    //         <ButtonPaper
+    //           icon="cloud-upload-outline"
+    //           mode="contained"
+    //           onPress={handleReceiptSettingsUpdate}
+    //           loading={isLoading}
+    //           disabled={isDisabled}>
+    //           UPDATE
+    //         </ButtonPaper>
+    //       ) : (
+    //         <ButtonPaper
+    //           disabled
+    //           mode="elevated"
+    //           onPress={() => console.log("UPDATE")}>
+    //           YOU CAN'T UPDATE
+    //         </ButtonPaper>
+    //       )}
+    //     </View>
+
+    //     <View style={{ padding: normalize(20) }}>
+    //       <List.Item
+    //         title="Discount"
+    //         description={
+    //           discountFlag === "Y"
+    //             ? "Allowed"
+    //             : discountFlag === "N"
+    //               ? "Denied"
+    //               : "Error Occurred!"
+    //         }
+    //         left={props => (
+    //           <List.Icon {...props} icon="label-percent-outline" />
+    //         )}
+    //         right={props => {
+    //           return <MenuPaper menuArrOfObjects={discountSwitchArr} />
+    //         }}
+    //         descriptionStyle={{
+    //           color:
+    //             discountFlag === "Y" ? theme.colors.green : theme.colors.error,
+    //         }}
+    //       />
+    //       <Divider />
+    //       {discountFlag === "Y" && (
+    //         <>
+    //           <List.Item
+    //             title="Discount Type"
+    //             description={
+    //               discountType === "P"
+    //                 ? "Percentage (%)"
+    //                 : discountType === "A"
+    //                   ? "Amount (₹)"
+    //                   : "Error Occurred!"
+    //             }
+    //             left={props => <List.Icon {...props} icon="cash-minus" />}
+    //             right={props => {
+    //               return <MenuPaper menuArrOfObjects={discountTypeArr} />
+    //             }}
+    //             descriptionStyle={{ color: theme.colors.primary }}
+    //           />
+    //           <Divider />
+    //           <List.Item
+    //             title="Discount Position"
+    //             description={
+    //               discountPosition === "I"
+    //                 ? "Itemwise"
+    //                 : discountPosition === "B"
+    //                   ? "Billwise"
+    //                   : "Error Occurred!"
+    //             }
+    //             left={props => <List.Icon {...props} icon="cash-marker" />}
+    //             right={props => {
+    //               return <MenuPaper menuArrOfObjects={discountPositionArr} />
+    //             }}
+    //             descriptionStyle={{ color: theme.colors.primary }}
+    //           />
+    //           <Divider />
+    //         </>
+    //       )}
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+   
+<SafeAreaView style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+       <View style={{ alignItems: "center" }}>
+           <HeaderImage
+             isBackEnabled
+             isBackCustom={true}
+             backPressed={backPressed}
+             imgLight={flowerHome}
+             imgDark={flowerHomeDark}
+             borderRadius={30}
+             blur={10}>
+             Discount Settings
+           </HeaderImage>
+         </View>
+    </View>
+
+    <View style={{ paddingHorizontal: normalize(25), paddingBottom: normalize(10) }}>
+      {loginStore?.user_type === "M" ? (
+        <ButtonPaper
+          icon="cloud-upload-outline"
+          mode="contained"
+          onPress={handleReceiptSettingsUpdate}
+          loading={isLoading}
+          disabled={isDisabled}
+          buttonColor="#008181"
+          textColor="white"
+          style={{ borderRadius: normalize(8), elevation: 1 }}
+        >
+          UPDATE
+        </ButtonPaper>
+      ) : (
+        <ButtonPaper
+          disabled
+          mode="elevated"
+          onPress={() => console.log("UPDATE")}
+          buttonColor="#f5f9ff"
+          textColor="#97979eff"
+          style={{ borderRadius: normalize(8), elevation: 1 }}
+        >
+          YOU CAN'T UPDATE
+        </ButtonPaper>
+      )}
+    </View>
+
+    <View style={{ padding: normalize(20) }}>
+      <View style={{
+        backgroundColor: colorScheme == "dark" ? '#2e2929ff' : '#fff',
+        borderRadius: normalize(8),
+        elevation: 1,
+        borderWidth: 1,
+        borderColor: colorScheme == "dark" ? '#2e2929ff' :'#ececf0ff',
+        padding: normalize(12),
+        marginBottom: normalize(12),
+      }}>
+        <List.Item
+          title="Discount"
+          description={
+            discountFlag === "Y"
+              ? "Allowed"
+              : discountFlag === "N"
+                ? "Denied"
+                : "Error Occurred!"
+          }
+          left={props => (
+            <List.Icon {...props} icon="label-percent-outline" color={colorScheme == "dark" ? '#009689' : '#008181'} />
+          )}
+          right={() => (
+            <MenuPaper menuArrOfObjects={discountSwitchArr}  textColor={colorScheme == "dark" ? '#009689' : '#008181'} />
+          )}
+          descriptionStyle={{
+            color: discountFlag === "Y" ? '#009689' : theme.colors.error,
+          }}
+        />
+      </View>
+
+      {discountFlag === "Y" && (
+        <>
+          <View style={{
+            backgroundColor: colorScheme == "dark" ? '#2e2929ff' : '#fff',
+            borderRadius: normalize(8),
+            elevation: 1,
+            borderWidth: 1,
+            borderColor: colorScheme == "dark" ? '#2e2929ff' :'#ececf0ff',
+            padding: normalize(12),
+            marginBottom: normalize(12),
           }}>
-          {loginStore?.user_type === "M" ? (
-            <ButtonPaper
-              icon="cloud-upload-outline"
-              mode="contained"
-              onPress={handleReceiptSettingsUpdate}
-              loading={isLoading}
-              disabled={isDisabled}>
-              UPDATE
-            </ButtonPaper>
-          ) : (
-            <ButtonPaper
-              disabled
-              mode="elevated"
-              onPress={() => console.log("UPDATE")}>
-              YOU CAN'T UPDATE
-            </ButtonPaper>
-          )}
-        </View>
-
-        <View style={{ padding: normalize(20) }}>
-          <List.Item
-            title="Discount"
-            description={
-              discountFlag === "Y"
-                ? "Allowed"
-                : discountFlag === "N"
-                  ? "Denied"
-                  : "Error Occurred!"
-            }
-            left={props => (
-              <List.Icon {...props} icon="label-percent-outline" />
-            )}
-            right={props => {
-              return <MenuPaper menuArrOfObjects={discountSwitchArr} />
-            }}
-            descriptionStyle={{
-              color:
-                discountFlag === "Y" ? theme.colors.green : theme.colors.error,
-            }}
-          />
-          <Divider />
-          {discountFlag === "Y" && (
-            <>
-              <List.Item
-                title="Discount Type"
-                description={
-                  discountType === "P"
-                    ? "Percentage (%)"
-                    : discountType === "A"
-                      ? "Amount (₹)"
-                      : "Error Occurred!"
-                }
-                left={props => <List.Icon {...props} icon="cash-minus" />}
-                right={props => {
-                  return <MenuPaper menuArrOfObjects={discountTypeArr} />
-                }}
-                descriptionStyle={{ color: theme.colors.primary }}
-              />
-              <Divider />
-              <List.Item
-                title="Discount Position"
-                description={
-                  discountPosition === "I"
-                    ? "Itemwise"
-                    : discountPosition === "B"
-                      ? "Billwise"
-                      : "Error Occurred!"
-                }
-                left={props => <List.Icon {...props} icon="cash-marker" />}
-                right={props => {
-                  return <MenuPaper menuArrOfObjects={discountPositionArr} />
-                }}
-                descriptionStyle={{ color: theme.colors.primary }}
-              />
-              <Divider />
-            </>
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            <List.Item
+              title="Discount Type"
+              description={
+                discountType === "P"
+                  ? "Percentage (%)"
+                  : discountType === "A"
+                    ? "Amount (₹)"
+                    : "Error Occurred!"
+              }
+              left={props => <List.Icon {...props} icon="cash-minus" color={colorScheme == "dark" ? '#009689' : '#008181'} />}
+              right={() => (
+                <MenuPaper menuArrOfObjects={discountTypeArr}  textColor={colorScheme == "dark" ? '#009689' : '#008181'} />
+              )}
+              descriptionStyle={{ color: colorScheme == "dark" ? '#009689' : '#008181' }}
+            />
+          </View>
+          <View style={{
+            backgroundColor: colorScheme == "dark" ? '#2e2929ff' : '#fff',
+            borderRadius: normalize(8),
+            elevation: 1,
+            borderWidth: 1,
+            borderColor: colorScheme == "dark" ? '#2e2929ff' :'#ececf0ff',
+            padding: normalize(12),
+            marginBottom: normalize(12),
+          }}>
+            <List.Item
+              title="Discount Position"
+              description={
+                discountPosition === "I"
+                  ? "Itemwise"
+                  : discountPosition === "B"
+                    ? "Billwise"
+                    : "Error Occurred!"
+              }
+              left={props => <List.Icon {...props} icon="cash-marker" color={colorScheme == "dark" ? '#009689' : '#008181'} />}
+              right={() => (
+                <MenuPaper menuArrOfObjects={discountPositionArr}  textColor={colorScheme == "dark" ? '#009689' : '#008181'} />
+              )}
+              descriptionStyle={{ color: colorScheme == "dark" ? '#009689' : '#008181' }}
+            />
+          </View>
+        </>
+      )}
+    </View>
+  </ScrollView>
+</SafeAreaView>
   )
 }
 

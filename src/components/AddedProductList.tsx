@@ -43,6 +43,8 @@ export default function AddedProductList({
   let discountForAmt: number = quantity * discount
 
   console.log("TTTTTTTTTTTTWWWWWWWWWWWWWWWWW", discount)
+  console.log("TTTTTTTTTTTTWWWWWWWWWWWWWWWWW", discountType)
+
 
   return (
     // receiptSettings?.gst_flag === "N" ? (
@@ -61,7 +63,7 @@ export default function AddedProductList({
             justifyContent: "space-between",
           }}>
           <View>
-            <Text>
+            <Text style={{color:'white'}}>
               {itemName} (₹{unitPrice})
             </Text>
           </View>
@@ -69,7 +71,7 @@ export default function AddedProductList({
             {/* <Text>
               {quantity}x{unitPrice}={unitPrice * quantity}
             </Text> */}
-            <Text>₹{(unitPrice * quantity)?.toFixed(2)}</Text>
+            <Text  style={{color:'white'}}>₹{(unitPrice * quantity)?.toFixed(2)}</Text>
           </View>
         </View>
         {discount !== 0 && discountPosition !== "B" && (
@@ -80,20 +82,20 @@ export default function AddedProductList({
             }}>
             {discountType === "A" ? (
               <View>
-                <Text>Discount</Text>
+                <Text  style={{color:'white'}}>Discount</Text>
               </View>
             ) : (
               <View>
-                <Text>Discount ({discount}%)</Text>
+                <Text  style={{color:'white'}}>Discount ({discount}%)</Text>
               </View>
             )}
             {discountType === "A" ? (
               <View>
-                <Text>₹{discountForAmt?.toFixed(2)}</Text>
+                <Text  style={{color:'white'}}>₹{discountForAmt?.toFixed(2)}</Text>
               </View>
             ) : (
               <View>
-                <Text>
+                <Text  style={{color:'white'}}>
                   ₹{((unitPrice * quantity * discount) / 100).toFixed(2)}
                 </Text>
               </View>
@@ -106,8 +108,8 @@ export default function AddedProductList({
             justifyContent: "space-between",
           }}>
           <View>
-            <Text>
-              QTY: {quantity} {unit}
+            <Text  style={{color:'white'}}>
+              Qty.: {quantity} {unit}
             </Text>
           </View>
           {/* {discountType === "A" ? (

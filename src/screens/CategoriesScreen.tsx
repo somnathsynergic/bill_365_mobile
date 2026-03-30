@@ -6,6 +6,7 @@ import {
     View,
     Alert,
     ToastAndroid,
+    useColorScheme,
 } from "react-native"
 import { ActivityIndicator, Text } from "react-native-paper"
 import HeaderImage from "../components/HeaderImage"
@@ -34,7 +35,7 @@ function CategoriesScreen() {
     const theme = usePaperColorScheme()
     const navigation = useNavigation()
     const isFocused = useIsFocused()
-
+    const colorScheme = useColorScheme()
     const {loading, categories, handleGetCategories } = useContext<AppStoreContext>(AppStore)
 
     let itemsStore: ItemsData[]
@@ -165,86 +166,169 @@ function CategoriesScreen() {
     }
 
     return (
-        <SafeAreaView
-            style={[styles.container, { backgroundColor: "#d0e1fd" }]}>
-            <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{
-                height: "auto",
-                paddingBottom: "20%"
+        // <SafeAreaView
+        //     style={[styles.container, { backgroundColor: "#fbf1cb" }]}>
+        //     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{
+        //         height: "auto",
+        //         paddingBottom: "20%"
+        //     }}>
+        //         <View style={{ alignItems: "center" }}>
+        //             <HeaderImage
+        //                 imgLight={textureReport}
+        //                 imgDark={textureReportDark}
+        //                 borderRadius={30}
+        //                 blur={10}
+        //                 isBackEnabled>
+        //                 Categories
+        //             </HeaderImage>
+        //         </View>
+        //         {loading ? <ActivityIndicator animating={true} color={'#008181'} style={{ marginTop: 20 }} size={'large'} /> : null}
+        //         {categories.length !== 0
+        //             ? <CatButtonsWrapper>
+        //                 {
+        //                     categories?.map((item, index) => (
+        //                         <CategoryButton
+        //                             key={index}
+        //                             text={item?.category_name}
+        //                             color={ "white"}
+        //                             textColor={"#008181"}
+        //                             icon={"hexagon-multiple-outline"}
+        //                             // withImage
+        //                             imageSource={item?.catg_picture}
+        //                             // imageSourceObject={cate}
+        //                             onPress={() => onPress(item?.sl_no, item?.category_name, item?.catg_picture)}
+        //                         />
+        //                     ))
+        //                 }
+        //             </CatButtonsWrapper>
+        //             :categories.length !== 0 && !loading && <SurfacePaper
+        //                 borderRadiusEnabled
+        //                 backgroundColor={theme.colors.vanillaTertiaryContainer}
+        //                 elevation={2}
+        //                 paddingEnabled
+        //                 smallWidthEnabled
+        //                 style={{ padding: 15 }}>
+        //                 <Text
+        //                     variant="titleLarge"
+        //                     style={{
+        //                         alignSelf: "center",
+        //                         textAlign: "center",
+        //                         color: theme.colors.onVanillaTertiaryContainer,
+        //                     }}>
+        //                     No categories found!
+        //                 </Text>
+        //             </SurfacePaper>
+        //         }
+        //     </ScrollView>
+
+        //     {
+        //         productStorage?.contains("products-data") && <AnimatedFABPaper
+        //             icon="restart"
+        //             label="Get"
+        //             onPress={onGetHoldBillOut}
+        //             // extended={isExtended}
+        //             animateFrom="right"
+        //             iconMode="dynamic"
+        //             customStyle={styles.fabStyle}
+        //             variant="primary"
+        //         // disabled={!isDataAvailable}
+        //         />
+        //     }
+
+        //     {
+        //         addedProducts?.length !== 0 &&
+        //         <View style={{
+        //             position: "absolute",
+        //             top: "90%",
+        //             alignSelf: "center"
+        //         }}>
+        //             <SnackBar totAmt={totalPrice?.toFixed(2)} handleBtn1Press={handlePressBillScreen} handleBtn2Press={handleClear} handleBtn3Press={handleGoToCartScreen} disableNext={!totalPrice} cartItemQty={addedProducts?.length} disableCart={!totalPrice} />
+        //         </View>
+        //     }
+        // </SafeAreaView>
+        <SafeAreaView style={[styles.container, { backgroundColor: colorScheme == "dark" ? '#2e2929ff' : '#fbf1cb' }]}>
+  <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{
+    height: "auto",
+    paddingBottom: "20%"
+  }}>
+    <View style={{ alignItems: "center" }}>
+      <HeaderImage
+        imgLight={textureReport}
+        imgDark={textureReportDark}
+        borderRadius={30}
+        blur={10}
+        isBackEnabled>
+        Categories
+      </HeaderImage>
+    </View>
+    {loading ? <ActivityIndicator animating={true} color={'#008181'} style={{ marginTop: 20 }} size={'large'} /> : null}
+    {categories.length !== 0
+      ? <CatButtonsWrapper>
+          {categories?.map((item, index) => (
+            <CategoryButton
+              key={index}
+              text={item?.category_name}
+              color="white"
+              textColor="#008181"
+              icon="hexagon-multiple-outline"
+              imageSource={item?.catg_picture}
+              onPress={() => onPress(item?.sl_no, item?.category_name, item?.catg_picture)}
+            
+            />
+          ))}
+        </CatButtonsWrapper>
+      : !loading && (
+        <SurfacePaper
+          borderRadiusEnabled
+          backgroundColor={theme.colors.vanillaTertiaryContainer}
+          elevation={2}
+          paddingEnabled
+          smallWidthEnabled
+          style={{ padding: 15 }}>
+          <Text
+            variant="titleLarge"
+            style={{
+              alignSelf: "center",
+              textAlign: "center",
+              color: theme.colors.onVanillaTertiaryContainer,
             }}>
-                <View style={{ alignItems: "center" }}>
-                    <HeaderImage
-                        imgLight={textureReport}
-                        imgDark={textureReportDark}
-                        borderRadius={30}
-                        blur={10}
-                        isBackEnabled>
-                        Categories
-                    </HeaderImage>
-                </View>
-                {loading ? <ActivityIndicator animating={true} color={'#404198'} style={{ marginTop: 20 }} size={'large'} /> : null}
-                {categories.length !== 0
-                    ? <CatButtonsWrapper>
-                        {
-                            categories?.map((item, index) => (
-                                <CategoryButton
-                                    key={index}
-                                    text={item?.category_name}
-                                    color={ "white"}
-                                    textColor={"#404198"}
-                                    icon={"hexagon-multiple-outline"}
-                                    // withImage
-                                    imageSource={item?.catg_picture}
-                                    // imageSourceObject={cate}
-                                    onPress={() => onPress(item?.sl_no, item?.category_name, item?.catg_picture)}
-                                />
-                            ))
-                        }
-                    </CatButtonsWrapper>
-                    :categories.length !== 0 && !loading && <SurfacePaper
-                        borderRadiusEnabled
-                        backgroundColor={theme.colors.vanillaTertiaryContainer}
-                        elevation={2}
-                        paddingEnabled
-                        smallWidthEnabled
-                        style={{ padding: 15 }}>
-                        <Text
-                            variant="titleLarge"
-                            style={{
-                                alignSelf: "center",
-                                textAlign: "center",
-                                color: theme.colors.onVanillaTertiaryContainer,
-                            }}>
-                            No categories found!
-                        </Text>
-                    </SurfacePaper>
-                }
-            </ScrollView>
+            No categories found!
+          </Text>
+        </SurfacePaper>
+      )}
+  </ScrollView>
 
-            {
-                productStorage?.contains("products-data") && <AnimatedFABPaper
-                    icon="restart"
-                    label="Get"
-                    onPress={onGetHoldBillOut}
-                    // extended={isExtended}
-                    animateFrom="right"
-                    iconMode="dynamic"
-                    customStyle={styles.fabStyle}
-                    variant="primary"
-                // disabled={!isDataAvailable}
-                />
-            }
+  {productStorage?.contains("products-data") && (
+    <AnimatedFABPaper
+      icon="restart"
+      label="Get"
+      onPress={onGetHoldBillOut}
+      animateFrom="right"
+      iconMode="dynamic"
+      customStyle={styles.fabStyle}
+      variant="primary"
+    />
+  )}
 
-            {
-                addedProducts?.length !== 0 &&
-                <View style={{
-                    position: "absolute",
-                    top: "90%",
-                    alignSelf: "center"
-                }}>
-                    <SnackBar totAmt={totalPrice?.toFixed(2)} handleBtn1Press={handlePressBillScreen} handleBtn2Press={handleClear} handleBtn3Press={handleGoToCartScreen} disableNext={!totalPrice} cartItemQty={addedProducts?.length} disableCart={!totalPrice} />
-                </View>
-            }
-        </SafeAreaView>
+  {addedProducts?.length !== 0 && (
+    <View style={{
+      position: "absolute",
+      top: "90%",
+      alignSelf: "center"
+    }}>
+      <SnackBar
+        totAmt={totalPrice?.toFixed(2)}
+        handleBtn1Press={handlePressBillScreen}
+        handleBtn2Press={handleClear}
+        handleBtn3Press={handleGoToCartScreen}
+        disableNext={!totalPrice}
+        cartItemQty={addedProducts?.length}
+        disableCart={!totalPrice}
+      />
+    </View>
+  )}
+</SafeAreaView>
+
     )
 }
 

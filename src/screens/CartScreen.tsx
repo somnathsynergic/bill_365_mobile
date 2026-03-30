@@ -401,24 +401,26 @@ function CartScreen() {
                     maxHeight: SCREEN_HEIGHT / 2.2,
                 }}>
                     <ScrollView style={{
-                        borderWidth: 2,
+                        // borderWidth: 2,
                         borderColor: theme.colors.vanillaSecondary,
-                        borderStyle: "dashed",
+                        // borderStyle: "dashed",
                         borderRadius: 20,
                         marginBottom: normalize(20)
                     }} nestedScrollEnabled>
                         {
                             addedProductsList?.map((item, i) => (
-                                <View key={i}>
+                                <View key={i} style={{ marginVertical:2}}>
                                     <List.Item
+                                        
                                         onPress={() => productDetails(item)}
-                                        title={({ ellipsizeMode }) => <Text ellipsizeMode="tail">{item?.item_name}</Text>}
+                                        title={({ ellipsizeMode }) => <Text style={{color:'#008181'}} ellipsizeMode="tail">{item?.item_name}</Text>}
                                         description={`₹${item?.price}`}
+                                        
                                         right={props => {
                                             return <AddRemove value={getQuantity(item?.item_id)} add={() => add(item)} remove={() => remove(item)} key={item?.item_id} isAddDisabled={receiptSettings?.stock_flag === "Y" && getQuantity(item?.item_id) === item?.stock} />
                                         }}
                                         descriptionStyle={{
-                                            color: theme.colors.green
+                                            color: 'gray'
                                         }}
                                     />
                                     <Divider />
@@ -472,7 +474,7 @@ function CartScreen() {
                                 {product?.item_name}
                             </Text>
                         </View>
-                        <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{(receiptSettings.stock_alert_prtg > stock || receiptSettings.stock_alert_prtg > updatedStock) && receiptSettings.stock_alert_flag === "Y"? "Low stock!" : ""}</Text>
+                        <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{(updatedStock< product?.low_stock_qty ) && receiptSettings.stock_alert_flag === "Y" && receiptSettings.stock_flag=='Y'? "Low stock!" : ""}</Text>
 
                     </View>
 

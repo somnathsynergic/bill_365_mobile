@@ -14,6 +14,7 @@ export default function useEditHeaderFooter() {
     flag3: string,
     flag4: string,
     createdBy: string,
+    isLogoVisible:string
   ) => {
     return new Promise<PromiseLike<BasicResponse>>((resolve, reject) => {
       axios
@@ -27,6 +28,7 @@ export default function useEditHeaderFooter() {
           on_off_flag3: flag3,
           footer2: footer2,
           on_off_flag4: flag4,
+          logo_flag:isLogoVisible,
           created_by: createdBy,
         })
         .then(res => {

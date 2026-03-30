@@ -44,7 +44,7 @@ export default function SettingsMasterScreen() {
                 key={index}
                 text={item.text}
                 color={"white"}
-                textColor={"#404198"}
+                textColor={"#008181"}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({

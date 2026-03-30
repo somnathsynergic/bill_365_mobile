@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from "react"
 import { Dialog, Portal, Button, Text, TouchableRipple } from "react-native-paper"
 import Clipboard from "@react-native-clipboard/clipboard"
 import { usePaperColorScheme } from "../theme/theme"
-import { Alert, Pressable, ToastAndroid, View } from "react-native"
+import { Alert, Pressable, ToastAndroid, useColorScheme, View } from "react-native"
 import ScrollableListContainer from "./ScrollableListContainer"
 import AddedProductList from "./AddedProductList"
 import NetTotalForRePrints from "./NetTotalForRePrints"
@@ -51,7 +51,7 @@ export default function DialogBoxForReprint({
   onDialogSuccecss
 }: PropsWithChildren<DialogBoxProps>) {
   const theme = usePaperColorScheme()
-
+  const colorScheme = useColorScheme()
   let netTotal = 0,
     totalDiscount = 0
 
@@ -86,127 +86,153 @@ export default function DialogBoxForReprint({
     Clipboard.setString(value)
     ToastAndroid.show(`Copied: ${value}`, ToastAndroid.SHORT)
   }
-
   return (
     <Portal>
       <Dialog
+        style={{
+          // backgroundColor: '#f5f9ff',
+          backgroundColor: colorScheme === "dark" ? 'black' : 'white',
+          borderRadius: normalize(10),
+          padding: normalize(16),
+        }}
         visible={visible}
         onDismiss={hide}
         theme={theme}
-        dismissable={dismissable}>
+        dismissable={dismissable}
+      >
         {icon && <Dialog.Icon icon={icon} size={iconSize} />}
-        {title && <Dialog.Title style={titleStyle}>{title}</Dialog.Title>}
+        {title && <Dialog.Title style={{ ...titleStyle, color: colorScheme === "dark" ? '#009689' : '#008181' }}>{title}</Dialog.Title>}
         <Dialog.Content>
-          <View style={{ paddingBottom: 5 }}>
-            <TouchableRipple onPress={() => copyToClipboard(currentReceiptNo.toString())}>
-              <Text
-                style={{ textAlign: "center", color: theme.colors.primary }}
-                variant="bodyLarge">
-                {currentReceiptNo || "Fetching receipt..."}
-              </Text>
-            </TouchableRipple>
-            <Text
-              style={{ textAlign: "center", color: theme.colors.secondary }}
-              variant="bodyLarge">
-              {billedSaleData[0]?.created_dt?new Date(billedSaleData[0]?.created_dt).toLocaleString("en-GB") : "Fetching date..."}
+          <View style={{ paddingBottom: 0 }}>
+            <Text style={{ fontWeight: 'bold', color: colorScheme === "dark" ? '#009689' : '#008181', fontSize: normalize(16) }}>
+              {currentReceiptNo || "Fetching receipt..."}
             </Text>
-            <View
-              style={{
-                borderWidth: 1,
-                borderStyle: "dashed",
-                width: "80%",
-                borderColor: theme.colors.secondary,
-                alignSelf: "center",
-              }}></View>
+            <Text style={{ color: '#97979eff', fontSize: normalize(13) }}>
+              {billedSaleData[0]?.created_dt ? new Date(billedSaleData[0]?.created_dt).toLocaleString("en-GB") : "Fetching date..."}
+            </Text>
+          </View>
+
+          <View style={{ marginVertical: 10 }}>
+            <View style={{ borderBottomWidth: 1, borderColor: '#ececf0ff', marginVertical: 5 }} />
             {billedSaleData[0]?.cust_name && (
-              <Text
-                style={{ textAlign: "center", color: theme.colors.primary }}
-                variant="bodyLarge">
-                {billedSaleData[0]?.cust_name || ""}
+              <Text style={{ fontWeight: 'bold', color: colorScheme === "dark" ? '#009689' : '#008181', fontSize: normalize(16) }}>
+                {billedSaleData[0]?.cust_name}
               </Text>
             )}
             <TouchableRipple onPress={() => copyToClipboard(billedSaleData[0]?.phone_no)}>
-              <Text
-                style={{ textAlign: "center", color: theme.colors.secondary }}
-                variant="bodyLarge">
+              <Text style={{ color: '#97979eff', fontSize: normalize(14) }}>
                 {billedSaleData[0]?.phone_no}
               </Text>
             </TouchableRipple>
-            <Text
-              style={{ textAlign: "center", color: theme.colors.peach }}
-              variant="bodyLarge">
+            <Text style={{ color: '#FFCD04', fontSize: normalize(12) }}>
               Payment Mode: {`[${billedSaleData[0]?.pay_mode === "C" ? "Cash" : billedSaleData[0]?.pay_mode === "D" ? "Card" : billedSaleData[0]?.pay_mode === "U" ? "UPI" : billedSaleData[0]?.pay_mode === "R" ? "Credit" : billedSaleData[0]?.pay_mode === null ? "Pay Off" : "Fetching mode..."}]`}
             </Text>
           </View>
-          <ScrollableListContainer
-            backgroundColor={theme.colors.surfaceVariant}
-            height={250}
-            width={300}>
-            {billedSaleData?.map((item, i) => {
-              netTotal += item.price * item.qty
 
-              totalDiscount = item?.tdiscount_amt
-              console.log(
-                "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
-                totalDiscount,
-              )
-              return (
-               <AddedProductList
-                  disabled
-                  itemName={item.item_name}
-                  quantity={item.qty}
-                  // unit={item.unit}
-                  unitPrice={item.price}
-                  discount={
-                    item?.discount_flag === "Y" && item?.discount_position !== "B"
-                      ? item?.discount_type === "P"
-                        ? item?.dis_pertg
-                        : item?.discount_amt
-                      : 0
-                  }
-                  discountType={item?.discount_type}
-                  gstFlag={item?.gst_flag}
-                  key={i}
-                />
-                
-              )
-            })}
-          </ScrollableListContainer>
-          <NetTotalForRePrints
-            width={300}
-            backgroundColor={netTotalButtonColors[0] || theme.colors.pinkContainer}
-            addedProductsList={billedSaleData}
-            netTotal={netTotal}
-            textColor={netTotalButtonColors[1] || theme.colors.onPinkContainer}
-            totalDiscount={totalDiscount}
-            disabled
-          />
+         <ScrollableListContainer
+  backgroundColor={colorScheme === "dark" ? '#2e2929ff' : '#FBF1CB'}
+  height={Math.min(billedSaleData?.length * 60, 250)} // Adjust item height as needed
+  width={280}
+>
+  {billedSaleData?.map((item, i) => {
+    netTotal += item.price * item.qty;
+    totalDiscount = item?.tdiscount_amt;
+    return (
+      <View
+        key={i}
+        style={{
+          backgroundColor: colorScheme === "dark" ? '#2e2929ff' : '#ffffff',
+          borderRadius: normalize(6),
+          padding: normalize(10),
+          marginBottom: normalize(8),
+          elevation: 1,
+          borderWidth: 1,
+          borderColor: colorScheme === "dark" ? '#2e2929ff' : '#ececf0ff',
+        }}
+      >
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: colorScheme === "dark" ? '#009689' : '#008181',
+            fontSize: normalize(14),
+          }}
+        >
+          {item.item_name}
+        </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: normalize(4) }}>
+          <Text style={{ color: '#97979eff', fontSize: normalize(12) }}>Qty: {item.qty}</Text>
+          <Text style={{ color: '#008181', fontSize: normalize(12) }}>₹{item.price}</Text>
+        </View>
+        {item?.discount_flag === 'Y' && (
+          <Text style={{ color: '#FFCD04', fontSize: normalize(11), marginTop: normalize(2) }}>
+            Discount: {item?.discount_type === 'P' ? `${item?.dis_pertg}%` : `₹${item?.discount_amt}`}
+          </Text>
+        )}
+      </View>
+    );
+  })}
+</ScrollableListContainer>
+
+         {/* <NetTotalForRePrints
+  width={280}
+  backgroundColor='#fff'
+  addedProductsList={billedSaleData}
+  netTotal={netTotal}
+  textColor='#008181'
+  totalDiscount={totalDiscount}
+  disabled
+  // style={{
+   
+  // }}
+/> */}
+<NetTotalForRePrints
+  width={280}
+  backgroundColor={colorScheme === "dark" ? '#2e2929ff' : '#ffffff'}
+  addedProductsList={billedSaleData}
+  netTotal={netTotal}
+  textColor={colorScheme === "dark" ? '#009689' : '#008181'}
+  totalDiscount={totalDiscount}
+  disabled
+  // style={{
+   
+  // }}
+/>
+
+
+
           <View style={{ paddingTop: normalize(10) }}>
-            <ButtonPaper icon="cancel" mode="contained-tonal" onPress={() => handleCancelBill(currentReceiptNo)} buttonColor={theme.colors.error} textColor={theme.colors.onError} disabled={cancelledBillStatus === "Y"}>
+            <ButtonPaper
+              style={{ borderRadius: normalize(0) }}
+              icon="cancel"
+              mode="contained-tonal"
+              onPress={() => handleCancelBill(currentReceiptNo)}
+              buttonColor='#FFCD04'
+              textColor='#97979eff'
+              disabled={cancelledBillStatus === "Y"}
+            >
               CANCEL BILL
             </ButtonPaper>
           </View>
-          <View
-            style={{
-              justifyContent: "space-between",
-              flexDirection: "row",
-              paddingTop: 10,
-            }}>
+
+          <View style={{ justifyContent: "space-between", flexDirection: "row", paddingTop: 10 }}>
             <ButtonPaper
               mode="text"
               onPress={onDialogFailure}
-              textColor={theme.colors.error}>
+              textColor='#97979eff'
+            >
               Cancel
             </ButtonPaper>
             <ButtonPaper
               mode="text"
               onPress={onDialogSuccecss}
-              textColor={theme.colors.primary}>
+              textColor='#008181'
+            >
               Reprint
             </ButtonPaper>
           </View>
         </Dialog.Content>
       </Dialog>
     </Portal>
+
   )
 }

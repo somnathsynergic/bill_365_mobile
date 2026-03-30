@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, SafeAreaView, View, Linking } from "react-native"
+import { StyleSheet, ScrollView, SafeAreaView, View, Linking, useColorScheme } from "react-native"
 import { SETTINGS_SCREEN_DATA } from "../data/ui/SETTINGS_SCREEN"
 import HeaderImage from "../components/HeaderImage"
 import { flowerSetting, flowerSettingDark } from "../resources/images"
@@ -11,10 +11,11 @@ import { CommonActions, useNavigation } from "@react-navigation/native"
 function SettingsScreen() {
   const navigation = useNavigation()
   const theme = usePaperColorScheme()
+  const colorScheme = useColorScheme()
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      style={[styles.container, { backgroundColor: colorScheme === "dark" ? "#000000" : "#f5f9ff" }]}>
       <ScrollView>
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -31,8 +32,8 @@ function SettingsScreen() {
               <ReportButton
                 key={index}
                 text={item.text}
-                color={"white"}
-                textColor={"#404198"}
+                color={colorScheme === "dark" ? "#2e2929ff" : "#ffffff"}
+                textColor={"#008181"}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({

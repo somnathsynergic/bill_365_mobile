@@ -52,6 +52,7 @@ export type AppStoreContext = {
   units: UnitData[]
   handleGetUnits: () => Promise<void>
   loading:boolean
+  loginData:any
 
 }
 

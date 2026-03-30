@@ -31,7 +31,6 @@ import navigationRoutes from "../routes/navigationRoutes"
 import SnackBar from "../components/SnackBar"
 import ButtonPaper from "../components/ButtonPaper"
 import SurfacePaper from "../components/SurfacePaper"
-
 function CategoryProductsScreen() {
     const theme = usePaperColorScheme()
     const navigation = useNavigation()
@@ -436,7 +435,7 @@ function CategoryProductsScreen() {
                                 </Text>
                             </SurfacePaper>
                     }
-                    {loading ? <ActivityIndicator style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} theme={{ colors: { primary: '#404198' } }} animating={true} size={'large'} /> : ''}
+                    {loading ? <ActivityIndicator style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} theme={{ colors: { primary: '#008181' } }} animating={true} size={'large'} /> : ''}
 
 
                 </View>
@@ -475,7 +474,7 @@ function CategoryProductsScreen() {
                                 {product?.item_name}
                             </Text>
                         </View>
-                        <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{(receiptSettings.stock_alert_prtg > stock || receiptSettings.stock_alert_prtg > updatedStock) && receiptSettings.stock_alert_flag=='Y' ? "Low stock!" : ""}</Text>
+                        <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>{(updatedStock< product?.low_stock_qty) && receiptSettings.stock_alert_flag=='Y' && receiptSettings?.stock_flag === "Y"? "Low stock!" : ""}</Text>
 
                     </View>
 

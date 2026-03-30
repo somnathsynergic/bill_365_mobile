@@ -1,5 +1,7 @@
 import { Badge, Divider, List } from "react-native-paper"
 import { usePaperColorScheme } from "../theme/theme"
+import normalize from "react-native-normalize"
+import { useColorScheme, View } from "react-native"
 
 type ProductListSuggestionProps = {
   itemName: string
@@ -21,12 +23,14 @@ export default function ProductListSuggestion({
   onPress,
 }: ProductListSuggestionProps) {
   const theme = usePaperColorScheme()
+  const colorScheme = useColorScheme()
   return (
-    <>
+    <View style={{backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : 'white'}}>
       <List.Item
         title={itemName}
         description={itemDesc}
         onPress={onPress}
+        titleStyle={{fontSize:normalize(15)}}
         left={props => <List.Icon {...props} icon="basket" />}
         right={
           unitPrice
@@ -34,8 +38,9 @@ export default function ProductListSuggestion({
                 <Badge
                   {...props}
                   style={{
-                    backgroundColor: theme.colors.tertiaryContainer,
-                    color: theme.colors.onTertiaryContainer,
+                    backgroundColor: colorScheme === 'dark' ? '#009689' : '#008181',
+                    color: 'white',
+                    paddingHorizontal:10
                   }}>
                   {unitPrice && `${unitPrice}/-`}
                   {/* {stock && `${stock}/-`} */}
@@ -45,7 +50,7 @@ export default function ProductListSuggestion({
                 <Badge
                   {...props}
                   style={{
-                    backgroundColor: theme.colors.tertiaryContainer,
+                    backgroundColor: '#ffcd04',
                     color: theme.colors.onTertiaryContainer,
                   }}>
                   {/* {unitPrice && `${unitPrice}/-`} */}
@@ -56,6 +61,6 @@ export default function ProductListSuggestion({
         }
       />
       <Divider />
-    </>
+    </View>
   )
 }

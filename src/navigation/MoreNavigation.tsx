@@ -20,10 +20,10 @@ export default function MoreNavigation() {
                 name={navigationRoutes.cancelBillScreen}
                 component={CancelBillScreen}
             /> */}
-      {/* <Stack.Screen
+      <Stack.Screen
         name={navigationRoutes.refundItemsScreen}
         component={RefundItemsScreen}
-      /> */}
+      />
       <Stack.Screen
         name={navigationRoutes.receiptsAgainstMobileScreen}
         component={ReceiptsAgainstMobileScreen}

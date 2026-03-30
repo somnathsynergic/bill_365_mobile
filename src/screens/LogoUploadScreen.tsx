@@ -104,7 +104,7 @@ function LogoUploadScreen() {
             paddingHorizontal: normalize(25),
             paddingBottom: normalize(10),
           }}>
-          <ButtonPaper buttonColor="#404198" mode="contained" onPress={selectLogo}>
+          <ButtonPaper buttonColor="#008181" mode="contained" onPress={selectLogo}>
             UPLOAD
           </ButtonPaper>
         </View>
@@ -121,7 +121,7 @@ function LogoUploadScreen() {
               borderRadius: normalize(50),
               width: "100%",
               padding: normalize(20),
-              borderColor: '#404198',
+              borderColor: '#008181',
             }}>
             <Image
               style={styles.image}

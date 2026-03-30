@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react"
 import { Dialog, Portal, Button } from "react-native-paper"
 import { usePaperColorScheme } from "../theme/theme"
+import { useColorScheme } from "react-native"
 
 type DialogBoxProps = {
   visible: boolean
@@ -34,10 +35,11 @@ export default function DialogBox({
   dismissable = false,
 }: PropsWithChildren<DialogBoxProps>) {
   const theme = usePaperColorScheme()
-
+  const colorScheme = useColorScheme()
   return (
     <Portal>
       <Dialog
+      style={{borderRadius:5,backgroundColor:colorScheme == "dark" ? '#2e2929ff' : 'white'}}
         visible={visible}
         onDismiss={hide}
         theme={theme}
@@ -49,7 +51,7 @@ export default function DialogBox({
           <Button onPress={onFailure} textColor={theme.colors.error}>
             {btnFail}
           </Button>
-          <Button onPress={onSuccess}>{btnSuccess}</Button>
+          <Button onPress={onSuccess} textColor="#008181">{btnSuccess}</Button>
         </Dialog.Actions>
       </Dialog>
     </Portal>

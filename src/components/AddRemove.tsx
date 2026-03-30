@@ -26,7 +26,7 @@ const AddRemove = ({ add, remove, value, isAddDisabled }: AddRemoveProps) => {
             <IconButton style={{
                 borderTopRightRadius: 6,
                 borderBottomRightRadius: 6
-            }} icon="minus-thick" onPress={remove} mode="contained" iconColor={'white'} containerColor={'#DB5461'} size={20} />
+            }} icon="minus-thick" onPress={remove} mode="contained" iconColor={'#008181'} containerColor={'#def0ddff'} size={20} />
             <View style={{
                 width: normalize(40),
                 height: "75%",
@@ -34,17 +34,18 @@ const AddRemove = ({ add, remove, value, isAddDisabled }: AddRemoveProps) => {
                 alignItems: "center",
                 alignSelf: "center",
                 borderRadius: 8,
-                backgroundColor: 'white',
-                borderColor: 'gray',
+                backgroundColor: '#def0ddff',
+                borderColor: '#def0ddff',
+                
                 // borderStyle: "dashed",
                 borderWidth: 2
             }}>
-                <Text variant='bodyMedium' style={{ color: theme.colors.onVanillaSecondaryContainer }}>{value}</Text>
+                <Text variant='bodyMedium' style={{ color: '#008181' }}>{value}</Text>
             </View>
             <IconButton disabled={isAddDisabled} style={{
                 borderBottomLeftRadius: 6,
                 borderTopLeftRadius: 6
-            }} icon="plus-thick" onPress={add} mode="contained" iconColor={'white'} containerColor={'#4DAA57'} size={20} />
+            }} icon="plus-thick" onPress={add} mode="contained" iconColor={'#008181'} containerColor={'#def0ddff'} size={20} />
         </View>
     )
 }

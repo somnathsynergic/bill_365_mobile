@@ -27,41 +27,103 @@ const SnackBar = ({
     disableCart }: SnackBarProps) => {
     const theme = usePaperColorScheme()
     return (
+        // <View style={{
+        //     flexDirection: "row",
+        //     paddingHorizontal: normalize(20),
+        //     alignSelf: "center",
+        //     width: SCREEN_WIDTH / 1.13,
+        //     height: normalize(60),
+        //     backgroundColor: '#008181',
+        //     borderRadius: normalize(15),
+        //     justifyContent: "space-between",
+        //     alignItems: "center"
+        // }}>
+        //     <Text variant="bodyLarge" style={{ color: 'white',fontSize:normalize(15) }}>Total • ₹{totAmt}</Text>
+
+        //     {!hideCart && <View style={{
+        //         marginLeft: "1%"
+        //     }}>
+        //         <IconButton iconColor={'white'} icon="cart-variant" onPress={handleBtn3Press} disabled={disableCart} />
+        //         <Badge visible={cartItemQty !== 0} style={{
+        //             position: "absolute",
+        //             top: 1,
+        //             right: 1,
+        //             backgroundColor: 'white',
+        //             color: '#008181',
+        //             fontWeight: "bold"
+        //         }}>{cartItemQty}</Badge>
+        //     </View>}
+
+        //     <View style={{
+        //         flexDirection: "row",
+        //         alignItems: "center"
+        //     }}>
+        //         <ButtonPaper icon="arrow-right-thick" textColor={theme.colors.onVanilla} onPress={handleBtn1Press} mode="text" disabled={disableNext}>Next</ButtonPaper>
+        //         <IconButton iconColor={theme.colors.onVanilla} icon="trash-can-outline" onPress={handleBtn2Press} disabled={disableCart}/>
+        //     </View>
+        // </View>
         <View style={{
-            flexDirection: "row",
-            paddingHorizontal: normalize(20),
-            alignSelf: "center",
-            width: SCREEN_WIDTH / 1.13,
-            height: normalize(60),
-            backgroundColor: '#404198',
-            borderRadius: normalize(20),
-            justifyContent: "space-between",
-            alignItems: "center"
-        }}>
-            <Text variant="bodyLarge" style={{ color: '#d0e1fd' }}>Total • ₹{totAmt}</Text>
+  flexDirection: "row",
+  paddingHorizontal: normalize(20),
+  alignSelf: "center",
+  width: SCREEN_WIDTH / 1.13,
+  height: normalize(60),
+  backgroundColor: '#008181',
+  borderRadius: normalize(10),
+  justifyContent: "space-between",
+  alignItems: "center",
+  elevation: 3,
+  shadowColor: '#008181',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 3,
+}}>
+  <Text variant="bodyLarge" style={{ color: 'white', fontSize: normalize(15) }}>
+    Total • ₹{totAmt}
+  </Text>
 
-            {!hideCart && <View style={{
-                marginLeft: "-5%"
-            }}>
-                <IconButton iconColor={'#404198'} icon="cart-variant" onPress={handleBtn3Press} disabled={disableCart} />
-                <Badge visible={cartItemQty !== 0} style={{
-                    position: "absolute",
-                    top: 1,
-                    right: 1,
-                    backgroundColor: '#d0e1fd',
-                    color: '#404198',
-                    fontWeight: "bold"
-                }}>{cartItemQty}</Badge>
-            </View>}
+  {!hideCart && (
+    <View style={{ position: "relative" }}>
+      <IconButton iconColor="white" icon="cart-variant" onPress={handleBtn3Press} disabled={disableCart} />
+      <Badge visible={cartItemQty !== 0} style={{
+        position: "absolute",
+        top: 1,
+        right: 1,
+        backgroundColor: 'white',
+        color: '#008181',
+        fontWeight: "bold",
+        fontSize: normalize(10),
+        paddingHorizontal: normalize(4),
+        borderRadius: normalize(10),
+      }}>
+        {cartItemQty}
+      </Badge>
+    </View>
+  )}
 
-            <View style={{
-                flexDirection: "row",
-                alignItems: "center"
-            }}>
-                <ButtonPaper icon="arrow-right-thick" textColor={theme.colors.onVanilla} onPress={handleBtn1Press} mode="text" disabled={disableNext}>NEXT</ButtonPaper>
-                <IconButton iconColor={theme.colors.onVanilla} icon="trash-can-outline" onPress={handleBtn2Press} disabled={disableCart}/>
-            </View>
-        </View>
+  <View style={{
+    flexDirection: "row",
+    alignItems: "center",
+  }}>
+    <ButtonPaper
+      icon="arrow-right-thick"
+      textColor="white"
+      onPress={handleBtn1Press}
+      mode="text"
+      disabled={disableNext}
+      style={{ paddingHorizontal: normalize(10) }}
+    >
+      Next
+    </ButtonPaper>
+    <IconButton
+      iconColor="white"
+      icon="trash-can-outline"
+      onPress={handleBtn2Press}
+      disabled={disableCart}
+    />
+  </View>
+</View>
+
     )
 }
 

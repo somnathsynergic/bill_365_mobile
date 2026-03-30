@@ -5,6 +5,7 @@ import {
   View,
   Image,
   ToastAndroid,
+  useColorScheme,
 } from "react-native"
 import QRCode from "react-native-qrcode-svg"
 
@@ -21,7 +22,7 @@ import InputPaper from "../components/InputPaper"
 
 function UPIGenerateScreen() {
   const theme = usePaperColorScheme()
-
+  const colorScheme = useColorScheme()
   const vpaFileData = fileStorage.getString("vpa-data")
   const svgRef = useRef(null)
   const [vpaAddress, setVpaAddress] = useState<string>(() => vpaFileData ?? "")
@@ -76,123 +77,244 @@ function UPIGenerateScreen() {
   }, [vpaAddress])
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor:'#dde6f5ff' }]}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: "center" }}>
-          <HeaderImage
-            isBackEnabled
-            imgLight={blurReport}
-            imgDark={blurReportDark}
-            borderRadius={30}
-            blur={10}>
-            Generate UPI
-          </HeaderImage>
+    // <SafeAreaView
+    //   style={[styles.container, { backgroundColor:'#dde6f5ff' }]}>
+    //   <ScrollView keyboardShouldPersistTaps="handled">
+    //     <View style={{ alignItems: "center" }}>
+    //       <HeaderImage
+    //         isBackEnabled
+    //         imgLight={blurReport}
+    //         imgDark={blurReportDark}
+    //         borderRadius={30}
+    //         blur={10}>
+    //         Generate UPI
+    //       </HeaderImage>
+    //     </View>
+
+    //     <DialogBox
+    //       visible={visible}
+    //       hide={hideDialog}
+    //       onFailure={hideDialog}
+    //       onSuccess={removeLogo}
+    //       title="Remove UPI"
+    //       btnSuccess="REMOVE">
+    //       <Text variant="bodyMedium">
+    //         Are you sure you want to remove UPI?
+    //       </Text>
+    //     </DialogBox>
+
+    //     <View
+    //       style={{
+    //         backgroundColor: 'white',
+    //         borderRadius: 20,
+    //         width: SCREEN_WIDTH / 1.15,
+    //         alignSelf: "center",
+    //         marginTop: normalize(10),
+    //         padding:15
+    //       }}>
+    //       <View
+    //         style={{
+    //           paddingHorizontal: normalize(29),
+    //           paddingBottom: normalize(10),
+    //           paddingTop: normalize(10),
+    //           flexDirection: "row",
+    //           justifyContent: "space-between",
+    //           alignItems: "center",
+    //           width: "100%",
+    //         }}>
+    //         <View
+    //           style={{
+    //             width: "75%",
+    //           }}>
+    //           <InputPaper
+    //             selectTextOnFocus
+    //             label="VPA Address"
+    //             onChangeText={onChangeVPAText}
+    //             value={vpaAddress}
+    //             keyboardType="default"
+    //             mode="outlined"
+    //             maxLength={100}
+                
+    //           />
+    //         </View>
+    //         <View
+    //           style={{
+    //             width: "20%",
+    //           }}>
+    //           <ButtonPaper
+    //             mode="elevated"
+    //             onPress={handleSaveVPAAddress}
+    //             icon="content-save-outline"
+    //             buttonColor="#008181"
+    //             textColor="white"
+    //             disabled={disabled}></ButtonPaper>
+    //         </View>
+    //       </View>
+
+    //       <View style={{ padding: normalize(40) }}>
+    //         <View
+    //           style={{
+    //             borderWidth: 2,
+    //             borderStyle: "dashed",
+    //             borderRadius: normalize(50),
+    //             width: "100%",
+    //             borderColor: '#008181',
+    //             padding: normalize(20),
+    //             justifyContent: "center",
+    //             alignItems: "center",
+    //           }}>
+    //           {vpaAddress.length > 0 && (
+    //             <QRCode
+    //               size={150}
+    //               value={`upi://pay?pa=${vpaAddress}&pn=OmTraders`}
+    //               color={theme.colors.onBackground}
+    //               backgroundColor={theme.colors.surfaceVariant}
+    //               getRef={c => (svgRef.current = c)}
+    //             />
+    //           )}
+    //         </View>
+    //       </View>
+
+    //       <View
+    //         style={{
+    //           paddingHorizontal: normalize(40),
+    //           paddingBottom: normalize(10),
+    //         }}>
+    //         <ButtonPaper
+    //           icon="trash-can-outline"
+    //           mode="elevated"
+    //           buttonColor="white"
+    //           onPress={showDialog}
+    //           textColor={theme.colors.error}
+    //         // buttonColor={theme.colors.errorContainer}
+    //         >
+    //           Delete
+    //         </ButtonPaper>
+    //       </View>
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: colorScheme == "dark" ? 'black' : '#f5f9ff' }]}>
+  <ScrollView keyboardShouldPersistTaps="handled">
+    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+      <View style={{ alignItems: "center" }}>
+           <HeaderImage
+             isBackEnabled
+             imgLight={blurReport}
+             imgDark={blurReportDark}
+             borderRadius={30}
+             blur={10}>
+             Generate UPI
+           </HeaderImage>
+         </View>
+
+    </View>
+
+    <DialogBox
+      visible={visible}
+      hide={hideDialog}
+      onFailure={hideDialog}
+      onSuccess={removeLogo}
+      title="Remove UPI"
+      btnSuccess="REMOVE"
+    >
+      <Text variant="bodyMedium">
+        Are you sure you want to remove UPI?
+      </Text>
+    </DialogBox>
+
+    <View
+      style={{
+        backgroundColor: colorScheme == "dark" ? '#2e2929ff' : 'white',
+        borderRadius: normalize(8),
+        width: SCREEN_WIDTH / 1.15,
+        alignSelf: 'center',
+        marginTop: normalize(10),
+        padding: normalize(15),
+        elevation: 1,
+        marginVertical:10
+      }}
+    >
+      <View
+        style={{
+          paddingHorizontal: normalize(29),
+          paddingBottom: normalize(10),
+          paddingTop: normalize(10),
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <View style={{ width: '75%' }}>
+          <InputPaper
+            selectTextOnFocus
+            label="VPA Address"
+            onChangeText={onChangeVPAText}
+            value={vpaAddress}
+            keyboardType="default"
+            mode="outlined"
+            maxLength={100}
+          />
         </View>
+        <View style={{ width: '20%', borderRadius: normalize(0) }}>
+          <ButtonPaper
+            mode="elevated"
+            onPress={handleSaveVPAAddress}
+            icon="content-save-outline"
+            buttonColor={colorScheme == "dark" ? '#009689' : '#fbf1cff'}
+            textColor={colorScheme == "dark" ? 'white' : '#008181'}
+            disabled={disabled}
+          />
+        </View>
+      </View>
 
-        <DialogBox
-          visible={visible}
-          hide={hideDialog}
-          onFailure={hideDialog}
-          onSuccess={removeLogo}
-          title="Remove UPI"
-          btnSuccess="REMOVE">
-          <Text variant="bodyMedium">
-            Are you sure you want to remove UPI?
-          </Text>
-        </DialogBox>
-
+      <View style={{ padding: normalize(40), alignItems: 'center' }}>
         <View
           style={{
-            backgroundColor: 'white',
-            borderRadius: 20,
-            width: SCREEN_WIDTH / 1.15,
-            alignSelf: "center",
-            marginTop: normalize(10),
-            padding:15
-          }}>
-          <View
-            style={{
-              paddingHorizontal: normalize(29),
-              paddingBottom: normalize(10),
-              paddingTop: normalize(10),
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-            }}>
-            <View
-              style={{
-                width: "75%",
-              }}>
-              <InputPaper
-                selectTextOnFocus
-                label="VPA Address"
-                onChangeText={onChangeVPAText}
-                value={vpaAddress}
-                keyboardType="default"
-                mode="outlined"
-                maxLength={100}
-                
-              />
-            </View>
-            <View
-              style={{
-                width: "20%",
-              }}>
-              <ButtonPaper
-                mode="elevated"
-                onPress={handleSaveVPAAddress}
-                icon="content-save-outline"
-                buttonColor="#404198"
-                textColor="white"
-                disabled={disabled}></ButtonPaper>
-            </View>
-          </View>
-
-          <View style={{ padding: normalize(40) }}>
-            <View
-              style={{
-                borderWidth: 2,
-                borderStyle: "dashed",
-                borderRadius: normalize(50),
-                width: "100%",
-                borderColor: '#404198',
-                padding: normalize(20),
-                justifyContent: "center",
-                alignItems: "center",
-              }}>
-              {vpaAddress.length > 0 && (
-                <QRCode
-                  size={150}
-                  value={`upi://pay?pa=${vpaAddress}&pn=OmTraders`}
-                  color={theme.colors.onBackground}
-                  backgroundColor={theme.colors.surfaceVariant}
-                  getRef={c => (svgRef.current = c)}
-                />
-              )}
-            </View>
-          </View>
-
-          <View
-            style={{
-              paddingHorizontal: normalize(40),
-              paddingBottom: normalize(10),
-            }}>
-            <ButtonPaper
-              icon="trash-can-outline"
-              mode="elevated"
-              buttonColor="white"
-              onPress={showDialog}
-              textColor={theme.colors.error}
-            // buttonColor={theme.colors.errorContainer}
-            >
-              Delete
-            </ButtonPaper>
-          </View>
+            borderWidth: 2,
+            borderStyle: 'dashed',
+            borderRadius: normalize(50),
+            width: '100%',
+            borderColor: '#008181',
+            padding: normalize(20),
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#f5f9ff',
+          }}
+        >
+          {vpaAddress.length > 0 && (
+            <QRCode
+              size={150}
+              value={`upi://pay?pa=${vpaAddress}&pn=OmTraders`}
+              color={theme.colors.onBackground}
+              backgroundColor={theme.colors.surfaceVariant}
+              getRef={c => (svgRef.current = c)}
+            />
+          )}
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+
+      <View
+        style={{
+          paddingHorizontal: normalize(40),
+          paddingBottom: normalize(10),
+          paddingTop: normalize(10),
+        }}
+      >
+        <ButtonPaper
+          icon="trash-can-outline"
+          mode="elevated"
+          buttonColor={'red'}
+          onPress={showDialog}
+          textColor="white"
+        >
+          Delete
+        </ButtonPaper>
+      </View>
+    </View>
+  </ScrollView>
+</SafeAreaView>
   )
 }
 

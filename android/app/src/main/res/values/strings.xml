@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Bill 365</string>
+    <!-- <string name="app_name">Bill 365</string> -->
+    <string name="app_name">Synergic POS</string>
 </resources>

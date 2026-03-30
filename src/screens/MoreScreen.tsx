@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, SafeAreaView, View } from "react-native"
+import { StyleSheet, ScrollView, SafeAreaView, View, useColorScheme } from "react-native"
 
 import { MORE_SCREEN_DATA } from "../data/ui/MORE_SCREEN"
 import HeaderImage from "../components/HeaderImage"
@@ -11,10 +11,11 @@ import { CommonActions, useNavigation } from "@react-navigation/native"
 function MoreScreen() {
   const navigation = useNavigation()
   const theme = usePaperColorScheme()
+  const colorScheme = useColorScheme()
 
   return (
     <SafeAreaView
-      style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
+      style={[styles.container, { backgroundColor: colorScheme === "dark" ? "#000000" : "#f5f9ff" }]}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: "center" }}>
           <HeaderImage
@@ -32,7 +33,7 @@ function MoreScreen() {
                 key={index}
                 text={item.text}
                 color={"white"}
-                textColor={"#404198"}
+                textColor={"#008181"}
                 icon={item.icon}
                 onPress={() => navigation.dispatch(
                   CommonActions.navigate({

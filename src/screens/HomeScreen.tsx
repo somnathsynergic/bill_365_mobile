@@ -8,7 +8,9 @@ import {
   Alert,
   Linking,
   Animated,
-  Image
+  Image,
+  TouchableOpacity,
+  useColorScheme
 } from "react-native"
 import React, { useCallback, useContext, useEffect, useState } from "react"
 import SplashScreen from "react-native-splash-screen"
@@ -46,7 +48,7 @@ import SurfacePaper from "../components/SurfacePaper"
 import DialogBox from "../components/DialogBox"
 import normalize, { SCREEN_HEIGHT, SCREEN_WIDTH } from "react-native-normalize"
 import ScrollableListContainer from "../components/ScrollableListContainer"
-import { loginStorage } from "../storage/appStorage"
+import { fileStorage, loginStorage } from "../storage/appStorage"
 import { CalculatorShowBillData, LoginData, LoginDataMessage, ReceiptSettingsData, RecentBillsData, ShowBillData } from "../models/api_types"
 import { AppStore } from "../context/AppContext"
 import useBillSummary from "../hooks/api/useBillSummary"
@@ -67,12 +69,13 @@ import { AppStoreContext } from "../models/custom_types"
 import useReceiptSettings from "../hooks/api/useReceiptSettings"
 import { Card } from 'react-native-paper';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import { BASE_URL_CATEGORY_IMG } from "../config/config"
 
 function HomeScreen() {
   const theme = usePaperColorScheme()
   const navigation = useNavigation()
   const isFocused = useIsFocused()
-
+  const colorScheme = useColorScheme()
   let version = DeviceInfo.getVersion()
 
   const { handleGetReceiptSettings } = useContext<AppStoreContext>(AppStore)
@@ -134,7 +137,7 @@ function HomeScreen() {
   const [visibleUpdatePortal, setVisibleUpdatePortal] = useState<boolean>(
     () => false,
   )
-
+  const [versionNumber, setVersionNumber] = useState<string>(() => "")
   const [calculatorModeBillArray, setCalculatorModeBillArray] = useState<CalculatorShowBillData[]>(() => [])
 
   const showDialogForAppUpdate = () => setVisibleUpdatePortal(true)
@@ -154,9 +157,32 @@ function HomeScreen() {
 
     return () => SplashScreen.hide()
   }, [])
+
+    const urlToBase64 = async (url) => {
+      const response = await fetch(url);
+      const blob = await response.blob();
+  
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+  
+   
+    
   const handleGetReceiptSettingsForHome = async () => {
     const loginStore = JSON.parse(loginStorage.getString("login-data"))
+    console.log(loginStore,'loginstore')
+    fileStorage.set('logo',loginStore.logo)
+     urlToBase64(BASE_URL_CATEGORY_IMG+loginStore.comp_picture)
+        .then(base64 => {
+          console.log('base64=====', base64);
+        fileStorage.set('comp_picture',base64.toString())
 
+           // "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ..."
+        });
     const companyId = loginStore.comp_id
     await fetchReceiptSettings(companyId)
       .then(res => {
@@ -172,6 +198,7 @@ function HomeScreen() {
   }
   useEffect(() => {
     handleGetReceiptSettingsForHome()
+
   }, [])
 
   const onRefresh = useCallback(() => {
@@ -290,6 +317,7 @@ function HomeScreen() {
   }
   useEffect(() => {
     console.log("CALLED GST FLAG HOME SCREEN:", loginStore)
+    // fileStorage.set('comp_picture',loginStore.comp_picture)
   }, [])
   const handleGetBillSummary = async () => {
     setLoading(true)
@@ -323,7 +351,12 @@ function HomeScreen() {
       loginStore.user_id,
     )
       .then(res => {
-        setRecentBills(res)
+        console.log(res)
+        if (loginStore?.mode == 'N')
+          setRecentBills(res.slice(0, 2))
+        else {
+          setRecentBills(res.slice(0, 2))
+        }
       })
       .catch(err => {
         ToastAndroid.show(
@@ -336,8 +369,10 @@ function HomeScreen() {
   const handleGetVersion = async () => {
     await fetchVersionInfo()
       .then(res => {
+        console.log("VERSION INFO:", res?.data[0]?.version_no, version)
         if (parseFloat(res?.data[0]?.version_no) > parseFloat(version)) {
           showDialogForAppUpdate()
+          setVersionNumber(version)
           // Alert.alert("UPDATE FOUND!", "Please update your app.")
         }
         setUpdateUrl(res?.data[0]?.url)
@@ -373,13 +408,16 @@ function HomeScreen() {
   }
 
   const handleGetBillCalculatorMode = async (rcptNo: number) => {
+    console.log(rcptNo)
     await fetchCalcBill(rcptNo).then(res => {
+      console.log("handleGetBillCalculatorMode - HOMESCREEN - fetchCalcBill", res?.data)
       setCalculatorModeBillArray(res?.data)
     })
   }
 
   const handleRecentBillListClick = (rcptNo: number) => {
     setVisible(true)
+    console.log(rcptNo, 'rcpt_no=======================================')
     handleGetBill(rcptNo)
     setCurrentReceiptNo(rcptNo)
     setGstFlag(billedSaleData[0]?.gst_flag)
@@ -388,6 +426,8 @@ function HomeScreen() {
 
   const handleBillListClickCalculatorMode = (rcptNo: number) => {
     setVisible2(true)
+    console.log(rcptNo, 'rcpt_no=======================================')
+
     setCurrentReceiptNo(rcptNo)
     handleGetBillCalculatorMode(rcptNo)
   }
@@ -423,24 +463,527 @@ function HomeScreen() {
   let totalQty: number = 0
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
+    //     <SafeAreaView
+    //       style={[styles.container, { backgroundColor: "#f5f9ff" }]}>
+    //       <ScrollView
+    //         onScroll={onScroll}
+    //         keyboardShouldPersistTaps="handled"
+    //         refreshControl={
+    //           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //         }>
+    //         <View style={{ alignItems: "center", }}>
+    //           <HeaderImage
+    //             imgLight={hills}
+    //             imgDark={hillsDark}
+    //             // borderRadius={30}
+    //             blur={10}>
+
+
+    //             {loginStore.company_name}
+    //           </HeaderImage>
+    //         </View>
+
+    //         <Portal>
+    //           <Dialog visible={visibleUpdatePortal} dismissable={false}>
+    //             <Dialog.Title>UPDATE FOUND!</Dialog.Title>
+    //             <Dialog.Content>
+    //               <Text variant="bodyMedium">Please update your app.</Text>
+    //             </Dialog.Content>
+    //             <Dialog.Actions>
+    //               {/* <Button onPress={hideDialog}>Cancel</Button> */}
+    //               <Button onPress={updateApp}>Download</Button>
+    //             </Dialog.Actions>
+    //           </Dialog>
+    //         </Portal>
+    //         <View style={{ alignItems: "center", marginTop: -10 }}>
+    //           <SurfacePaper
+    //             borderRadiusEnabled={false}
+    //             paddingEnabled
+    //             elevation={1}
+    //             backgroundColor={theme.colors.peachContainer}
+    //             style={{
+    //               borderTopRightRadius: normalize(10),
+    //               borderBottomRightRadius: normalize(10),
+    //               borderTopLeftRadius: normalize(10),
+    //               borderBottomLeftRadius: normalize(10),
+    //             }}
+    //           >
+    //             {!loading ? <View style={{ width: "100%", padding: normalize(15) }}>
+    //               <View
+    //                 style={{
+    //                   flexDirection: "row",
+    //                   justifyContent: "space-between",
+    //                 }}>
+
+    //                 <View style={{ flexDirection: 'column' }}>
+    //                   <View
+    //                     style={{
+    //                       flexDirection: "row",
+    //                       justifyContent: "space-between",
+    //                     }}>
+    //                     <View>
+    //                       <Text variant="titleLarge" style={{
+    //                         // color: theme.colors.onPeachContainer
+    //                         color: "white",
+    //                         fontSize: normalize(14)
+    //                       }}>Amount Collected</Text>
+    //                     </View>
+
+    //                   </View>
+
+    //                   <Text style={{
+    //                     color: "white",
+    //                     fontSize: 30
+    //                   }}>₹{amountCollected || 0}</Text>
+    //                 </View>
+
+
+    //               </View>
+    //               {loginStore?.mode == 'N' ? <View
+    //                 style={{
+    //                   flexDirection: "row",
+    //                   justifyContent: "center",
+    //                 }}
+    //               >
+
+    //                 <View style={{
+    //                  marginVertical: 20,  marginHorizontal: 10, flexDirection: 'row', justifyContent: 'center', gap: 20
+    //                 }}>
+
+    //                   <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    //                     <View style={{
+    //                       backgroundColor: "white",
+    //                       borderRadius: normalize(50),
+    //                       height: normalize(45),
+    //                       width: normalize(45),
+    //                       flexDirection: "column",
+    //                       alignItems: "center",
+
+    //                       justifyContent: "center",
+    //                     }}>
+    //                       <Text style={{
+    //                         // color: "#008181",
+    //                         color: "#ffcd04",
+    //                         textAlign: "center",
+    //                         fontSize: normalize(26)
+
+    //                       }}>
+    //                         {totalBills || 0}
+    //                       </Text>
+
+
+    //                     </View>
+    //                     <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Total Bills</Text>
+    //                   </View>
+    //                    <TouchableOpacity onPress={() =>  navigation.dispatch(
+    //                     CommonActions.navigate({
+    //                       name: navigationRoutes.cancelBillScreen,
+    //                     }),
+    //                   )}>
+    //                   <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    //                     <View style={{
+    //                       backgroundColor: "white",
+    //                       borderRadius: normalize(50),
+    //                       height: normalize(45),
+    //                       width: normalize(45),
+    //                       flexDirection: "column",
+    //                       alignItems: "center",
+
+    //                       justifyContent: "center",
+    //                     }}>
+    //                       <Text style={{
+    //                         color: "#008181",
+    //                         textAlign: "center",
+    //                         fontSize: normalize(26)
+
+    //                       }}>
+    //                         {/* {totalBills || 0} */}
+    //                         <MaterialCommunityIcons
+    //                           name="cancel"
+    //                           // color={'#008181'}
+    //                           color={'red'}
+    //                           size={26}
+    //                         />
+    //                       </Text>
+
+
+    //                     </View>
+    //                     <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Cancel Bills</Text>
+    //                   </View>
+    //                   </TouchableOpacity>
+    //                   <TouchableOpacity onPress={() =>  navigation.dispatch(
+    //                     CommonActions.navigate({
+    //                       name: navigationRoutes.moreScreen,
+    //                       params:{}
+    //                     }),
+    //                   )}>
+    //                   <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    //                     <View style={{
+    //                       backgroundColor: "white",
+    //                       borderRadius: normalize(50),
+    //                       height: normalize(45),
+    //                       width: normalize(45),
+    //                       flexDirection: "column",
+    //                       alignItems: "center",
+
+    //                       justifyContent: "center",
+    //                     }}>
+    //                       <Text style={{
+    //                         color: "#008181",
+    //                         textAlign: "center",
+    //                         fontSize: normalize(26)
+
+    //                       }}>
+    //                         <MaterialCommunityIcons
+    //                           name="magnify"
+    //                           // color={'#008181'}
+    //                           color={'green'}
+    //                           size={26}
+    //                         />
+    //                       </Text>
+
+
+    //                     </View>
+    //                     <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Search Bills</Text>
+    //                   </View>
+    //                 </TouchableOpacity>
+
+    //                   {/* <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+    //                   <View style={{
+    //                     backgroundColor: "white",
+    //                     borderRadius: normalize(50),
+    //                     height: normalize(45),
+    //                     width: normalize(45),
+    //                     flexDirection: "column",
+    //                     alignItems: "center",
+
+    //                     justifyContent: "center",
+    //                   }}>
+    //                     <Text style={{
+    //                     color: "#008181",
+    //                     textAlign: "center",
+    //                     fontSize: normalize(26)
+
+    //                     }}>
+    //                       {totalBills || 0}
+    //                     </Text>
+
+
+    //                     </View>
+    //                     <Text style={{color:'white',fontWeight:'bold',marginTop:5}}>Total Bills</Text>
+    //                     </View> */}
+
+    //                 </View>
+
+    //               </View>:''}
+
+    //               {/* <View
+    //                 style={{
+    //                   flexDirection: "row",
+    //                   justifyContent: "space-between",
+    //                 }}>
+    //                 <View>
+    //                   <Text variant="titleLarge" style={{
+    //                     // color: theme.colors.onPeachContainer
+    //                     color: "white",
+    //                     fontSize: normalize(16)
+    //                   }}>Amount Collected</Text>
+    //                 </View>
+    //                 <View>
+    //                   <Text variant="titleLarge" style={{
+    //                     // color: theme.colors.onPeachContainer
+    //                     color: "white",
+    //                     fontSize: normalize(16)
+
+    //                   }}>₹{amountCollected || 0}</Text>
+    //                 </View>
+    //               </View> */}
+    //             </View> : <ActivityIndicator animating={true} color={MD2Colors.white} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+    //           </SurfacePaper>
+    //         </View>
+    //         {/* <View style={{ alignItems: "center", marginTop: -10 }}>
+    //           <SurfacePaper
+    //             // smallWidthEnabled
+    //             borderRadiusEnabled={false}
+    //             paddingEnabled
+    //             // heading="Summary"
+    //             elevation={1}
+    //             backgroundColor={theme.colors.peachContainer}
+    //             style={{
+    //               borderTopRightRadius: normalize(10),
+    //               borderBottomRightRadius: normalize(10),
+    //               borderTopLeftRadius: normalize(10),
+    //               borderBottomLeftRadius: normalize(10),
+    //             }}
+    //             >
+    //             {!loading?<View style={{ width: "100%", padding: normalize(15) }}>
+    //               <View
+    //                 style={{
+    //                   flexDirection: "row",
+    //                   justifyContent: "space-between",
+    //                 }}>
+    //                 <View>
+    //                   <Text variant="titleLarge" style={{
+    //                     // color: theme.colors.onPeachContainer
+    //                     color: "white"
+    //                   }}>Total Bills</Text>
+    //                 </View>
+    //                 <View>
+    //                   <Text variant="titleLarge" style={{
+    //                     color: "#008181",
+    //                     backgroundColor: "white",
+    //                     borderRadius: normalize(50),
+    //                     height: normalize(25),
+    //                     width: normalize(25),
+    //                     flexDirection: "row",
+    //                     alignItems: "center",
+
+    //                     textAlign: "center",
+    //                     justifyContent: "center",
+    //                     fontSize: normalize(16)
+    //                   }}>{totalBills || 0}</Text>
+    //                 </View>
+    //               </View>
+    //               <View
+    //                 style={{
+    //                   flexDirection: "row",
+    //                   justifyContent: "space-between",
+    //                 }}>
+    //                 <View>
+    //                   <Text variant="titleLarge" style={{
+    //                     // color: theme.colors.onPeachContainer
+    //                     color: "white",
+    //                     fontSize: normalize(16)
+    //                   }}>Amount Collected</Text>
+    //                 </View>
+    //                 <View>
+    //                   <Text variant="titleLarge" style={{
+    //                     // color: theme.colors.onPeachContainer
+    //                     color: "white",
+    //                     fontSize: normalize(16)
+
+    //                   }}>₹{amountCollected || 0}</Text>
+    //                 </View>
+    //               </View>
+    //             </View>:<ActivityIndicator animating={true} color={MD2Colors.white} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+    //           </SurfacePaper>
+
+    //           {!loading?<SurfacePaper
+    //             // smallWidthEnabled
+    //             borderRadiusEnabled={false}
+    //             paddingEnabled
+    //             isBorderEnabled
+    //             heading="Recent Bills"
+    //             elevation={1}
+    //             // backgroundColor={theme.colors.tertiaryContainer}
+    //             backgroundColor={"white"}
+    //             style={{
+    //               borderTopRightRadius: normalize(10),
+    //               borderBottomRightRadius: normalize(10),
+    //               borderTopLeftRadius: normalize(10),
+    //               borderBottomLeftRadius: normalize(10),
+    //               color: "#008181",
+    //               backgroundColor: "#ffffff",
+    //             }}>
+    //             <View style={{ width: "100%"}}>
+    //               {recentBills?.map((item, i) => (
+    //                 <List.Item
+    //                   key={i}
+    //                   titleStyle={{ color: "#008181", fontWeight: "800" }}
+    //                   descriptionStyle={{ color: "black", }}
+
+    //                   title={`Bill  ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
+    //                   description={`₹${item?.net_amt}`}
+    //                   onPress={() => {
+    //                     loginStore?.mode !== "C"
+    //                       ? handleRecentBillListClick(item?.receipt_no)
+    //                       : handleBillListClickCalculatorMode(item?.receipt_no)
+    //                   }
+    //                   }
+    //                   left={props => <List.Icon style={{ color: "#008181" }} {...props} icon="basket" />}
+    //                 // right={props => (
+    //                 //   <List.Icon {...props} icon="download" />
+    //                 // )}
+    //                 />
+    //               ))}
+    //             </View>
+    //             <View>
+    //               <Button
+    //                 textColor={'#008181'}
+    //                 // buttonColor={'#008181'}
+
+    //                 onPress={() =>
+    //                   navigation.dispatch(
+    //                     CommonActions.navigate({
+    //                       name: navigationRoutes.allBillsScreen,
+    //                     }),
+    //                   )
+    //                 }>
+    //                 ALL BILLS
+    //               </Button>
+    //             </View>
+    //           </SurfacePaper>:<ActivityIndicator animating={true} color={"#008181"} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+    //         </View> */}
+    //         {recentBills.length>0 ?<>
+    //         <Text style={{marginHorizontal:15,fontSize:15,color:'#97979eff'}}>Recent Bills</Text>
+    //         <View style={styles.container1}>
+    //           {recentBills?.map((item, i) => {
+    //             const billNo = receiptSettings?.custom_sl_flag === 'N'
+    //               ? item?.receipt_no
+    //               : item?.rcpt_sl_no;
+    //             const dt = new Date(item.trn_date).toLocaleDateString();
+
+    //             return (
+    //               <Card
+    //                 key={i}
+    //                 style={styles.card}
+    //                 onPress={() =>
+    //                   loginStore?.mode !== 'C'
+    //                     ? handleRecentBillListClick(item.receipt_no)
+    //                     : handleBillListClickCalculatorMode(item.receipt_no)
+    //                 }
+    //               >
+    //                 <List.Item
+    //                   titleStyle={styles.title1}
+    //                   descriptionStyle={styles.description}
+    //                   title={` ${billNo} `}
+    //                   description={`₹ ${item.net_amt} (${dt})`}
+    //                   left={props => <List.Icon {...props} icon="receipt" color="#008181" />}
+    //                 />
+    //               </Card>
+    //             );
+    //           })}
+    //         </View>
+    //          {/* {loginStore?.mode == "C" && */}
+    //               <Button
+    //                 textColor={'#008181'}
+    //                 // buttonColor={'#008181'}
+
+    //                 onPress={() =>
+    //                   navigation.dispatch(
+    //                     CommonActions.navigate({
+    //                       name: navigationRoutes.allBillsScreen,
+    //                     }),
+    //                   )
+    //                 }>
+    //                 More
+    //               </Button>
+    //               {/* } */}
+    //         </>:
+    //         <View style={{marginHorizontal:'auto',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+    //           <Text style={{color:'#97979eff',margin:'auto'}}>Your recent bills will appear here!</Text>
+    //           </View>
+    // }
+
+    //       </ScrollView>
+
+    //       <DialogBoxForReprint
+    //         iconSize={30}
+    //         visible={visible}
+    //         hide={hideDialog}
+    //         titleStyle={styles.title}
+
+    //         currentReceiptNo={currentReceiptNo}
+    //         billedSaleData={billedSaleData}
+    //         handleCancelBill={handleCancelBill}
+    //         cancelledBillStatus={cancelledBillStatus}
+
+    //         onDialogFailure={onDialogFailure}
+    //         onDialogSuccecss={() => onDialogSuccecss()}
+    //       />
+
+    //       <DialogForBillsInCalculatorMode
+    //         visible={visible2}
+    //         hide={hideDialog2}
+
+    //         currentReceiptNumber={currentReceiptNo}
+    //         showCalculatedBillData={calculatorModeBillArray}
+
+    //         onDialogFailure={hideDialog2}
+    //         onDialogSuccecss={() => onDialogSuccecss(true)}
+    //       />
+
+    //       {
+    //         loginStore?.mode === "N"
+    //           ? <AnimatedFABPaper
+    //             icon="plus"
+    //             color={"white"}
+    //             label="Bill"
+    //             onPress={() =>
+    //               navigation.dispatch(
+    //                 CommonActions.navigate({
+    //                   name: navigationRoutes.productsScreen,
+    //                 }),
+    //               )
+    //             }
+    //             extended={isExtended}
+    //             animateFrom="right"
+    //             iconMode="dynamic"
+
+    //             customStyle={styles.fabStyle}
+    //           />
+    //           : <AnimatedFABPaper
+    //             icon="pencil-plus-outline"
+    //             color="white"
+    //             label="Bill"
+    //             onPress={() =>
+    //               navigation.dispatch(
+    //                 CommonActions.navigate({
+    //                   name: navigationRoutes.calculateModeBillScreen,
+    //                 }),
+    //               )
+    //             }
+    //             extended={isExtended}
+    //             animateFrom="right"
+    //             iconMode="dynamic"
+    //             customStyle={styles.fabStyle}
+    //           />
+    //       }
+
+
+    //       {
+    //         loginStore?.mode !== "C" && <>
+    //           <AnimatedFABPaper
+    //             color={"white"}
+    //             variant="tertiary"
+    //             icon="apps"
+    //             label="Categories"
+    //             onPress={() =>
+    //               navigation.dispatch(
+    //                 CommonActions.navigate({
+    //                   name: navigationRoutes.categoriesScreen,
+    //                 }),
+    //               )
+    //             }
+    //             extended={isExtended}
+    //             animateFrom="left"
+    //             iconMode="dynamic"
+    //             customStyle={[styles.fabStyle2, { backgroundColor: theme.colors.peachContainer }]}
+    //           />
+    //         </>
+    //       }
+
+    //     </SafeAreaView>
+    <SafeAreaView style={[styles.container, { backgroundColor: colorScheme === "dark" ? "#000000" : "#f5f9ff" }]}>
       <ScrollView
         onScroll={onScroll}
         keyboardShouldPersistTaps="handled"
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <View style={{ alignItems: "center", }}>
-          <HeaderImage
-            imgLight={hills}
-            imgDark={hillsDark}
-            // borderRadius={30}
-            blur={10}>
+        }
+      >
+        <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+          <View style={{ alignItems: "center", }}>
+            <HeaderImage
+              imgLight={hills}
+              imgDark={hillsDark}
+              borderRadius={30}
+              blur={10}>
 
 
-            {loginStore.company_name}
-          </HeaderImage>
+              {loginStore.company_name}
+            </HeaderImage>
+          </View>
         </View>
 
         <Portal>
@@ -450,391 +993,153 @@ function HomeScreen() {
               <Text variant="bodyMedium">Please update your app.</Text>
             </Dialog.Content>
             <Dialog.Actions>
-              {/* <Button onPress={hideDialog}>Cancel</Button> */}
               <Button onPress={updateApp}>Download</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
-        <View style={{ alignItems: "center", marginTop: -10 }}>
+        <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: -20, marginRight: normalize(20) }}>
+           <Text style={{ color: colorScheme === "dark" ? "#5e5d5dff" : "#000000" }}>V:{version}</Text>
+        </View>
+        <View style={{ alignItems: "center", paddingHorizontal: normalize(16) }}>
+       
           <SurfacePaper
             borderRadiusEnabled={false}
             paddingEnabled
             elevation={1}
-            backgroundColor={theme.colors.peachContainer}
+            backgroundColor={colorScheme === "dark" ? "#009689" : "#008181"}
             style={{
-              borderTopRightRadius: normalize(10),
-              borderBottomRightRadius: normalize(10),
-              borderTopLeftRadius: normalize(10),
-              borderBottomLeftRadius: normalize(10),
+              borderRadius: normalize(10),
+              padding: normalize(15),
+              width: '100%',
+              marginBottom: normalize(20),
             }}
           >
-            {!loading ? <View style={{ width: "100%", padding: normalize(15) }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}>
-
-                <View style={{ flexDirection: 'column' }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}>
-                    <View>
-                      <Text variant="titleLarge" style={{
-                        // color: theme.colors.onPeachContainer
-                        color: "white",
-                        fontSize: normalize(14)
-                      }}>Amount Collected</Text>
-                    </View>
-
-                  </View>
-
-                  <Text style={{
-                    color: "white",
-                    fontSize: 30
-                  }}>₹{amountCollected || 0}</Text>
-                </View>
-
-
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-
-                <View style={{
-                  marginVertical: 20, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', gap: 20
-                }}>
-
-                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{
-                      backgroundColor: "white",
-                      borderRadius: normalize(50),
-                      height: normalize(45),
-                      width: normalize(45),
-                      flexDirection: "column",
-                      alignItems: "center",
-
-                      justifyContent: "center",
-                    }}>
-                      <Text style={{
-                        // color: "#404198",
-                        color: "blue",
-                        textAlign: "center",
-                        fontSize: normalize(26)
-
-                      }}>
-                        {totalBills || 0}
-                      </Text>
-
-
-                    </View>
-                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Total Bills</Text>
-                  </View>
-                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{
-                      backgroundColor: "white",
-                      borderRadius: normalize(50),
-                      height: normalize(45),
-                      width: normalize(45),
-                      flexDirection: "column",
-                      alignItems: "center",
-
-                      justifyContent: "center",
-                    }}>
-                      <Text style={{
-                        color: "#404198",
-                        textAlign: "center",
-                        fontSize: normalize(26)
-
-                      }}>
-                        {/* {totalBills || 0} */}
-                        <MaterialCommunityIcons
-                          name="cog-outline"
-                          // color={'#404198'}
-                          color={'red'}
-                          size={26}
-                        />
-                      </Text>
-
-
-                    </View>
-                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Settings</Text>
-                  </View>
-                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{
-                      backgroundColor: "white",
-                      borderRadius: normalize(50),
-                      height: normalize(45),
-                      width: normalize(45),
-                      flexDirection: "column",
-                      alignItems: "center",
-
-                      justifyContent: "center",
-                    }}>
-                      <Text style={{
-                        color: "#404198",
-                        textAlign: "center",
-                        fontSize: normalize(26)
-
-                      }}>
-                        <MaterialCommunityIcons
-                          name="database-arrow-down"
-                          // color={'#404198'}
-                          color={'green'}
-                          size={26}
-                        />
-                      </Text>
-
-
-                    </View>
-                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Stock</Text>
-                  </View>
-                  <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{
-                      backgroundColor: "white",
-                      borderRadius: normalize(50),
-                      height: normalize(45),
-                      width: normalize(45),
-                      flexDirection: "column",
-                      alignItems: "center",
-
-                      justifyContent: "center",
-                    }}>
-                      <Text style={{
-                        color: "#404198",
-                        textAlign: "center",
-                        fontSize: normalize(26)
-
-                      }}>
-                        <MaterialCommunityIcons
-                          name="magnify"
-                          // color={'#404198'}
-                          color={'black'}
-                          size={26}
-                        />
-                      </Text>
-
-
-                    </View>
-                    <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Search Bills</Text>
-                  </View>
-                  {/* <View style={{flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
-                  <View style={{
-                    backgroundColor: "white",
-                    borderRadius: normalize(50),
-                    height: normalize(45),
-                    width: normalize(45),
-                    flexDirection: "column",
-                    alignItems: "center",
-                    
-                    justifyContent: "center",
-                  }}>
-                    <Text style={{
-                    color: "#404198",
-                    textAlign: "center",
-                    fontSize: normalize(26)
-
-                    }}>
-                      {totalBills || 0}
+            {!loading ? (
+              <View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                  <View>
+                    <Text variant="titleLarge" style={{ color: "white", fontSize: normalize(14) }}>
+                      Amount Collected  
                     </Text>
-                    
-                    
+                    <Text style={{ color: "white", fontSize: 30 }}>₹{amountCollected || 0}</Text>
+                  </View>
+                </View>
+                {loginStore?.mode == 'N' && (
+                  <View style={{ flexDirection: "row", justifyContent: "center", gap: 20, marginVertical: 20 }}>
+                    <View style={{ alignItems: 'center' }}>
+                      <View style={{
+                        backgroundColor: "white",
+                        borderRadius: normalize(50),
+                        height: normalize(45),
+                        width: normalize(45),
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}>
+                        <Text style={{ color: "#ffcd04", fontSize: normalize(26) }}>
+                          {totalBills || 0}
+                        </Text>
+                      </View>
+                      <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Total Bills</Text>
                     </View>
-                    <Text style={{color:'white',fontWeight:'bold',marginTop:5}}>Total Bills</Text>
-                    </View> */}
+                    <TouchableOpacity onPress={() => navigation.dispatch(
+  CommonActions.navigate({
+    name: 'More',
+    params: { screen: 'MoreScreen' },
+  })
+)
+                    }>
+                      <View style={{ alignItems: 'center' }}>
+                        <View style={{
+                          backgroundColor: "white",
+                          borderRadius: normalize(50),
+                          height: normalize(45),
+                          width: normalize(45),
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}>
+                          <MaterialCommunityIcons name="cancel" color="red" size={26} />
+                        </View>
+                        <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Cancel Bills</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={() => navigation.dispatch(
+  CommonActions.navigate({
+    name: 'More',
+    params: { screen: 'MoreScreen' },
+  })
+)
 
-                </View>
-
+                    }>
+                      <View style={{ alignItems: 'center' }}>
+                        <View style={{
+                          backgroundColor: "white",
+                          borderRadius: normalize(50),
+                          height: normalize(45),
+                          width: normalize(45),
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}>
+                          <MaterialCommunityIcons name="magnify" color="green" size={26} />
+                        </View>
+                        <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 5 }}>Search Bills</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
-
-              {/* <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}>
-                <View>
-                  <Text variant="titleLarge" style={{
-                    // color: theme.colors.onPeachContainer
-                    color: "white",
-                    fontSize: normalize(16)
-                  }}>Amount Collected</Text>
-                </View>
-                <View>
-                  <Text variant="titleLarge" style={{
-                    // color: theme.colors.onPeachContainer
-                    color: "white",
-                    fontSize: normalize(16)
-
-                  }}>₹{amountCollected || 0}</Text>
-                </View>
-              </View> */}
-            </View> : <ActivityIndicator animating={true} color={MD2Colors.white} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
-          </SurfacePaper>
-        </View>
-        {/* <View style={{ alignItems: "center", marginTop: -10 }}>
-          <SurfacePaper
-            // smallWidthEnabled
-            borderRadiusEnabled={false}
-            paddingEnabled
-            // heading="Summary"
-            elevation={1}
-            backgroundColor={theme.colors.peachContainer}
-            style={{
-              borderTopRightRadius: normalize(10),
-              borderBottomRightRadius: normalize(10),
-              borderTopLeftRadius: normalize(10),
-              borderBottomLeftRadius: normalize(10),
-            }}
-            >
-            {!loading?<View style={{ width: "100%", padding: normalize(15) }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}>
-                <View>
-                  <Text variant="titleLarge" style={{
-                    // color: theme.colors.onPeachContainer
-                    color: "white"
-                  }}>Total Bills</Text>
-                </View>
-                <View>
-                  <Text variant="titleLarge" style={{
-                    color: "#404198",
-                    backgroundColor: "white",
-                    borderRadius: normalize(50),
-                    height: normalize(25),
-                    width: normalize(25),
-                    flexDirection: "row",
-                    alignItems: "center",
-                    
-                    textAlign: "center",
-                    justifyContent: "center",
-                    fontSize: normalize(16)
-                  }}>{totalBills || 0}</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}>
-                <View>
-                  <Text variant="titleLarge" style={{
-                    // color: theme.colors.onPeachContainer
-                    color: "white",
-                    fontSize: normalize(16)
-                  }}>Amount Collected</Text>
-                </View>
-                <View>
-                  <Text variant="titleLarge" style={{
-                    // color: theme.colors.onPeachContainer
-                    color: "white",
-                    fontSize: normalize(16)
-
-                  }}>₹{amountCollected || 0}</Text>
-                </View>
-              </View>
-            </View>:<ActivityIndicator animating={true} color={MD2Colors.white} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
+            ) : (
+              <ActivityIndicator animating={true} color="white" size="large" style={{ margin: 20 }} />
+            )}
           </SurfacePaper>
 
-          {!loading?<SurfacePaper
-            // smallWidthEnabled
-            borderRadiusEnabled={false}
-            paddingEnabled
-            isBorderEnabled
-            heading="Recent Bills"
-            elevation={1}
-            // backgroundColor={theme.colors.tertiaryContainer}
-            backgroundColor={"white"}
-            style={{
-              borderTopRightRadius: normalize(10),
-              borderBottomRightRadius: normalize(10),
-              borderTopLeftRadius: normalize(10),
-              borderBottomLeftRadius: normalize(10),
-              color: "#404198",
-              backgroundColor: "#ffffff",
-            }}>
-            <View style={{ width: "100%"}}>
-              {recentBills?.map((item, i) => (
-                <List.Item
-                  key={i}
-                  titleStyle={{ color: "#404198", fontWeight: "800" }}
-                  descriptionStyle={{ color: "black", }}
-                  
-                  title={`Bill  ${receiptSettings?.custom_sl_flag=='N'?item?.receipt_no:item?.rcpt_sl_no}`}
-                  description={`₹${item?.net_amt}`}
-                  onPress={() => {
-                    loginStore?.mode !== "C"
-                      ? handleRecentBillListClick(item?.receipt_no)
-                      : handleBillListClickCalculatorMode(item?.receipt_no)
-                  }
-                  }
-                  left={props => <List.Icon style={{ color: "#404198" }} {...props} icon="basket" />}
-                // right={props => (
-                //   <List.Icon {...props} icon="download" />
-                // )}
-                />
-              ))}
-            </View>
-            <View>
+          {recentBills.length > 0 ? (
+            <>
+              <Text style={{ marginHorizontal: 15, fontSize: 15, color: colorScheme != "dark" ? '#97979eff':'#ffffff' }}>Recent Bills</Text>
+              <View style={styles.container1}>
+                {recentBills?.map((item, i) => {
+                  const billNo = receiptSettings?.custom_sl_flag === 'N' ? item?.receipt_no : item?.rcpt_sl_no;
+                  const dt = new Date(item.trn_date).toLocaleDateString();
+                  return (
+                    <Card
+                      key={i}
+                      style={colorScheme === "dark" ? styles.cardDark : styles.card}
+                      // backgroundColor={colorScheme === "dark" ? "#1c1c1c" : "white"}
+                      onPress={() =>
+                        loginStore?.mode !== 'C'
+                          ? handleRecentBillListClick(item.receipt_no)
+                          : handleBillListClickCalculatorMode(item.receipt_no)
+                      }
+                    >
+                      <List.Item
+                        titleStyle={colorScheme === "dark" ? styles.title1Dark : styles.title1}
+                        descriptionStyle={colorScheme === "dark" ? styles.descriptionDark : styles.description}
+                        title={` ${billNo} `}
+                        description={`₹ ${item.net_amt} (${dt})`}
+                        left={props => <List.Icon {...props} icon="receipt" color={colorScheme === "dark" ? "#009689" : "#008181"} />}
+                      />
+                    </Card>
+                  );
+                })}
+              </View>
               <Button
-                textColor={'#404198'}
-                // buttonColor={'#404198'}
-                
+                textColor={colorScheme === "dark" ? "#009689" : "#008181"}
                 onPress={() =>
                   navigation.dispatch(
                     CommonActions.navigate({
                       name: navigationRoutes.allBillsScreen,
                     }),
                   )
-                }>
-                ALL BILLS
-              </Button>
-            </View>
-          </SurfacePaper>:<ActivityIndicator animating={true} color={"#404198"} style={{ marginTop: 20, marginBottom: 20 }} size={'large'} />}
-        </View> */}
-        {recentBills.length>0 ?<>
-        <Text style={{marginHorizontal:15,fontSize:15,color:'#6d6eacff'}}>Recent Bills</Text>
-        <View style={{}}></View>
-        <View style={styles.container1}>
-          {recentBills?.map((item, i) => {
-            const billNo = receiptSettings?.custom_sl_flag === 'N'
-              ? item?.receipt_no
-              : item?.rcpt_sl_no;
-
-            return (
-              <Card
-                key={i}
-                style={styles.card}
-                onPress={() =>
-                  loginStore?.mode !== 'C'
-                    ? handleRecentBillListClick(item.receipt_no)
-                    : handleBillListClickCalculatorMode(item.receipt_no)
                 }
               >
-                <List.Item
-                  titleStyle={styles.title1}
-                  descriptionStyle={styles.description}
-                  title={`Bill  ${billNo}`}
-                  description={`₹ ${item.net_amt}`}
-                  left={props => <List.Icon {...props} icon="receipt" color="#404198" />}
-                />
-              </Card>
-            );
-          })}
+                More
+              </Button>
+            </>
+          ) : (
+            <View style={{ marginHorizontal: 'auto', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ color: colorScheme !== "dark" ? '#97979eff' : '#ffffff', margin: 'auto' }}>Your recent bills will appear here!</Text>
+            </View>
+          )}
         </View>
-        </>:
-        <View style={{marginHorizontal:'auto',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-          <Text style={{color:'#6d6eacff',margin:'auto'}}>Your recent bills will appear here!</Text>
-          </View>
-}
-
       </ScrollView>
 
       <DialogBoxForReprint
@@ -842,12 +1147,10 @@ function HomeScreen() {
         visible={visible}
         hide={hideDialog}
         titleStyle={styles.title}
-
         currentReceiptNo={currentReceiptNo}
         billedSaleData={billedSaleData}
         handleCancelBill={handleCancelBill}
         cancelledBillStatus={cancelledBillStatus}
-
         onDialogFailure={onDialogFailure}
         onDialogSuccecss={() => onDialogSuccecss()}
       />
@@ -855,74 +1158,67 @@ function HomeScreen() {
       <DialogForBillsInCalculatorMode
         visible={visible2}
         hide={hideDialog2}
-
         currentReceiptNumber={currentReceiptNo}
         showCalculatedBillData={calculatorModeBillArray}
-
         onDialogFailure={hideDialog2}
         onDialogSuccecss={() => onDialogSuccecss(true)}
       />
 
-      {
-        loginStore?.mode === "N"
-          ? <AnimatedFABPaper
-            icon="plus"
-            color={"white"}
-            label="Bill"
-            onPress={() =>
-              navigation.dispatch(
-                CommonActions.navigate({
-                  name: navigationRoutes.productsScreen,
-                }),
-              )
-            }
-            extended={isExtended}
-            animateFrom="right"
-            iconMode="dynamic"
+      {loginStore?.mode === "N" ? (
+        <AnimatedFABPaper
+          icon="plus"
+          color="white"
+          label="Bill"
+          onPress={() =>
+            navigation.dispatch(
+              CommonActions.navigate({
+                name: navigationRoutes.productsScreen,
+              }),
+            )
+          }
+          extended={isExtended}
+          animateFrom="right"
+          iconMode="dynamic"
+          customStyle={styles.fabStyle}
+        />
+      ) : (
+        <AnimatedFABPaper
+          icon="pencil-plus-outline"
+          color="white"
+          label="Bill"
+          onPress={() =>
+            navigation.dispatch(
+              CommonActions.navigate({
+                name: navigationRoutes.calculateModeBillScreen,
+              }),
+            )
+          }
+          extended={isExtended}
+          animateFrom="right"
+          iconMode="dynamic"
+          customStyle={styles.fabStyle}
+        />
+      )}
 
-            customStyle={styles.fabStyle}
-          />
-          : <AnimatedFABPaper
-            icon="pencil-plus-outline"
-            color="white"
-            label="Bill"
-            onPress={() =>
-              navigation.dispatch(
-                CommonActions.navigate({
-                  name: navigationRoutes.calculateModeBillScreen,
-                }),
-              )
-            }
-            extended={isExtended}
-            animateFrom="right"
-            iconMode="dynamic"
-            customStyle={styles.fabStyle}
-          />
-      }
-
-
-      {
-        loginStore?.mode !== "C" && <>
-          <AnimatedFABPaper
-            color={"white"}
-            variant="tertiary"
-            icon="apps"
-            label="Categories"
-            onPress={() =>
-              navigation.dispatch(
-                CommonActions.navigate({
-                  name: navigationRoutes.categoriesScreen,
-                }),
-              )
-            }
-            extended={isExtended}
-            animateFrom="left"
-            iconMode="dynamic"
-            customStyle={[styles.fabStyle2, { backgroundColor: theme.colors.peachContainer }]}
-          />
-        </>
-      }
-
+      {loginStore?.mode !== "C" && (
+        <AnimatedFABPaper
+          color="white"
+          variant="tertiary"
+          icon="apps"
+          label="Categories"
+          onPress={() =>
+            navigation.dispatch(
+              CommonActions.navigate({
+                name: navigationRoutes.categoriesScreen,
+              }),
+            )
+          }
+          extended={isExtended}
+          animateFrom="left"
+          iconMode="dynamic"
+          customStyle={[styles.fabStyle2, { backgroundColor: colorScheme === "dark" ? "#009689" : "#008181" }]}
+        />
+      )}
     </SafeAreaView>
   )
 }
@@ -947,7 +1243,7 @@ const styles = StyleSheet.create({
     borderRadius: normalize(30),
     width: normalize(320),
     alignItems: "center",
-    color: "#404198"
+    color: "#008181"
   },
 
   fabStyle: {
@@ -956,7 +1252,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     color: "white",
 
-    backgroundColor: "#4DAA57"
+    backgroundColor: "#ffcd04"
     //#BF211E 
     //#138A36
     //#4DAA57
@@ -966,7 +1262,7 @@ const styles = StyleSheet.create({
     bottom: normalize(16),
     left: normalize(16),
     position: "absolute",
-    color: "#404198"
+    color: "#008181"
 
   },
   container1: {
@@ -984,11 +1280,29 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     backgroundColor: 'white',
   },
+  cardDark:{
+    marginBottom: 8,
+    borderRadius: 8,
+    elevation: 2,          // for Android shadow
+    shadowColor: '#000',   // for iOS shadow
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    backgroundColor: '#2e2929ff',
+
+  },
   title1: {
-    color: '#404198',
+    color: '#008181',
+    fontWeight: '800',
+  },
+  title1Dark: {
+    color: '#009689',
     fontWeight: '800',
   },
   description: {
-    color: '#6d6eacff',
+    color: '#97979eff',
+  },
+  descriptionDark: {
+    color: '#ffffff',
   },
 })
