@@ -58,6 +58,8 @@ export const ADDRESSES = {
   ADD_UNIT: `${BASE_URL}/api/add_unit`,
   STOCK: `${BASE_URL}/api/stock`,
   STOCK_UPDATE: `${BASE_URL}/api/update_stock`,
+  STOCK_IN: `${BASE_URL}/api/stock_in`,
+  STOCK_OUT: `${BASE_URL}/api/stock_out`,
   SEARCH_BY_BARCODE: `${BASE_URL}/api/search_by_barcode`,
   CALCULATOR_SALE_INSERT: `${BASE_URL}/api/calculator/saleinsert`,
   CALCULATOR_SHOW_BILL: `${BASE_URL}/api/calculator/show_bill`,

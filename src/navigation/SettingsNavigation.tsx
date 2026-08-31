@@ -17,6 +17,8 @@ import GstSettingsScreen from "../screens/GstSettingsScreen"
 import UPIGenerateScreen from "../screens/UPIGenerateScreen"
 import ManageCategoriesScreen from "../screens/ManageCategoriesScreen"
 import StockOpenScreen from "../screens/StockOpenScreen"
+import StockInScreen from "../screens/StockInScreen"
+import StockOutScreen from "../screens/StockOutScreen"
 // import ProductTransferScreen from "../screens/ProductTransferScreen"
 
 export default function SettingsNavigation() {
@@ -92,6 +94,14 @@ export default function SettingsNavigation() {
        <Stack.Screen
         name={navigationRoutes.StockOpenScreen}
         component={StockOpenScreen}
+      />
+      <Stack.Screen
+        name={navigationRoutes.stockInScreen}
+        component={StockInScreen}
+      />
+      <Stack.Screen
+        name={navigationRoutes.stockOutScreen}
+        component={StockOutScreen}
       />
      
       {/* <Stack.Screen

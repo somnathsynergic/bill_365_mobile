@@ -205,8 +205,7 @@ export const useBluetoothPrint = () => {
 
             await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
               align: "center",
-              widthtimes: 1.2,
-              heigthtimes: 2,
+              fonttype: 0,
             })
 
             await BluetoothEscposPrinter.printText("\n", {})
@@ -243,7 +242,16 @@ export const useBluetoothPrint = () => {
                 BluetoothEscposPrinter.ALIGN.LEFT,
                 BluetoothEscposPrinter.ALIGN.RIGHT,
               ],
-              ["DT.", `${new Date().toLocaleString("en-GB")}`],
+              ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+              {},
+            )
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
               {},
             )
 
@@ -339,8 +347,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -398,7 +405,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -945,8 +962,7 @@ export const useBluetoothPrint = () => {
 
             await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
               align: "center",
-              widthtimes: 1.2,
-              heigthtimes: 2,
+              fonttype: 0,
             })
 
             await BluetoothEscposPrinter.printText("\n", {})
@@ -986,7 +1002,16 @@ export const useBluetoothPrint = () => {
                 BluetoothEscposPrinter.ALIGN.LEFT,
                 BluetoothEscposPrinter.ALIGN.RIGHT,
               ],
-              ["DT.", `${new Date().toLocaleString("en-GB")}`],
+              ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+              {},
+            )
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
               {},
             )
 
@@ -1081,8 +1106,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -1140,7 +1164,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -1227,7 +1261,15 @@ export const useBluetoothPrint = () => {
           //@ts-ignore
           totalQuantities += parseInt(item?.quantity)
 
-          const firstLine = item.item_name;
+          // Show item name in one line regardless of length
+          await BluetoothEscposPrinter.printColumn(
+            columnWidthIfNameIsBig,
+            [BluetoothEscposPrinter.ALIGN.LEFT],
+            [item.item_name],
+            {},
+          )
+
+          const displayName = ""
 
           if (
             receiptSettings?.discount_flag === "Y" &&
@@ -1245,7 +1287,7 @@ export const useBluetoothPrint = () => {
                 ],
                 //@ts-ignore
                 [
-                  firstLine,
+                  displayName,
                   item?.quantity.toString(),
                   item?.price.toString(),
                   calculatePercentDiscountPerProduct(
@@ -1273,7 +1315,7 @@ export const useBluetoothPrint = () => {
                 ],
                 //@ts-ignore
                 [
-                  firstLine,
+                  displayName,
                   item?.quantity.toString(),
                   item?.price.toString(),
                   calculateAmountDiscountPerProduct(
@@ -1300,7 +1342,7 @@ export const useBluetoothPrint = () => {
               ],
               //@ts-ignore
               [
-                firstLine,
+                displayName,
                 item?.quantity.toString(),
                 item?.price.toString(),
                 calculateAmountAfterAmountDiscountPerProduct(
@@ -1731,8 +1773,7 @@ export const useBluetoothPrint = () => {
 
           await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
             align: "center",
-            widthtimes: 1.2,
-            heigthtimes: 2,
+            fonttype: 0,
           })
 
           await BluetoothEscposPrinter.printText("\n", {})
@@ -1762,14 +1803,23 @@ export const useBluetoothPrint = () => {
           )
 
           await BluetoothEscposPrinter.printColumn(
-            columnWidthForKot,
-            [
-              BluetoothEscposPrinter.ALIGN.LEFT,
-              BluetoothEscposPrinter.ALIGN.RIGHT,
-            ],
-            ["DT.", `${new Date().toLocaleString("en-GB")}`],
-            {},
-          )
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+              {},
+            )
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
+              {},
+            )
 
           // await BluetoothEscposPrinter.printText("\n", {})
           await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -1863,8 +1913,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -1957,15 +2006,25 @@ export const useBluetoothPrint = () => {
         {},
       )
       await BluetoothEscposPrinter.printColumn(
-        columnWidthsHeader,
-        [
-          BluetoothEscposPrinter.ALIGN.LEFT,
-          BluetoothEscposPrinter.ALIGN.CENTER,
-          BluetoothEscposPrinter.ALIGN.RIGHT,
-        ],
-        ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
-        {},
-      )
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
+          {},
+        )
       await BluetoothEscposPrinter.printColumn(
         columnWidthsHeader,
         [
@@ -2734,8 +2793,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
 
         await BluetoothEscposPrinter.printText("\n", {})
@@ -2765,14 +2823,23 @@ export const useBluetoothPrint = () => {
         )
 
         await BluetoothEscposPrinter.printColumn(
-          columnWidthForKot,
-          [
-            BluetoothEscposPrinter.ALIGN.LEFT,
-            BluetoothEscposPrinter.ALIGN.RIGHT,
-          ],
-          ["DT.", `${new Date().toLocaleString("en-GB")}`],
-          {},
-        )
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+              {},
+            )
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
+              {},
+            )
 
         // await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -2866,8 +2933,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -2960,15 +3026,25 @@ export const useBluetoothPrint = () => {
         {},
       )
       await BluetoothEscposPrinter.printColumn(
-        columnWidthsHeader,
-        [
-          BluetoothEscposPrinter.ALIGN.LEFT,
-          BluetoothEscposPrinter.ALIGN.CENTER,
-          BluetoothEscposPrinter.ALIGN.RIGHT,
-        ],
-        ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
-        {},
-      )
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
+          {},
+        )
       await BluetoothEscposPrinter.printColumn(
         columnWidthsHeader,
         [
@@ -3557,8 +3633,7 @@ export const useBluetoothPrint = () => {
           if (tableNo) {
             await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
               align: "center",
-              widthtimes: 1.2,
-              heigthtimes: 2,
+              fonttype: 0,
             })
 
             await BluetoothEscposPrinter.printText("\n", {})
@@ -3595,7 +3670,16 @@ export const useBluetoothPrint = () => {
                 BluetoothEscposPrinter.ALIGN.LEFT,
                 BluetoothEscposPrinter.ALIGN.RIGHT,
               ],
-              ["DT.", `${new Date().toLocaleString("en-GB")}`],
+              ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+              {},
+            )
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
               {},
             )
 
@@ -3682,8 +3766,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -3741,7 +3824,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -4166,8 +4259,7 @@ export const useBluetoothPrint = () => {
           if (tableNo) {
             await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
               align: "center",
-              widthtimes: 1.2,
-              heigthtimes: 2,
+              fonttype: 0,
             })
 
             await BluetoothEscposPrinter.printText("\n", {})
@@ -4207,7 +4299,16 @@ export const useBluetoothPrint = () => {
                 BluetoothEscposPrinter.ALIGN.LEFT,
                 BluetoothEscposPrinter.ALIGN.RIGHT,
               ],
-              ["DT.", `${new Date().toLocaleString("en-GB")}`],
+              ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+              {},
+            )
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthForKot,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
               {},
             )
 
@@ -4298,8 +4399,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -4357,7 +4457,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -4445,100 +4555,98 @@ export const useBluetoothPrint = () => {
           //@ts-ignore
           totalQuantities += parseInt(item?.quantity)
 
-          const maxLen = 8; // For 2-inch
-          const nameLines = wrapText(item.item_name, maxLen);
+          // Show item name in one line regardless of length
+          await BluetoothEscposPrinter.printColumn(
+            columnWidthIfNameIsBig,
+            [BluetoothEscposPrinter.ALIGN.LEFT],
+            [item.item_name],
+            {},
+          )
 
-          for (let i = 0; i < nameLines.length; i++) {
-            const currentItemName = nameLines[i] || "";
+          const displayName = ""
 
-            if (i < nameLines.length - 1) {
+          if (
+            receiptSettings?.discount_flag === "Y" &&
+            receiptSettings?.discount_position !== "B"
+          ) {
+            if (receiptSettings?.discount_type === "P") {
               await BluetoothEscposPrinter.printColumn(
-                columnWidthIfNameIsBig,
-                [BluetoothEscposPrinter.ALIGN.LEFT],
-                [receiptSettings?.print_op == '3' ? currentItemName : ''],
+                columnWidthsProductsHeaderAndBody,
+                [
+                  BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.CENTER,
+                  BluetoothEscposPrinter.ALIGN.RIGHT,
+                  BluetoothEscposPrinter.ALIGN.RIGHT,
+                ],
+                //@ts-ignore
+                [
+                  displayName,
+                  item?.quantity.toString(),
+                  item?.price.toString(),
+                  calculatePercentDiscountPerProduct(
+                    item?.price,
+                    item?.quantity,
+                    item?.discount,
+                  ),
+                  calculateAmountAfterPercentDiscountPerProduct(
+                    item?.price,
+                    item?.quantity,
+                    item?.discount,
+                  ),
+                ],
                 {},
-              );
-              await BluetoothEscposPrinter.printText("\n", {});
+              )
             } else {
-              receiptSettings?.discount_flag === "Y" &&
-                receiptSettings?.discount_position !== "B"
-                ? receiptSettings?.discount_type === "P"
-                  ? await BluetoothEscposPrinter.printColumn(
-                    columnWidthsProductsHeaderAndBody,
-                    [
-                      BluetoothEscposPrinter.ALIGN.LEFT,
-                      BluetoothEscposPrinter.ALIGN.LEFT,
-                      BluetoothEscposPrinter.ALIGN.CENTER,
-                      BluetoothEscposPrinter.ALIGN.RIGHT,
-                      BluetoothEscposPrinter.ALIGN.RIGHT,
-                    ],
-                    //@ts-ignore
-                    [
-                      receiptSettings?.print_op == '3' ? currentItemName : item?.item_name,
-                      item?.quantity.toString(),
-                      item?.price.toString(),
-                      calculatePercentDiscountPerProduct(
-                        item?.price,
-                        item?.quantity,
-                        item?.discount,
-                      ),
-                      calculateAmountAfterPercentDiscountPerProduct(
-                        item?.price,
-                        item?.quantity,
-                        item?.discount,
-                      ),
-                    ],
-                    {},
-                  )
-                  : await BluetoothEscposPrinter.printColumn(
-                    columnWidthsProductsHeaderAndBody,
-                    [
-                      BluetoothEscposPrinter.ALIGN.LEFT,
-                      BluetoothEscposPrinter.ALIGN.LEFT,
-                      BluetoothEscposPrinter.ALIGN.CENTER,
-                      BluetoothEscposPrinter.ALIGN.RIGHT,
-                      BluetoothEscposPrinter.ALIGN.RIGHT,
-                    ],
-                    //@ts-ignore
-                    [
-                      currentItemName,
-                      item?.quantity.toString(),
-                      item?.price.toString(),
-                      calculateAmountDiscountPerProduct(
-                        item?.quantity,
-                        item?.discount,
-                      ),
-                      calculateAmountAfterAmountDiscountPerProduct(
-                        item?.price,
-                        item?.quantity,
-                        item?.discount,
-                      ),
-                    ],
-                    {},
-                  )
-                : await BluetoothEscposPrinter.printColumn(
-                  columnWidthsProductsHeaderAndBodyWithoutDiscount,
-                  [
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                  ],
-                  //@ts-ignore
-                  [
-                    currentItemName,
-                    item?.quantity.toString(),
-                    item?.price.toString(),
-                    calculateAmountAfterAmountDiscountPerProduct(
-                      item?.price,
-                      item?.quantity,
-                      0,
-                    ),
-                  ],
-                  {},
-                )
-              await BluetoothEscposPrinter.printText("\n", {});
+              await BluetoothEscposPrinter.printColumn(
+                columnWidthsProductsHeaderAndBody,
+                [
+                  BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.CENTER,
+                  BluetoothEscposPrinter.ALIGN.RIGHT,
+                  BluetoothEscposPrinter.ALIGN.RIGHT,
+                ],
+                //@ts-ignore
+                [
+                  displayName,
+                  item?.quantity.toString(),
+                  item?.price.toString(),
+                  calculateAmountDiscountPerProduct(
+                    item?.quantity,
+                    item?.discount,
+                  ),
+                  calculateAmountAfterAmountDiscountPerProduct(
+                    item?.price,
+                    item?.quantity,
+                    item?.discount,
+                  ),
+                ],
+                {},
+              )
             }
+          } else {
+            await BluetoothEscposPrinter.printColumn(
+              columnWidthsProductsHeaderAndBodyWithoutDiscount,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              //@ts-ignore
+              [
+                displayName,
+                item?.quantity.toString(),
+                item?.price.toString(),
+                calculateAmountAfterAmountDiscountPerProduct(
+                  item?.price,
+                  item?.quantity,
+                  0,
+                ),
+              ],
+              {},
+            )
           }
         }
 
@@ -4838,8 +4946,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -4917,7 +5024,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -5419,8 +5536,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -5497,7 +5613,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -5587,73 +5713,48 @@ export const useBluetoothPrint = () => {
           let discountPosition: "B" | "I" =
             addedProducts[0]?.discount_position
 
-          if (item?.item_name?.length >= 8) {
-            await BluetoothEscposPrinter.printColumn(
-              columnWidthIfNameIsBig,
-              [BluetoothEscposPrinter.ALIGN.LEFT],
-              [item?.item_name],
-              {},
-            )
+          await BluetoothEscposPrinter.printColumn(
+            columnWidthIfNameIsBig,
+            [BluetoothEscposPrinter.ALIGN.LEFT],
+            [item?.item_name],
+            {},
+          )
 
-            discountFlag === "Y" && discountPosition !== "B"
-              ? discountType === "P"
-                ? await BluetoothEscposPrinter.printColumn(
-                  columnWidthsProductsHeaderAndBody,
-                  [
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.CENTER,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                  ],
-                  //@ts-ignore
-                  [
-                    "",
-                    item?.qty.toString(),
-                    item?.price.toString(),
-                    calculatePercentDiscountPerProduct(
-                      item?.price,
-                      item?.qty,
-                      item?.dis_pertg,
-                    ),
-                    calculateAmountAfterPercentDiscountPerProduct(
-                      item?.price,
-                      item?.qty,
-                      item?.dis_pertg,
-                    ),
-                  ],
-                  {},
-                )
-                : await BluetoothEscposPrinter.printColumn(
-                  columnWidthsProductsHeaderAndBody,
-                  [
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.CENTER,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                  ],
-                  [
-                    "",
-                    item?.qty.toString(),
-                    item?.price.toString(),
-                    calculateAmountDiscountPerProduct(
-                      item?.qty,
-                      item?.discount_amt,
-                    ),
-                    calculateAmountAfterAmountDiscountPerProduct(
-                      item?.price,
-                      item?.qty,
-                      item?.discount_amt,
-                    ),
-                  ],
-                  {},
-                )
-              : await BluetoothEscposPrinter.printColumn(
-                columnWidthsProductsHeaderAndBodyWithoutDiscount,
+          discountFlag === "Y" && discountPosition !== "B"
+            ? discountType === "P"
+              ? await BluetoothEscposPrinter.printColumn(
+                columnWidthsProductsHeaderAndBody,
                 [
                   BluetoothEscposPrinter.ALIGN.LEFT,
                   BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.CENTER,
+                  BluetoothEscposPrinter.ALIGN.RIGHT,
+                  BluetoothEscposPrinter.ALIGN.RIGHT,
+                ],
+                //@ts-ignore
+                [
+                  "",
+                  item?.qty.toString(),
+                  item?.price.toString(),
+                  calculatePercentDiscountPerProduct(
+                    item?.price,
+                    item?.qty,
+                    item?.dis_pertg,
+                  ),
+                  calculateAmountAfterPercentDiscountPerProduct(
+                    item?.price,
+                    item?.qty,
+                    item?.dis_pertg,
+                  ),
+                ],
+                {},
+              )
+              : await BluetoothEscposPrinter.printColumn(
+                columnWidthsProductsHeaderAndBody,
+                [
+                  BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.LEFT,
+                  BluetoothEscposPrinter.ALIGN.CENTER,
                   BluetoothEscposPrinter.ALIGN.RIGHT,
                   BluetoothEscposPrinter.ALIGN.RIGHT,
                 ],
@@ -5661,94 +5762,39 @@ export const useBluetoothPrint = () => {
                   "",
                   item?.qty.toString(),
                   item?.price.toString(),
+                  calculateAmountDiscountPerProduct(
+                    item?.qty,
+                    item?.discount_amt,
+                  ),
                   calculateAmountAfterAmountDiscountPerProduct(
                     item?.price,
                     item?.qty,
-                    0,
+                    item?.discount_amt,
                   ),
                 ],
                 {},
               )
-          } else {
-            discountFlag === "Y" && discountPosition !== "B"
-              ? discountType === "P"
-                ? await BluetoothEscposPrinter.printColumn(
-                  columnWidthsProductsHeaderAndBody,
-                  [
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.CENTER,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                  ],
-                  //@ts-ignore
-                  [
-                    item?.item_name,
-                    item?.qty.toString(),
-                    item?.price.toString(),
-                    calculatePercentDiscountPerProduct(
-                      item?.price,
-                      item?.qty,
-                      item?.dis_pertg,
-                    ),
-                    calculateAmountAfterPercentDiscountPerProduct(
-                      item?.price,
-                      item?.qty,
-                      item?.dis_pertg,
-                    ),
-                  ],
-                  {},
-                )
-                : await BluetoothEscposPrinter.printColumn(
-                  columnWidthsProductsHeaderAndBody,
-                  [
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.LEFT,
-                    BluetoothEscposPrinter.ALIGN.CENTER,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                    BluetoothEscposPrinter.ALIGN.RIGHT,
-                  ],
-                  //@ts-ignore
-                  [
-                    item?.item_name,
-                    item?.qty.toString(),
-                    item?.price.toString(),
-                    calculateAmountDiscountPerProduct(
-                      item?.qty,
-                      item?.discount_amt,
-                    ),
-                    calculateAmountAfterAmountDiscountPerProduct(
-                      item?.price,
-                      item?.qty,
-                      item?.discount_amt,
-                    ),
-                  ],
-                  {},
-                )
-              : await BluetoothEscposPrinter.printColumn(
-                columnWidthsProductsHeaderAndBodyWithoutDiscount,
-                [
-                  BluetoothEscposPrinter.ALIGN.LEFT,
-                  BluetoothEscposPrinter.ALIGN.LEFT,
-                  BluetoothEscposPrinter.ALIGN.RIGHT,
-                  BluetoothEscposPrinter.ALIGN.RIGHT,
-                ],
-                //@ts-ignore
-                [
-                  item?.item_name,
-                  item?.qty.toString(),
-                  item?.price.toString(),
-                  calculateAmountAfterAmountDiscountPerProduct(
-                    item?.price,
-                    item?.qty,
-                    0,
-                  ),
-                ],
-                {},
-              )
-          }
+            : await BluetoothEscposPrinter.printColumn(
+              columnWidthsProductsHeaderAndBodyWithoutDiscount,
+              [
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.LEFT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+                BluetoothEscposPrinter.ALIGN.RIGHT,
+              ],
+              [
+                "",
+                item?.qty.toString(),
+                item?.price.toString(),
+                calculateAmountAfterAmountDiscountPerProduct(
+                  item?.price,
+                  item?.qty,
+                  0,
+                ),
+              ],
+              {},
+            )
         }
-
         await BluetoothEscposPrinter.printerAlign(
           BluetoothEscposPrinter.ALIGN.CENTER,
         )
@@ -6393,8 +6439,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -6458,7 +6503,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -7056,8 +7111,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -7173,7 +7227,17 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.CENTER,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printColumn(
@@ -7436,7 +7500,7 @@ export const useBluetoothPrint = () => {
         }
 
         // await BluetoothEscposPrinter.printText("\n", {})
-        await BluetoothEscposPrinter.printText("------------------------", {
+        await BluetoothEscposPrinter.printText("---------------------------", {
           align: "center",
         })
 
@@ -7905,8 +7969,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -8204,8 +8267,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -8517,8 +8579,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -8673,8 +8734,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -8862,8 +8922,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -9039,8 +9098,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -9244,8 +9302,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -9452,8 +9509,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -9686,8 +9742,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -9924,8 +9979,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -10112,8 +10166,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -10323,8 +10376,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -10522,8 +10574,7 @@ export const useBluetoothPrint = () => {
         )
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -10751,8 +10802,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -10961,8 +11011,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -11191,8 +11240,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -11448,8 +11496,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -11769,8 +11816,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -11977,8 +12023,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -12204,8 +12249,7 @@ export const useBluetoothPrint = () => {
       )
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -12351,8 +12395,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
 
@@ -12502,8 +12545,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -12683,8 +12725,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -12899,8 +12940,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -13109,8 +13149,7 @@ export const useBluetoothPrint = () => {
       )
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
 
@@ -13324,8 +13363,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -13385,7 +13423,16 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.LEFT,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -13547,8 +13594,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -13608,7 +13654,16 @@ export const useBluetoothPrint = () => {
             BluetoothEscposPrinter.ALIGN.LEFT,
             BluetoothEscposPrinter.ALIGN.RIGHT,
           ],
-          ["DATE", `${new Date().toLocaleString("en-GB")}`],
+          ["DATE", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
           {},
         )
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -13783,8 +13838,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -13993,8 +14047,7 @@ export const useBluetoothPrint = () => {
 
         await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
           align: "center",
-          widthtimes: 1.2,
-          heigthtimes: 2,
+          fonttype: 0,
         })
         await BluetoothEscposPrinter.printText("\n", {})
         await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -14215,8 +14268,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       await BluetoothEscposPrinter.printerAlign(BluetoothEscposPrinter.ALIGN.CENTER);
@@ -14391,8 +14443,7 @@ export const useBluetoothPrint = () => {
 
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -14429,9 +14480,12 @@ export const useBluetoothPrint = () => {
       await BluetoothEscposPrinter.printText("\n", {})
 
       await BluetoothEscposPrinter.printText(
-        `DATE: ${new Date().toLocaleDateString(
-          "en-GB",
-        )}`,
+        `DATE: ${new Date().toLocaleString("en-GB").split(', ')[0]}`,
+        {},
+      )
+      await BluetoothEscposPrinter.printText("\n", {})
+      await BluetoothEscposPrinter.printText(
+        `TIME: ${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`,
         {},
       )
 
@@ -14575,8 +14629,7 @@ export const useBluetoothPrint = () => {
       )
       await BluetoothEscposPrinter.printText(shopName.toUpperCase(), {
         align: "center",
-        widthtimes: 1.2,
-        heigthtimes: 2,
+        fonttype: 0,
       })
       await BluetoothEscposPrinter.printText("\n", {})
       // await BluetoothEscposPrinter.printText("hasifughaf", { align: "center" })
@@ -14679,15 +14732,25 @@ export const useBluetoothPrint = () => {
         {},
       )
       await BluetoothEscposPrinter.printColumn(
-        columnWidthsHeader,
-        [
-          BluetoothEscposPrinter.ALIGN.LEFT,
-          BluetoothEscposPrinter.ALIGN.CENTER,
-          BluetoothEscposPrinter.ALIGN.RIGHT,
-        ],
-        ["DATE", ":", `${new Date().toLocaleString("en-GB")}`],
-        {},
-      )
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["DATE", ":", `${new Date().toLocaleString("en-GB").split(', ')[0]}`],
+          {},
+        )
+        await BluetoothEscposPrinter.printColumn(
+          columnWidthsHeader,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ["TIME", ":", `${new Date().toLocaleString("en-GB").split(', ')[1] || ""}`],
+          {},
+        )
       await BluetoothEscposPrinter.printColumn(
         columnWidthsHeader,
         [

@@ -373,13 +373,14 @@ function ProductsScreen() {
 
   const addProducts = () => {
     setAddedProductsList(prevProducts => [
+      ...prevProducts,
       {
         ...product,
         quantity: quantity,
         discount: discountState > 0 ? discountState : product?.discount,
         price: price > 0 ? price : product?.price,
       },
-      ...prevProducts,
+
     ])
   }
 
@@ -498,18 +499,18 @@ function ProductsScreen() {
           return
         }
       }
-       
-          setAddedProductsList(prevProducts => [
-            {
-              ...filtered[0],
-              quantity: 1,
-              price: filtered[0]?.sale_price,
-              discount: filtered[0]?.discount,
-              stock: filtered[0]?.stock
-            },
-            ...prevProducts
-          ])
-        
+
+      setAddedProductsList(prevProducts => [
+        {
+          ...filtered[0],
+          quantity: 1,
+          price: filtered[0]?.sale_price,
+          discount: filtered[0]?.discount,
+          stock: filtered[0]?.stock
+        },
+        ...prevProducts
+      ])
+
 
     }
 
@@ -1004,7 +1005,7 @@ function ProductsScreen() {
           <View style={{ alignItems: "center" }}>
             <Text variant="titleLarge" style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>{product?.item_name}</Text>
             <Text variant="labelMedium" style={{ color: "red", backgroundColor: "pink" }}>
-              {updatedStock < product?.low_stock_qty && receiptSettings.stock_alert_flag === "Y" && receiptSettings.stock_flag === "Y"? "Low stock!" : ""}
+              {updatedStock < product?.low_stock_qty && receiptSettings.stock_alert_flag === "Y" && receiptSettings.stock_flag === "Y" ? "Low stock!" : ""}
             </Text>
           </View>
 
@@ -1152,9 +1153,9 @@ function ProductsScreen() {
             <>
               <ScrollableListContainer backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#008181'}>
                 {addedProductsList.map(item => {
-                 
 
-                   totalPrice += item?.price * item["quantity"]
+
+                  totalPrice += item?.price * item["quantity"]
 
                   receiptSettings?.discount_flag === "Y"
                     ? receiptSettings?.discount_position === "I"

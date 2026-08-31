@@ -81,8 +81,8 @@ export default function ManageProductsScreen() {
   const [checked, setChecked] = React.useState(false);
   const { editItem } = useEditItem()
   const { sendAddedItem } = useAddItem()
-  const [openMfgDate,setOpenMfgDate] = useState(false)
-  const [openExp,setOpenExp] =  useState(false)
+  const [openMfgDate, setOpenMfgDate] = useState(false)
+  const [openExp, setOpenExp] = useState(false)
   const [visible, setVisible] = useState(() => false)
   const hideDialog_sp = () => setVisible_sp(() => false)
   const hideDialog_pp = () => setVisible_pp(() => false)
@@ -123,6 +123,7 @@ export default function ManageProductsScreen() {
   const [toDate, setToDate] = useState(() => new Date())
 
   const subOptions = [{ val: 0, name: 'Pricing' }, { val: 1, name: 'Stock' }, { val: 2, name: 'Others' }];
+  const subOptionsNoStock = [{ val: 0, name: 'Pricing' }, { val: 2, name: 'Others' }];
   const subOptionsEdit = [{ val: 0, name: 'Pricing' }, { val: 2, name: 'Others' }];
   const onButtonToggle = value => {
     setStatus(status === 'checked' ? 'unchecked' : 'checked');
@@ -138,7 +139,7 @@ export default function ManageProductsScreen() {
   const [discountFlag, setDiscountFlag] = useState(false)
   const [exlusive_gst_pp, setExclusive_gst_pp] = useState(0)
   const [exlusive_gst_sp, setExclusive_gst_sp] = useState(0)
-  const [isGstVisible,setIsGstVisible] =  useState(false)
+  const [isGstVisible, setIsGstVisible] = useState(false)
   const navigation = useNavigation()
   let unitMenuArr = []
   for (const unit of units) {
@@ -259,7 +260,7 @@ export default function ManageProductsScreen() {
       unit_id: +unitId,
       catg_id: +categoryId,
       selling_price: +sale_price,
-      purchase_price: +purchase_price,
+      purchase_price: 0,
       barcode: barcode,
       description: desc,
       alert: checked ? 'Y' : 'N',
@@ -372,15 +373,15 @@ export default function ManageProductsScreen() {
       opening_stock: +opening_stock,
       batch_no: batch_no,
       // expiry_dt: new Date(toDate).toString().slice(0, 10),
-      expiry_dt: new Date(toDate).getFullYear()+ '-'+  (new Date(toDate).getMonth() + 1) + "-" +new Date(toDate).getDate(),
+      expiry_dt: new Date(toDate).getFullYear() + '-' + (new Date(toDate).getMonth() + 1) + "-" + new Date(toDate).getDate(),
       description: desc,
       alert: checked ? 'Y' : 'N',
       sp_gst_flag: value_sp == '0' ? 'N' : 'Y',
       pp_gst_flag: value_pp == '0' ? 'N' : 'Y',
       disc_prtg_flag: value_disc == '0' ? 'N' : 'Y',
-      as_on_dt: new Date(as_on).getFullYear()+"-"+(new Date(as_on).getMonth() + 1) + "-"  + new Date(as_on).getDate()  ,
+      as_on_dt: new Date(as_on).getFullYear() + "-" + (new Date(as_on).getMonth() + 1) + "-" + new Date(as_on).getDate(),
       // mfg_dt: new Date(mfg_date).toString().slice(0, 10),
-      mfg_dt: new Date(mfg_date).getFullYear()+"-"+ (new Date(mfg_date).getMonth() + 1) + "-" + new Date(mfg_date).getDate() ,
+      mfg_dt: new Date(mfg_date).getFullYear() + "-" + (new Date(mfg_date).getMonth() + 1) + "-" + new Date(mfg_date).getDate(),
       low_stock_qty: +low_qty,
       batchwise_flag: isEnabled ? 'Y' : 'N',
     }
@@ -403,10 +404,11 @@ export default function ManageProductsScreen() {
       ToastAndroid.show("Add Unit ID.", ToastAndroid.SHORT)
       return
     }
-
-    if (!opening_stock) {
-      ToastAndroid.show("Add Opening Stock", ToastAndroid.SHORT)
-      return
+    if (receiptSettings?.stock_flag == 'Y') {
+      if (!opening_stock) {
+        ToastAndroid.show("Add Opening Stock", ToastAndroid.SHORT)
+        return
+      }
     }
 
     // if (!price) {
@@ -443,7 +445,7 @@ export default function ManageProductsScreen() {
       })
       .catch(err => {
         setLoading(false)
-        console.log('=============errors===============',err.response.data)
+        console.log('=============errors===============', err.response.data)
         ToastAndroid.show(err, ToastAndroid.SHORT)
       })
   }
@@ -475,7 +477,14 @@ export default function ManageProductsScreen() {
     setSalePrice(item?.sale_price)
     setOpeningStock(item?.opening_stock)
     setBatchNo(item?.batch_no)
-    setExpiryDate(item?.expiry_dt)
+    const safeParseDate = (dateStr: any) => {
+      if (!dateStr) return new Date()
+      const d = new Date(dateStr)
+      return isNaN(d.getTime()) ? new Date() : d
+    }
+
+    setExpiryDate(safeParseDate(item?.expiry_dt))
+    setMfgDate(safeParseDate(item?.mfg_dt))
     setDesc(item?.description)
     setChecked(item?.stock_alert === 'Y' ? true : false)
     setVisible(!visible)
@@ -613,40 +622,40 @@ export default function ManageProductsScreen() {
                 />
               </View>
 
-                <View style={[styles.formElem]}
-                >
-
-
-                  <InputPaper
-                    label="Unit"
-                    onChangeText={(txt: string) => { setUnitName(txt); setVisibleUnitList(true) }}
-                    value={unitName}
-                    keyboardType="default"
-                    mode="outlined"
-                    maxLength={30}
-                  />
-                </View>
-                <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
-                  {unitName && visibleUnitList && (
-                    <ScrollableListContainer
-                                          backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
-
-                      
-                      >
-                      {units.filter(i => i.unit_name.toLowerCase().includes(unitName?.toLowerCase())).map(item => (
-                        <ProductListSuggestion
-                          key={item.sl_no}
-                          itemName={item.unit_name}
-                          onPress={() => handleSetUnitNameAndId(item?.unit_name, item?.sl_no)}
-                        // unitPrice={item.sale_price}
-                        />
-                      ))}
-                    </ScrollableListContainer>
-                  )}
-                </View>
               <View style={[styles.formElem]}
               >
-              
+
+
+                <InputPaper
+                  label="Unit"
+                  onChangeText={(txt: string) => { setUnitName(txt); setVisibleUnitList(true) }}
+                  value={unitName}
+                  keyboardType="default"
+                  mode="outlined"
+                  maxLength={30}
+                />
+              </View>
+              <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
+                {unitName && visibleUnitList && (
+                  <ScrollableListContainer
+                    backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+
+
+                  >
+                    {units.filter(i => i.unit_name.toLowerCase().includes(unitName?.toLowerCase())).map(item => (
+                      <ProductListSuggestion
+                        key={item.sl_no}
+                        itemName={item.unit_name}
+                        onPress={() => handleSetUnitNameAndId(item?.unit_name, item?.sl_no)}
+                      // unitPrice={item.sale_price}
+                      />
+                    ))}
+                  </ScrollableListContainer>
+                )}
+              </View>
+              <View style={[styles.formElem]}
+              >
+
                 <InputPaper
                   label="Category"
                   onChangeText={(txt: string) => { setCategoryName(txt); setVisibleCatList(true) }}
@@ -673,7 +682,7 @@ export default function ManageProductsScreen() {
                 )}
 
               </View>
-             {/* <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
+              {/* <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
             <Switch
               trackColor={{ false: '#767577', true: '#008181' }}
               thumbColor={isEnabled ? '#4042198' : '#f4f3f4'}
@@ -722,26 +731,26 @@ export default function ManageProductsScreen() {
                       // setVisible(!visible)
                     }}
                   >
-                    <Text style={selectedSub === opt.val ? colorScheme=== 'dark' ? styles.textSelectedDark : styles.textSelectedSub : colorScheme === 'dark' ?styles.textSelectedDark:styles.textUnselectedSub}>
+                    <Text style={selectedSub === opt.val ? colorScheme === 'dark' ? styles.textSelectedDark : styles.textSelectedSub : colorScheme === 'dark' ? styles.textSelectedDark : styles.textUnselectedSub}>
                       {opt.name}
                     </Text>
                   </Button>
                 ))}
 
               </View>
-              {(selectedSub == 1 || selectedSub==0) && isEnabled && <View style={[styles.formElem]}>
+              {selectedSub == 1 && <View style={[styles.formElem]}>
                 <InputPaper
                   label="Batch No."
                   onChangeText={(txt: string) => setBatchNo(txt)}
                   value={batch_no}
-                  keyboardType="numeric"
+                  keyboardType="default"
                   mode="outlined"
                 />
 
               </View>}
 
               {selectedSub == 1 && <View style={[styles.formElem]}>
-               
+
 
                 <ButtonPaper buttonColor="#008181" onPress={() => setOpenToDate(true)} mode="contained">
                   Expiry Date : {toDate?.toLocaleDateString("en-GB")}
@@ -768,22 +777,23 @@ export default function ManageProductsScreen() {
                   mode="outlined"
                 />
               </View>} */}
-         
-              {selectedSub == 0 && <View style={[styles.formElem, styles.row]}
-              >
-                <InputPaper
-                  customStyle={styles.input}
-                  label="Purchase Price/Unit"
-                  onChangeText={(txt: number) => setPurchasePrice(txt)}
-                  value={purchase_price}
-                  keyboardType="numeric"
-                  mode="outlined"
-                  maxLength={30}
-                />
-                <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_pp(true)} mode="contained">
-                  {value_pp == '0' ? 'Without GST' : "With GST"}
-                </ButtonPaper>
-              </View>}
+
+              {selectedSub == 0 &&
+                <View style={[styles.formElem, styles.row]}
+                >
+                  <InputPaper
+                    customStyle={styles.input}
+                    label="Purchase Price/Unit"
+                    onChangeText={(txt: number) => setPurchasePrice(txt)}
+                    value={purchase_price}
+                    keyboardType="numeric"
+                    mode="outlined"
+                    maxLength={30}
+                  />
+                  <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_pp(true)} mode="contained">
+                    {value_pp == '0' ? 'Without GST' : "With GST"}
+                  </ButtonPaper>
+                </View>}
               {selectedSub == 0 && <View style={[styles.formElem, styles.row]}
               >
                 <InputPaper
@@ -817,47 +827,47 @@ export default function ManageProductsScreen() {
                   textColor={'#ffffff'}
                   mode="contained"
                 /> */}
-                 <InputPaper
-              label="GST"
-              onChangeText={(txt: any) => { setCGST(txt); setVisibleCatList(true) }}
-              value={CGST}
-              keyboardType="default"
-              mode="outlined"
-              maxLength={30}
-            />
+                <InputPaper
+                  label="GST"
+                  onChangeText={(txt: any) => { setCGST(txt); setVisibleCatList(true) }}
+                  value={CGST}
+                  keyboardType="default"
+                  mode="outlined"
+                  maxLength={30}
+                />
 
-          </View>}
-          <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
-            {+CGST > 0 && isGstVisible && (
-              <ScrollableListContainer
-                                    backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+              </View>}
+              <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
+                {+CGST > 0 && isGstVisible && (
+                  <ScrollableListContainer
+                    backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
 
-                >
-                {menuGstArr.filter(i => i.title.toLowerCase().includes(CGST.toString()?.toLowerCase())).map(item => (
-                  <ProductListSuggestion
-                    key={item.val}
-                    itemName={item.title}
-                  onPress={() => {handleSetGst(item?.title,item?.val);setIsGstVisible(false)}}
-                  // onPress={() => handleProductPressed(item)}
-                  // unitPrice={item.sale_price}
-                  />
-                ))}
-              </ScrollableListContainer>
-            )}
+                  >
+                    {menuGstArr.filter(i => i.title.toLowerCase().includes(CGST.toString()?.toLowerCase())).map(item => (
+                      <ProductListSuggestion
+                        key={item.val}
+                        itemName={item.title}
+                        onPress={() => { handleSetGst(item?.title, item?.val); setIsGstVisible(false) }}
+                      // onPress={() => handleProductPressed(item)}
+                      // unitPrice={item.sale_price}
+                      />
+                    ))}
+                  </ScrollableListContainer>
+                )}
               </View>
-                        {selectedSub == 2 && <View style={[styles.formElem]}
-          >
-            <InputPaper
-              selectTextOnFocus
-              label="HSN Code"
-              onChangeText={(txt: string) => setHsnCode(txt)}
-              value={hsnCode}
-              keyboardType="numeric"
-              mode="outlined"
-              maxLength={6}
+              {selectedSub == 2 && <View style={[styles.formElem]}
+              >
+                <InputPaper
+                  selectTextOnFocus
+                  label="HSN Code"
+                  onChangeText={(txt: string) => setHsnCode(txt)}
+                  value={hsnCode}
+                  keyboardType="numeric"
+                  mode="outlined"
+                  maxLength={6}
 
-            />
-          </View>}
+                />
+              </View>}
               {/* {selectedSub == 0 && <View style={[styles.formElem, styles.row]}>
                 <InputPaper
                   label={
@@ -893,7 +903,7 @@ export default function ManageProductsScreen() {
 
               {selectedSub == 1 &&
                 <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }]}>
-                  
+
                   <Switch
                     trackColor={{ false: '#767577', true: '#81b0ff' }}
                     thumbColor={checked ? '#f5dd4b' : '#f4f3f4'}
@@ -902,7 +912,7 @@ export default function ManageProductsScreen() {
                     value={checked}
                   />
                   <Text style={{ color: '#008181', fontWeight: '800' }}>Low Stock Alert</Text>
-                
+
                 </View>
 
               }
@@ -917,33 +927,33 @@ export default function ManageProductsScreen() {
         }
         {selected == 0 &&
           <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, marginTop: 10 }}>
-         <View style={{width:'100%'}}
-          >
-            <InputPaper
-              label="Bar Code"
-              onChangeText={(txt: string) => setBarcode(txt)}
-              value={barcode}
-              keyboardType="default"
-              mode="outlined"
-              maxLength={30}
-            />
-          </View>
-        <ButtonPaper
+            <View style={{ width: '100%' }}
+            >
+              <InputPaper
+                label="Bar Code"
+                onChangeText={(txt: string) => setBarcode(txt)}
+                value={barcode}
+                keyboardType="default"
+                mode="outlined"
+                maxLength={30}
+              />
+            </View>
+            <ButtonPaper
               // textColor={btnIdentifier === "U" ? '#008181' : "white"}
               icon={"barcode-scan"}
-              onPress={() =>  navigation.dispatch(CommonActions.navigate(navigationRoutes.cameraScreen,{params:{from:1}}))}
+              onPress={() => navigation.dispatch(CommonActions.navigate(navigationRoutes.cameraScreen, { params: { from: 1 } }))}
               mode="text"
               buttonColor="transparent"
               textColor="#008181"
-              style={{width:'8%',height:'20%',borderRadius:0, marginLeft:-SCREEN_WIDTH/6,justifyContent:'center',alignItems:'center'}}
-              
-              
-              // buttonColor={btnIdentifier === "U" ? "white" : "transparent"}
+              style={{ width: '8%', height: '20%', borderRadius: 0, marginLeft: -SCREEN_WIDTH / 6, justifyContent: 'center', alignItems: 'center' }}
+
+
+            // buttonColor={btnIdentifier === "U" ? "white" : "transparent"}
             >
               {/* User Profile */}
               {/* Hello */}
             </ButtonPaper>
-             </View>}
+          </View>}
         {selected == 0 && <View >
 
           <View style={[styles.formElem]}>
@@ -975,7 +985,7 @@ export default function ManageProductsScreen() {
             {unitName && visibleUnitList && (
               <ScrollableListContainer
                 backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
-                >
+              >
                 {units.filter(i => i.unit_name.toLowerCase().includes(unitName?.toLowerCase())).map(item => (
                   <ProductListSuggestion
                     key={item.sl_no}
@@ -1010,7 +1020,7 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 999, elevation: 999 }}>
             {categoryName && visibleCatList && (
               <ScrollableListContainer
-                                   backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+                backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
 
               >
                 {categories.filter(i => i.category_name.toLowerCase().includes(categoryName?.toLowerCase())).map(item => (
@@ -1024,7 +1034,7 @@ export default function ManageProductsScreen() {
               </ScrollableListContainer>
             )}
           </View>
-          
+
           {/* <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center' }]}>
             <Switch
               trackColor={{ false: '#767577', true: '#008181' }}
@@ -1036,7 +1046,7 @@ export default function ManageProductsScreen() {
             <Text style={{ color: '#89898bff', fontWeight: '800' }}>Batchwise Entry</Text>
 
           </View> */}
-          <View style={styles.container}>
+          {receiptSettings?.stock_flag == 'Y' && <View style={styles.container}>
             {subOptions.map(opt => (
               <Button
                 key={opt.val}
@@ -1054,8 +1064,28 @@ export default function ManageProductsScreen() {
                 </Text>
               </Button>
             ))}
-          </View>
-        
+          </View>}
+
+          {receiptSettings?.stock_flag == 'N' && <View style={styles.container}>
+            {subOptionsNoStock.map(opt => (
+              <Button
+                key={opt.val}
+                style={[
+                  colorScheme === 'dark' ? styles.btnSubDark : styles.btnSub,
+                  selectedSub === opt.val ? colorScheme === 'dark' ? styles.btnSelectedSubDark : styles.btnSelectedSub : colorScheme === 'dark' ? styles.btnUnselectedSubDark : styles.btnUnselectedSub
+                ]}
+                onPress={() => {
+                  console.log(opt); setSelectedSub(opt.val);
+
+                }}
+              >
+                <Text style={selectedSub === opt.val ? colorScheme === 'dark' ? styles.textSelectedDark : styles.textSelectedSub : colorScheme === 'dark' ? styles.textUnselectedDark : styles.textUnselectedSub}>
+                  {opt.name}
+                </Text>
+              </Button>
+            ))}
+          </View>}
+
           {selectedSub == 1 &&
             <View style={[styles.formElem, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }]}>
 
@@ -1082,60 +1112,59 @@ export default function ManageProductsScreen() {
             />
           </View>}
           {/* <View style={{ flexDirection: 'row', width: SCREEN_WIDTH / 1.2, gap: 0 }}> */}
-           
-            {selectedSub == 1 && <View style={[styles.formElem]}>
-             
-             
-              <InputPaper
-                label="Opening Stock"
-                onChangeText={(txt: number) => setOpeningStock(txt)}
-                value={opening_stock}
-                keyboardType="numeric"
-                mode="outlined"
-              />
-           
-            </View>}
 
-            {selectedSub == 1 && isEnabled && <View style={[styles.formElem]}>
+          {selectedSub == 1 && <View style={[styles.formElem]}>
 
-              <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#008181" onPress={() => setOpenToDate(true)} mode="outlined">
-                As On : {toDate?.toLocaleDateString("en-GB")}
-              </ButtonPaper>
-              <DatePicker
-                modal
-                textColor="#008181"
-                minimumDate={toDate}
-                mode="date"
-                open={openToDate}
-                date={toDate}
-                onConfirm={date => {
-                  setToDate(date)
-                }}
-                onCancel={() => {
-                  setOpenToDate(false)
-                }}
-              />
-            </View>
 
-            }
-          {/* </View> */}
-
-          {(selectedSub == 1 || selectedSub == 0) && isEnabled && <View style={[styles.formElem]}>
             <InputPaper
-              label="Batch No."
-              onChangeText={(txt: string) => setBatchNo(txt)}
-              value={batch_no}
+              label="Opening Stock"
+              onChangeText={(txt: number) => setOpeningStock(txt)}
+              value={opening_stock}
               keyboardType="numeric"
               mode="outlined"
             />
 
           </View>}
 
+          {selectedSub == 1 && isEnabled && <View style={[styles.formElem]}>
+
+            <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#008181" onPress={() => setOpenToDate(true)} mode="outlined">
+              As On : {toDate?.toLocaleDateString("en-GB")}
+            </ButtonPaper>
+            <DatePicker
+              modal
+              textColor="#008181"
+              minimumDate={toDate}
+              mode="date"
+              open={openToDate}
+              date={toDate}
+              onConfirm={date => {
+                setToDate(date)
+              }}
+              onCancel={() => {
+                setOpenToDate(false)
+              }}
+            />
+          </View>
+
+          }
+          {/* </View> */}
+
+          {selectedSub == 1 && <View style={[styles.formElem]}>
+            <InputPaper
+              label="Batch No."
+              onChangeText={(txt: string) => setBatchNo(txt)}
+              value={batch_no}
+              keyboardType="default"
+              mode="outlined"
+            />
+          </View>}
+
           <View style={{ flexDirection: 'row', width: SCREEN_WIDTH / 1.2 }}>
             {selectedSub == 1 && <View style={[styles.formElem, { width: '50%' }]}>
 
               <ButtonPaper buttonColor="white" style={{ borderRadius: 0, }} textColor="#008181" onPress={() => setOpenMfgDate(true)} mode="outlined">
-               <Text style={{ fontSize: 10,color:'#008181' }}>Mfg. Date : {mfg_date?.toLocaleDateString("en-GB")}</Text> 
+                <Text style={{ fontSize: 10, color: '#008181' }}>Mfg. Date : {mfg_date?.toLocaleDateString("en-GB")}</Text>
               </ButtonPaper>
               <DatePicker
                 modal
@@ -1155,7 +1184,7 @@ export default function ManageProductsScreen() {
             {selectedSub == 1 && <View style={[styles.formElem, { width: '50%' }]}>
 
               <ButtonPaper buttonColor="white" style={{ borderRadius: 0 }} textColor="#008181" onPress={() => setOpenExp(true)} mode="outlined">
-               <Text style={{ fontSize: 8,color:'#008181' }}> Expiry Date : {expiry_date?.toLocaleDateString("en-GB")} </Text>
+                <Text style={{ fontSize: 8, color: '#008181' }}> Expiry Date : {expiry_date?.toLocaleDateString("en-GB")} </Text>
               </ButtonPaper>
               <DatePicker
                 modal
@@ -1174,8 +1203,8 @@ export default function ManageProductsScreen() {
             </View>}
 
           </View>
-        
- 
+
+          {/* 
           {selectedSub == 0 && <View style={[styles.formElem, styles.row]}
           >
             <InputPaper
@@ -1190,7 +1219,7 @@ export default function ManageProductsScreen() {
             <ButtonPaper style={styles.button} buttonColor="#def0ddff" textColor="#008181" onPress={() => setVisible_pp(true)} mode="contained">
               {value_pp == '0' ? 'Without GST' : "With GST"}
             </ButtonPaper>
-          </View>}
+          </View>} */}
           {selectedSub == 0 && <View style={[styles.formElem, styles.row]}
           >
             <InputPaper
@@ -1214,7 +1243,7 @@ export default function ManageProductsScreen() {
               {value_sp == '0' ? 'Without GST' : "With GST"}
             </ButtonPaper>
           </View>}
-           {selectedSub == 2 && <View style={[styles.formElem]}
+          {selectedSub == 2 && <View style={[styles.formElem]}
           >
             <InputPaper
               selectTextOnFocus
@@ -1270,15 +1299,15 @@ export default function ManageProductsScreen() {
           <View style={{ paddingBottom: PixelRatio.roundToNearestPixel(10), zIndex: 1000 }}>
             {+CGST > 0 && isGstVisible && (
               <ScrollableListContainer
-                                 backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+                backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
 
-                
-                >
+
+              >
                 {menuGstArr.filter(i => i.title.toLowerCase().includes(CGST.toString()?.toLowerCase())).map(item => (
                   <ProductListSuggestion
                     key={item.val}
                     itemName={item.title}
-                  onPress={() => {handleSetGst(item?.title,item?.val);setIsGstVisible(false)}}
+                    onPress={() => { handleSetGst(item?.title, item?.val); setIsGstVisible(false) }}
                   // unitPrice={item.sale_price}
                   />
                 ))}
@@ -1306,7 +1335,7 @@ export default function ManageProductsScreen() {
 
 
 
-         
+
 
 
 

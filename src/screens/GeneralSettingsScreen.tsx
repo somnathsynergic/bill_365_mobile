@@ -62,10 +62,10 @@ export default function GeneralSettingsScreen() {
   const [kot, setKot] = useState<"Y" | "N">(
     () => receiptSettings?.kot_flag || "N",
   )
-  const [low_stock,setLowStock] = useState<"Y" | "N">(
+  const [low_stock, setLowStock] = useState<"Y" | "N">(
     () => receiptSettings?.stock_alert_flag || "N",
   )
-    const [low_stock_prtg,setLowStockPrtg] = useState<number>(
+  const [low_stock_prtg, setLowStockPrtg] = useState<number>(
     () => receiptSettings?.stock_alert_prtg || 100,
     // () =>  100,
   )
@@ -76,11 +76,11 @@ export default function GeneralSettingsScreen() {
     receiptSettings?.unit_flag,
   )
 
-    const [printOp, setPrintOp] = useState(
+  const [printOp, setPrintOp] = useState(
     receiptSettings?.print_op,
   )
 
-   const [custom_sl_flag, setCust_sl_flag] = useState(
+  const [custom_sl_flag, setCust_sl_flag] = useState(
     receiptSettings?.custom_sl_flag || "N",
   )
 
@@ -114,17 +114,17 @@ export default function GeneralSettingsScreen() {
     { icon: "close-outline", title: "Deny", func: () => setPayMode("N") },
   ]
 
-   let custom_sl_flagArr = [
+  let custom_sl_flagArr = [
     { icon: "check-outline", title: "On", func: () => setCust_sl_flag("Y") },
     { icon: "close-outline", title: "Off", func: () => setCust_sl_flag("N") },
   ]
 
-    let low_stock_flagArr = [
+  let low_stock_flagArr = [
     { icon: "check-outline", title: "On", func: () => setLowStock("Y") },
     { icon: "close-outline", title: "Off", func: () => setLowStock("N") },
   ]
 
-     let print_op_flagArr = [
+  let print_op_flagArr = [
     { icon: "check-outline", title: "2 Inch", func: () => setPrintOp("2") },
     { icon: "close-outline", title: "3 Inch", func: () => setPrintOp("3") },
   ]
@@ -519,7 +519,7 @@ export default function GeneralSettingsScreen() {
     //       <Divider />
     //       {low_stock == 'Y' && <List.Item
     //         title="Minimum qty. for alert"
-           
+
     //         left={props => <List.Icon {...props} icon="cash-refund" />}
     //         right={props => {
     //           return (
@@ -542,206 +542,206 @@ export default function GeneralSettingsScreen() {
     //     </View>
     //   </ScrollView>
     // </SafeAreaView>
-  
-<SafeAreaView style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
-  <ScrollView keyboardShouldPersistTaps="handled">
-    <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
-      <View style={{ alignItems: "center" }}>
-           <HeaderImage
-             isBackEnabled
-             isBackCustom={true}
-             backPressed={backPressed}
-             imgLight={flowerHome}
-             imgDark={flowerHomeDark}
-             borderRadius={30}
-             blur={10}>
-             General Settings
-           </HeaderImage>
-         </View>
-    </View>
 
-    <View style={{ paddingHorizontal: normalize(25), paddingBottom: normalize(10) }}>
-      {loginStore?.user_type === "M" ? (
-        <ButtonPaper
-          icon="cloud-upload-outline"
-          mode="contained"
-          onPress={handleReceiptSettingsUpdate}
-          loading={isLoading}
-          disabled={isDisabled}
-          buttonColor={colorScheme === "dark" ? "#009689" : "#008181"}
-          textColor="white"
-          style={{ borderRadius: normalize(8), elevation: 1 }}
-        >
-          UPDATE
-        </ButtonPaper>
-      ) : (
-        <ButtonPaper
-          disabled
-          mode="elevated"
-          onPress={() => console.log("UPDATE")}
-          buttonColor="#f5f9ff"
-          textColor="#97979eff"
-          style={{ borderRadius: normalize(8), elevation: 1 }}
-        >
-          YOU CAN'T UPDATE
-        </ButtonPaper>
-      )}
-    </View>
-
-    {receiptSettings?.stock_flag == 'Y' && (
-      <View style={{ padding: normalize(20) }}>
-      {[
-        { title: "Receipt Type", value: rcptType, arr: receiptTypeArr, icon: "receipt" },
-        { title: "Inventory", value: stockFlag, arr: stockFlagArr, icon: "inbox-full-outline" },
-        { title: "Unit", value: unitFlag, arr: unitSwitchArr, icon: "weight-kilogram" },
-        { title: "Customer Name", value: customerInfo, arr: customerInfoArr, icon: "account-circle-outline" },
-        { title: "Payment Mode", value: payMode, arr: payModeArr, icon: "contactless-payment-circle-outline" },
-        { title: "Custom Receipt", value: custom_sl_flag, arr: custom_sl_flagArr, icon: "receipt" },
-        { title: "Cash Receive", value: cashFlag, arr: cashFlagArr, icon: "cash-remove" },
-        { title: "Price Type", value: priceType, arr: priceAutoManualArr, icon: "cash-lock-open" },
-        { title: "KOT", value: kot, arr: kotArr, icon: "badge-account-outline" },
-        { title: "Printer Options", value: printOp, arr: print_op_flagArr, icon: "badge-account-outline" },
-      ].map((item, index) => (
-        <View
-          key={index}
-          style={{
-            backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#008181",
-            borderRadius: normalize(8),
-            elevation: 1,
-            borderWidth: 1,
-            borderColor:colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
-            padding: normalize(12),
-            marginBottom: normalize(12),
-          }}
-        >
-          <List.Item
-            title={item.title }
-            description={
-              item.value === "Y" || item.value === "A" || item.value === "2"
-                ? item.value === "Y" ? "Allowed" : item.value === "A" ? "Automatic" : item.value === "2" ? "2 Inch" : "On"
-                : item.value === "N" || item.value === "M" || item.value === "3"
-                  ? item.value === "N" ? "Denied" : item.value === "M" ? "Manual Edit" : item.value === "3" ? "3 Inch" : "Off":item.value=='P'? "Print":item.value=='S'?"SMS":item.value=='B'?"Both":
-                   "Error Occurred!"
-            }
-            left={props => <List.Icon {...props} icon={item.icon} color={colorScheme === "dark" ? "#009689" : "#008181"} />}
-            right={() => (
-              <MenuPaper menuArrOfObjects={item.arr}  textColor="#008181"  />
-            )}
-            descriptionStyle={{
-              color: item.value === "Y" || item.value === "A" || item.value === "2" ? '#009689' : theme.colors.error,
-            }}
-          />
+    <SafeAreaView style={[{ backgroundColor: theme.colors.background, height: "100%" }]}>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <View style={{ alignItems: "center", marginBottom: normalize(20) }}>
+          <View style={{ alignItems: "center" }}>
+            <HeaderImage
+              isBackEnabled
+              isBackCustom={true}
+              backPressed={backPressed}
+              imgLight={flowerHome}
+              imgDark={flowerHomeDark}
+              borderRadius={30}
+              blur={10}>
+              General Settings
+            </HeaderImage>
+          </View>
         </View>
-      ))}
 
-      <View
-        style={{
-          backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#ffffff",
-          borderRadius: normalize(8),
-          elevation: 1,
-          borderWidth: 1,
-          borderColor: colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
-          padding: normalize(12),
-          marginBottom: normalize(12),
-        }}
-      >
-        <List.Item
-          title="Refund Time (In Days)"
-          description={`${refundTime == 1 ? `${refundTime} day` : `${refundTime} days`}`}
-          left={props => <List.Icon {...props} icon="cash-refund" color={colorScheme === "dark" ? "#009689" : "#008181"} />}
-          right={props => (
-            <InputPaper
-              keyboardType="numeric"
-              label="Days"
-              mode="outlined"
-              value={refundTime}
-              onChangeText={(txt:any) => setRefundTime(txt)}
-              customStyle={{ height: normalize(35) }}
-              maxLength={3}
-            />
+        <View style={{ paddingHorizontal: normalize(25), paddingBottom: normalize(10) }}>
+          {loginStore?.user_type === "M" ? (
+            <ButtonPaper
+              icon="cloud-upload-outline"
+              mode="contained"
+              onPress={handleReceiptSettingsUpdate}
+              loading={isLoading}
+              disabled={isDisabled}
+              buttonColor={colorScheme === "dark" ? "#009689" : "#008181"}
+              textColor="white"
+              style={{ borderRadius: normalize(8), elevation: 1 }}
+            >
+              UPDATE
+            </ButtonPaper>
+          ) : (
+            <ButtonPaper
+              disabled
+              mode="elevated"
+              onPress={() => console.log("UPDATE")}
+              buttonColor="#f5f9ff"
+              textColor="#97979eff"
+              style={{ borderRadius: normalize(8), elevation: 1 }}
+            >
+              YOU CAN'T UPDATE
+            </ButtonPaper>
           )}
-          descriptionStyle={{ color: '#008181' }}
-        />
-      </View>
-    </View>)}
-    {receiptSettings?.stock_flag == 'N' && (
-      <View style={{ padding: normalize(20) }}>
-      {[
-        { title: "Receipt Type", value: rcptType, arr: receiptTypeArr, icon: "receipt" },
-        { title: "Unit", value: unitFlag, arr: unitSwitchArr, icon: "weight-kilogram" },
-        { title: "Customer Name", value: customerInfo, arr: customerInfoArr, icon: "account-circle-outline" },
-        { title: "Payment Mode", value: payMode, arr: payModeArr, icon: "contactless-payment-circle-outline" },
-        { title: "Custom Receipt", value: custom_sl_flag, arr: custom_sl_flagArr, icon: "receipt" },
-        { title: "Cash Receive", value: cashFlag, arr: cashFlagArr, icon: "cash-remove" },
-        { title: "Price Type", value: priceType, arr: priceAutoManualArr, icon: "cash-lock-open" },
-        { title: "KOT", value: kot, arr: kotArr, icon: "badge-account-outline" },
-        { title: "Printer Options", value: printOp, arr: print_op_flagArr, icon: "badge-account-outline" },
-      ].map((item, index) => (
-        <View
-          key={index}
-          style={{
-             backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#008181",
-            borderRadius: normalize(8),
-            elevation: 1,
-            borderWidth: 1,
-            borderColor:colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
-            padding: normalize(12),
-            marginBottom: normalize(12),
-          }}
-        >
-          <List.Item
-            title={item.title }
-            description={
-              item.value === "Y" || item.value === "A" || item.value === "2"
-                ? item.value === "Y" ? "Allowed" : item.value === "A" ? "Automatic" : item.value === "2" ? "2 Inch" : "On"
-                : item.value === "N" || item.value === "M" || item.value === "3"
-                  ? item.value === "N" ? "Denied" : item.value === "M" ? "Manual Edit" : item.value === "3" ? "3 Inch" : "Off":item.value=='P'? "Print":item.value=='S'?"SMS":item.value=='B'?"Both":
-                   "Error Occurred!"
-            }
-            left={props => <List.Icon {...props} icon={item.icon} color="#008181" />}
-            right={() => (
-              <MenuPaper menuArrOfObjects={item.arr}  textColor="#008181"  />
-            )}
-            descriptionStyle={{
-              color: item.value === "Y" || item.value === "A" || item.value === "2" ? '#41c57f' : theme.colors.error,
-            }}
-          />
         </View>
-      ))}
 
-      <View
-        style={{
-            backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#008181",
-            borderRadius: normalize(8),
-            elevation: 1,
-            borderWidth: 1,
-            borderColor:colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
-            padding: normalize(12),
-            marginBottom: normalize(12),
-        }}
-      >
-        <List.Item
-          title="Refund Time (In Days)"
-          description={`${refundTime == 1 ? `${refundTime} day` : `${refundTime} days`}`}
-          left={props => <List.Icon {...props} icon="cash-refund" color="#008181" />}
-          right={props => (
-            <InputPaper
-              keyboardType="numeric"
-              label="Days"
-              mode="outlined"
-              value={refundTime}
-              onChangeText={(txt:any) => setRefundTime(txt)}
-              customStyle={{ height: normalize(35) }}
-              maxLength={3}
-            />
-          )}
-          descriptionStyle={{ color: '#008181' }}
-        />
-      </View>
-    </View>
-    )}
-  </ScrollView>
-</SafeAreaView>
+        {receiptSettings?.stock_flag == 'Y' && (
+          <View style={{ padding: normalize(20) }}>
+            {[
+              { title: "Receipt Type", value: rcptType, arr: receiptTypeArr, icon: "receipt" },
+              { title: "Inventory", value: stockFlag, arr: stockFlagArr, icon: "inbox-full-outline" },
+              { title: "Unit", value: unitFlag, arr: unitSwitchArr, icon: "weight-kilogram" },
+              { title: "Customer Name", value: customerInfo, arr: customerInfoArr, icon: "account-circle-outline" },
+              { title: "Payment Mode", value: payMode, arr: payModeArr, icon: "contactless-payment-circle-outline" },
+              { title: "Custom Receipt", value: custom_sl_flag, arr: custom_sl_flagArr, icon: "receipt" },
+              { title: "Cash Receive", value: cashFlag, arr: cashFlagArr, icon: "cash-remove" },
+              { title: "Price Type", value: priceType, arr: priceAutoManualArr, icon: "cash-lock-open" },
+              { title: "KOT", value: kot, arr: kotArr, icon: "badge-account-outline" },
+              { title: "Printer Options", value: printOp, arr: print_op_flagArr, icon: "badge-account-outline" },
+            ].map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: colorScheme === "dark" ? "#008181" : "#ececf0ff",
+                  borderRadius: normalize(8),
+                  elevation: 1,
+                  borderWidth: 1,
+                  borderColor: colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
+                  padding: normalize(12),
+                  marginBottom: normalize(12),
+                }}
+              >
+                <List.Item
+                  title={item.title}
+                  description={
+                    item.value === "Y" || item.value === "A" || item.value === "2"
+                      ? item.value === "Y" ? "Allowed" : item.value === "A" ? "Automatic" : item.value === "2" ? "2 Inch" : "On"
+                      : item.value === "N" || item.value === "M" || item.value === "3"
+                        ? item.value === "N" ? "Denied" : item.value === "M" ? "Manual Edit" : item.value === "3" ? "3 Inch" : "Off" : item.value == 'P' ? "Print" : item.value == 'S' ? "SMS" : item.value == 'B' ? "Both" :
+                          "Error Occurred!"
+                  }
+                  left={props => <List.Icon {...props} icon={item.icon} color={colorScheme === "dark" ? "#009689" : "#008181"} />}
+                  right={() => (
+                    <MenuPaper menuArrOfObjects={item.arr} textColor="#008181" />
+                  )}
+                  descriptionStyle={{
+                    color: item.value === "Y" || item.value === "A" || item.value === "2" ? '#009689' : theme.colors.error,
+                  }}
+                />
+              </View>
+            ))}
+
+            <View
+              style={{
+                backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#ffffff",
+                borderRadius: normalize(8),
+                elevation: 1,
+                borderWidth: 1,
+                borderColor: colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
+                padding: normalize(12),
+                marginBottom: normalize(12),
+              }}
+            >
+              <List.Item
+                title="Refund Time (In Days)"
+                description={`${refundTime == 1 ? `${refundTime} day` : `${refundTime} days`}`}
+                left={props => <List.Icon {...props} icon="cash-refund" color={colorScheme === "dark" ? "#009689" : "#ececf0ff"} />}
+                right={props => (
+                  <InputPaper
+                    keyboardType="numeric"
+                    label="Days"
+                    mode="outlined"
+                    value={refundTime}
+                    onChangeText={(txt: any) => setRefundTime(txt)}
+                    customStyle={{ height: normalize(35) }}
+                    maxLength={3}
+                  />
+                )}
+                descriptionStyle={{ color: '#008181' }}
+              />
+            </View>
+          </View>)}
+        {receiptSettings?.stock_flag == 'N' && (
+          <View style={{ padding: normalize(20) }}>
+            {[
+              { title: "Receipt Type", value: rcptType, arr: receiptTypeArr, icon: "receipt" },
+              { title: "Unit", value: unitFlag, arr: unitSwitchArr, icon: "weight-kilogram" },
+              { title: "Customer Name", value: customerInfo, arr: customerInfoArr, icon: "account-circle-outline" },
+              { title: "Payment Mode", value: payMode, arr: payModeArr, icon: "contactless-payment-circle-outline" },
+              { title: "Custom Receipt", value: custom_sl_flag, arr: custom_sl_flagArr, icon: "receipt" },
+              { title: "Cash Receive", value: cashFlag, arr: cashFlagArr, icon: "cash-remove" },
+              { title: "Price Type", value: priceType, arr: priceAutoManualArr, icon: "cash-lock-open" },
+              { title: "KOT", value: kot, arr: kotArr, icon: "badge-account-outline" },
+              { title: "Printer Options", value: printOp, arr: print_op_flagArr, icon: "badge-account-outline" },
+            ].map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#ececf0ff",
+                  borderRadius: normalize(8),
+                  elevation: 1,
+                  borderWidth: 1,
+                  borderColor: colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
+                  padding: normalize(12),
+                  marginBottom: normalize(12),
+                }}
+              >
+                <List.Item
+                  title={item.title}
+                  description={
+                    item.value === "Y" || item.value === "A" || item.value === "2"
+                      ? item.value === "Y" ? "Allowed" : item.value === "A" ? "Automatic" : item.value === "2" ? "2 Inch" : "On"
+                      : item.value === "N" || item.value === "M" || item.value === "3"
+                        ? item.value === "N" ? "Denied" : item.value === "M" ? "Manual Edit" : item.value === "3" ? "3 Inch" : "Off" : item.value == 'P' ? "Print" : item.value == 'S' ? "SMS" : item.value == 'B' ? "Both" :
+                          "Error Occurred!"
+                  }
+                  left={props => <List.Icon {...props} icon={item.icon} color="#008181" />}
+                  right={() => (
+                    <MenuPaper menuArrOfObjects={item.arr} textColor="#008181" />
+                  )}
+                  descriptionStyle={{
+                    color: item.value === "Y" || item.value === "A" || item.value === "2" ? '#41c57f' : theme.colors.error,
+                  }}
+                />
+              </View>
+            ))}
+
+            <View
+              style={{
+                backgroundColor: colorScheme === "dark" ? "#2e2929ff" : "#ececf0ff",
+                borderRadius: normalize(8),
+                elevation: 1,
+                borderWidth: 1,
+                borderColor: colorScheme === "dark" ? "#2e2929ff" : '#ececf0ff',
+                padding: normalize(12),
+                marginBottom: normalize(12),
+              }}
+            >
+              <List.Item
+                title="Refund Time (In Days)"
+                description={`${refundTime == 1 ? `${refundTime} day` : `${refundTime} days`}`}
+                left={props => <List.Icon {...props} icon="cash-refund" color={colorScheme === "dark" ? "#ececf0ff" : "#009689"} />}
+                right={props => (
+                  <InputPaper
+                    keyboardType="numeric"
+                    label="Days"
+                    mode="outlined"
+                    value={refundTime}
+                    onChangeText={(txt: any) => setRefundTime(txt)}
+                    customStyle={{ height: normalize(35) }}
+                    maxLength={3}
+                  />
+                )}
+                descriptionStyle={{ color: colorScheme === "dark" ? "#ececf0ff" : "#009689" }}
+              />
+            </View>
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

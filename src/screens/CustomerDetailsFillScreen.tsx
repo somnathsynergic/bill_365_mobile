@@ -295,7 +295,7 @@ const CustomerDetailsFillScreen = () => {
       return
     }
 
-    if (receiptSettings.cust_inf=='Y' && (!customerMobileNumber || customerMobileNumber.length !== 10)) {
+    if (receiptSettings.cust_inf == 'Y' && (!customerMobileNumber || customerMobileNumber.length !== 10)) {
       ToastAndroid.show("A valid mobile no. is mandatory!", ToastAndroid.SHORT)
       return
     }
@@ -362,7 +362,7 @@ const CustomerDetailsFillScreen = () => {
           finalCashAmount,
           customerName,
           customerMobileNumber,
-          receiptSettings?.custom_sl_flag=='N'? receiptNumber: rcpt_sl_no,
+          receiptSettings?.custom_sl_flag == 'N' ? receiptNumber : rcpt_sl_no,
           checked,
           kotNumber,
           params?.table_no
@@ -541,7 +541,7 @@ const CustomerDetailsFillScreen = () => {
     //                 status={checked === "C" ? "checked" : "unchecked"}
     //                 color={'#008181'}
     //                 onPress={() => setChecked("C")}
-                   
+
     //               />
     //               <Text
     //                 variant="labelLarge"
@@ -764,22 +764,22 @@ const CustomerDetailsFillScreen = () => {
     //     </View>
     //   </ScrollView>
     // </SafeAreaView>
-   <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000000' : 'white' }}>
-  <ScrollView style={{ flex: 1, paddingHorizontal: 16 }}>
-     <View style={{ alignItems: "center" }}>
-             <HeaderImage
-               imgLight={productHeader}
-               imgDark={productHeaderDark}
-               borderRadius={30}
-               blur={10}
-               isBackEnabled>
-               {receiptSettings?.cust_inf === "Y"
-                 ? "Customer Details & Print"
-                 : "Print"}
-             </HeaderImage>
-           </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000000' : 'white' }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 16 }}>
+        <View style={{ alignItems: "center" }}>
+          <HeaderImage
+            imgLight={productHeader}
+            imgDark={productHeaderDark}
+            borderRadius={30}
+            blur={10}
+            isBackEnabled>
+            {receiptSettings?.cust_inf === "Y"
+              ? "Customer Details & Print"
+              : "Print"}
+          </HeaderImage>
+        </View>
 
-    {/* <View style={{
+        {/* <View style={{
       backgroundColor: colorScheme === 'dark' ? '#009689' : '#008181',
       borderRadius: 8,
       padding: 16,
@@ -792,179 +792,179 @@ const CustomerDetailsFillScreen = () => {
     }}>
       <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>Net Total: ₹{params?.net_total}</Text>
     </View> */}
-          {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" &&<View style={{
-             backgroundColor: '#008181',
-             borderRadius: 4,
-             width: SCREEN_WIDTH / 1.15,
-             alignSelf: "center",
-             marginTop: normalize(-8),
-             height: "auto",
-             paddingVertical: normalize(15)
-           }}>
-             {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" && (
-               <View
-                 style={{
-                   paddingHorizontal: SCREEN_WIDTH / 20,
-                 }}>
-                 <InputPaper
-                   selectTextOnFocus
-                  // backgroundColor= '#008181'
-                   label={
-                     receiptSettings?.discount_type === "A"
-                       ? "Discount (₹)"
-                       : "Discount (%)"
-                   }
-                   onChangeText={handleDiscountBillwise}
-                   value={discountBillwise}
-                   keyboardType="numeric"
-                   mode="flat"
-                 />
-               </View>
-             )}
-   
-           </View>}
-       <NetTotalButton
-              width={SCREEN_WIDTH/1.25}
-              disabled
-              backgroundColor={'#008181'}
-              textColor={theme.colors.surfaceVariant}
-              addedProductsList={params?.added_products}
-              netTotal={params?.net_total}
-              totalDiscount={
-                receiptSettings?.discount_position !== "B"
-                  ? params?.total_discount
-                  : receiptSettings?.discount_type === "A"
-                    ? discountBillwise
-                    : (params?.net_total * discountBillwise) / 100
-              }
-            />
-    <View style={{
-      backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff',
-      borderRadius: 8,
-      padding: 16,
-      marginVertical: 12,
-      borderWidth: 1,
-      borderColor: colorScheme === 'dark' ? '#2e2929ff' : '#ececf0ff',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.05,
-      shadowRadius: 1,
-    }}>
-      {receiptSettings?.cust_inf === "Y" && (<View>
-      <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#009689' : '#008181', marginBottom: 12 }}>Customer Information</Text>
-      <InputPaper
-        label="Enter Mobile"
-        value={customerMobileNumber}
-        onChangeText={onChangeCustomerMobileNumber}
-        keyboardType="number-pad"
-        customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8, marginBottom: 12 }}
-      />
-      <InputPaper
-        label="Enter Name (Optional)"
-        value={customerName}
-        onChangeText={(name:any) => setCustomerName(name)}
-        keyboardType="default"
-        customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
-      />
-      </View>)}
-
-      <View style={{ marginVertical: 16 }}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#009689' : '#008181', marginBottom: 12 }}>Payment Mode</Text>
-        <View style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff',
-          borderRadius: 10,
-          padding: 12,
-          marginVertical: 8,
+        {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" && <View style={{
+          backgroundColor: '#008181',
+          borderRadius: 4,
+          width: SCREEN_WIDTH / 1.15,
+          alignSelf: "center",
+          marginTop: normalize(-8),
+          height: "auto",
+          paddingVertical: normalize(15)
         }}>
-          <View style={{ alignItems: "center" }}>
-            <RadioButton value="C" status={checked === "C" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("C")} />
-            <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>Cash</Text>
+          {receiptSettings?.discount_flag === "Y" && receiptSettings?.discount_position === "B" && (
+            <View
+              style={{
+                paddingHorizontal: SCREEN_WIDTH / 20,
+              }}>
+              <InputPaper
+                selectTextOnFocus
+                // backgroundColor= '#008181'
+                label={
+                  receiptSettings?.discount_type === "A"
+                    ? "Discount (₹)"
+                    : "Discount (%)"
+                }
+                onChangeText={handleDiscountBillwise}
+                value={discountBillwise}
+                keyboardType="numeric"
+                mode="flat"
+              />
+            </View>
+          )}
+
+        </View>}
+        <NetTotalButton
+          width={SCREEN_WIDTH / 1.25}
+          disabled
+          backgroundColor={'#008181'}
+          textColor={theme.colors.surfaceVariant}
+          addedProductsList={params?.added_products}
+          netTotal={params?.net_total}
+          totalDiscount={
+            receiptSettings?.discount_position !== "B"
+              ? params?.total_discount
+              : receiptSettings?.discount_type === "A"
+                ? discountBillwise
+                : (params?.net_total * discountBillwise) / 100
+          }
+        />
+        <View style={{
+          backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff',
+          borderRadius: 8,
+          padding: 16,
+          marginVertical: 12,
+          borderWidth: 1,
+          borderColor: colorScheme === 'dark' ? '#2e2929ff' : '#ececf0ff',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.05,
+          shadowRadius: 1,
+        }}>
+          {receiptSettings?.cust_inf === "Y" || checked == "R" && (<View>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#009689' : '#008181', marginBottom: 12 }}>Customer Information</Text>
+            <InputPaper
+              label="Enter Mobile"
+              value={customerMobileNumber}
+              onChangeText={onChangeCustomerMobileNumber}
+              keyboardType="number-pad"
+              customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8, marginBottom: 12 }}
+            />
+            <InputPaper
+              label="Enter Name (Optional)"
+              value={customerName}
+              onChangeText={(name: any) => setCustomerName(name)}
+              keyboardType="default"
+              customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
+            />
+          </View>)}
+
+          <View style={{ marginVertical: 16 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', color: colorScheme === 'dark' ? '#009689' : '#008181', marginBottom: 12 }}>Payment Mode</Text>
+            <View style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              backgroundColor: colorScheme === 'dark' ? 'black' : '#f5f9ff',
+              borderRadius: 10,
+              padding: 12,
+              marginVertical: 8,
+            }}>
+              <View style={{ alignItems: "center" }}>
+                <RadioButton value="C" status={checked === "C" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("C")} />
+                <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>Cash</Text>
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <RadioButton value="U" status={checked === "U" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("U")} />
+                <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>UPI</Text>
+              </View>
+              <View style={{ alignItems: "center" }}>
+                <RadioButton value="R" status={checked === "R" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("R")} />
+                <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>Credit</Text>
+              </View>
+            </View>
           </View>
-          <View style={{ alignItems: "center" }}>
-            <RadioButton value="U" status={checked === "U" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("U")} />
-            <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>UPI</Text>
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <RadioButton value="R" status={checked === "R" ? "checked" : "unchecked"} color={colorScheme === 'dark' ? '#009689' : '#008181'} onPress={() => setChecked("R")} />
-            <Text style={{ color: colorScheme === 'dark' ? '#009689' : '#008181' }}>Credit</Text>
+
+          {checked === "C" && (
+            <View style={{ marginVertical: 12 }}>
+              <InputPaper
+                label="Received"
+                value={cashAmount}
+                onChangeText={(cash: any) => setCashAmount(cash)}
+                keyboardType="number-pad"
+                customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
+              />
+              <View style={{
+                backgroundColor: '#FFCD04',
+                borderRadius: 8,
+                padding: 12,
+                marginVertical: 8,
+                alignItems: "center",
+              }}>
+                <Text style={{ color: 'white', fontWeight: '600' }}>Returned Amount: ₹{finalCashAmount}</Text>
+              </View>
+            </View>
+          )}
+
+          {checked === "R" && (
+            <View style={{ marginVertical: 12 }}>
+              <InputPaper
+                label="Received Amount"
+                value={cashAmount}
+                onChangeText={(cash: any) => setCashAmount(cash)}
+                keyboardType="number-pad"
+                customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
+              />
+              <View style={{
+                backgroundColor: '#FFCD04',
+                borderRadius: 8,
+                padding: 12,
+                marginVertical: 8,
+                alignItems: "center",
+                borderWidth: 0,
+                borderColor: '#FFCD04',
+              }}>
+                <Text style={{ color: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', fontWeight: '600' }}>Due Amount: ₹{Math.abs(finalCashAmount)}</Text>
+              </View>
+            </View>
+          )}
+
+          {checked === "U" && upiData && (
+            <View style={{ alignItems: "center", marginVertical: 16 }}>
+              <QRCode
+                size={150}
+                value={`${upiData}&am=${params?.net_total}`}
+                color={colorScheme === 'dark' ? '#009689' : '#008181'}
+                backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
+              />
+            </View>
+          )}
+
+          <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 16 }}>
+            <ButtonPaper
+              mode="contained"
+              buttonColor={colorScheme === 'dark' ? '#009689' : '#008181'}
+              disabled={isDisabled}
+              loading={isLoading}
+              textColor="white"
+              onPress={() => handlePrintReceipt(true)}
+              icon="cloud-print-outline"
+              style={{ borderRadius: 8 }}
+            >
+              Save
+            </ButtonPaper>
           </View>
         </View>
-      </View>
-
-      {checked === "C" && (
-        <View style={{ marginVertical: 12 }}>
-          <InputPaper
-            label="Received"
-            value={cashAmount}
-            onChangeText={(cash:any) => setCashAmount(cash)}
-            keyboardType="number-pad"
-            customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
-          />
-          <View style={{
-            backgroundColor: '#FFCD04',
-            borderRadius: 8,
-            padding: 12,
-            marginVertical: 8,
-            alignItems: "center",
-          }}>
-            <Text style={{ color: 'white', fontWeight: '600' }}>Returned Amount: ₹{finalCashAmount}</Text>
-          </View>
-        </View>
-      )}
-
-      {checked === "R" && (
-        <View style={{ marginVertical: 12 }}>
-          <InputPaper
-            label="Received Amount"
-            value={cashAmount}
-            onChangeText={(cash:any) => setCashAmount(cash)}
-            keyboardType="number-pad"
-            customStyle={{ backgroundColor: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', borderRadius: 8 }}
-          />
-          <View style={{
-            backgroundColor:  '#FFCD04',
-            borderRadius: 8,
-            padding: 12,
-            marginVertical: 8,
-            alignItems: "center",
-            borderWidth: 0,
-            borderColor:  '#FFCD04',
-          }}>
-            <Text style={{ color: colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff', fontWeight: '600' }}>Due Amount: ₹{Math.abs(finalCashAmount)}</Text>
-          </View>
-        </View>
-      )}
-
-      {checked === "U" && upiData && (
-        <View style={{ alignItems: "center", marginVertical: 16 }}>
-          <QRCode
-            size={150}
-            value={`${upiData}&am=${params?.net_total}`}
-            color={colorScheme === 'dark' ? '#009689' : '#008181'}
-            backgroundColor={colorScheme === 'dark' ? '#2e2929ff' : '#f5f9ff'}
-          />
-        </View>
-      )}
-
-      <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 16 }}>
-        <ButtonPaper
-          mode="contained"
-          buttonColor={colorScheme === 'dark' ? '#009689' : '#008181'}
-          disabled={isDisabled}
-          loading={isLoading}
-          textColor="white"
-          onPress={() => handlePrintReceipt(true)}
-          icon="cloud-print-outline"
-          style={{ borderRadius: 8 }}
-        >
-          Save
-        </ButtonPaper>
-      </View>
-    </View>
-  </ScrollView>
-</SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
 
 
   )

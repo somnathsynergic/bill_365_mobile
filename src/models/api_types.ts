@@ -126,7 +126,7 @@ export type GeneralSettingsEditCredentials = {
   custom_sl_flag: string
   stock_alert_flag: string
   stock_alert_prtg: number
-  print_op:string
+  print_op: string
 }
 
 export type DiscountSettingsEditCredentials = {
@@ -173,12 +173,13 @@ export type ItemsData = {
   purchase_price?: number
   batch_no?: string
   expiry_dt?: any
+  mfg_dt?: any
   stock_alert?: string
   pp_gst_flag?: string
   sp_gst_flag?: string
   disc_prtg_flag?: string
-  batchwise_flag?:string
-  low_stock_qty?:number
+  batchwise_flag?: string
+  low_stock_qty?: number
 }
 
 export type UnitData = {
@@ -643,6 +644,31 @@ export type StockUpdateCredentials = {
   user_id: string
   added_stock: number
   removed_stock: number
+}
+
+export type StockInCredentials = {
+  comp_id: number
+  br_id: number
+  item_id: number
+  in_price?: number
+  in_cgst?: number
+  in_sgst?: number
+  qty: number
+  created_by: string
+  exp_dt?: string
+  batch_no?: string
+  mfg_dt?: string
+  sale_price?: number
+}
+
+export type StockOutCredentials = {
+  comp_id: number
+  br_id: number
+  item_id: number
+  qty: number
+  damage_flag: string
+  remarks?: string
+  created_by: string
 }
 
 export type StockReportCredentials = {
