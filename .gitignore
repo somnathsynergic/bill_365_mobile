@@ -22,6 +22,22 @@ DerivedData
 *.xcuserstate
 ios/.xcode.env.local
 
+
+# JVM / Android crash logs
+hs_err_pid*.log
+replay_pid*.log
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
 # Android/IntelliJ
 #
 build/
