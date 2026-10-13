@@ -1,0 +1,20 @@
+INFO:     Started server process [20756]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:13232 (Press CTRL+C to quit)
+INFO:     185.177.72.37:59207:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.37:59659:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.37:61142:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.37:61139:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.37:61294:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61297:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61390:0 - "GET /info.php HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61402:0 - "GET /info.php HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61487:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61497:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61561:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61579:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61637:0 - "GET /config/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61655:0 - "GET /config/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61734:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.37:61758:0 - "GET /api/.env HTTP/1.1" 404 Not Found

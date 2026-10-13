@@ -1,0 +1,41 @@
+INFO:     Started server process [13732]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:13532 (Press CTRL+C to quit)
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:16677:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:16677:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=9 
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/select_outlet?comp_id=9 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=9 and br_id=11 ORDER BY user_type
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=9&br_id=11 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=9 and br_id=12 ORDER BY user_type
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=9&br_id=12 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=9 and br_id=11 ORDER BY user_type
+INFO:     122.176.27.53:16677:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=9&br_id=11 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=9 
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_outlet?comp_id=9 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=9 and br_id=12 ORDER BY user_type
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=9&br_id=12 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=9 and br_id=11 ORDER BY user_type
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=9&br_id=11 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=6 and br_id=11 ORDER BY user_type
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=6&br_id=11 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=6 
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_outlet?comp_id=6 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=6 and br_id=7 ORDER BY user_type
+INFO:     122.176.27.53:47491:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=6&br_id=7 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:5989:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:5989:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK

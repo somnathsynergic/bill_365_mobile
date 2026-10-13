@@ -1,0 +1,21 @@
+INFO:     Started server process [3776]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:27228 (Press CTRL+C to quit)
+INFO:     93.123.109.81:51006:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50480:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50488:0 - "GET /.env.save HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50496:0 - "GET /.env.prod HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50498:0 - "GET /env.js HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50510:0 - "GET /api/config.js HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50514:0 - "GET /assets/env.js HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50522:0 - "GET /js/config.js HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50532:0 - "GET /js/app.js HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50548:0 - "GET /config.json HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50562:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50570:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50584:0 - "GET /dev/.env HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50586:0 - "GET /application/.env HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50588:0 - "GET /php_info.php HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50596:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     93.123.109.81:50598:0 - "POST / HTTP/1.1" 405 Method Not Allowed

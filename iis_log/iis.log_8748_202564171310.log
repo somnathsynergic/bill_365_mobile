@@ -1,0 +1,7 @@
+INFO:     Started server process [9668]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:26877 (Press CTRL+C to quit)
+INFO:     34.147.28.155:16384:0 - "GET / HTTP/1.1" 200 OK
+INFO:     194.0.234.149:56564:0 - "GET /.gitlab-ci.yml HTTP/1.1" 404 Not Found
+INFO:     194.0.234.149:36032:0 - "GET /.gitlab-ci.yml HTTP/1.1" 404 Not Found

@@ -1,0 +1,104 @@
+INFO:     Started server process [12380]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:14944 (Press CTRL+C to quit)
+INFO:     103.102.117.189:54424:0 - "OPTIONS /admin/user_login HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\inetpub\wwwroot\python\synergic_billing\API BILLING\env\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='mondal.tanmoy@synergicsoftek.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     103.102.117.189:54424:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='abc@gmail.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     103.102.117.189:54424:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+INFO:     122.176.27.53:15407:0 - "OPTIONS /admin/user_login HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='mondal.tanmoy@synergicsoftek.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     122.176.27.53:15407:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'mondal.tanmoy@synergicsoftek.com' 
+INFO:     122.176.27.53:15407:0 - "GET /admin/S_Admin/user_type?user_id=mondal.tanmoy@synergicsoftek.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:15407:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'mondal.tanmoy@synergicsoftek.com' 
+INFO:     122.176.27.53:15407:0 - "GET /admin/S_Admin/user_type?user_id=mondal.tanmoy@synergicsoftek.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:15407:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='mondal.tanmoy@synergicsoftek.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     103.102.117.189:59025:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='mondal.tanmoy@synergicsoftek.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     103.102.117.189:59025:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='mondal.tanmoy@synergicsoftek.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     103.102.117.189:59025:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'mondal.tanmoy@synergicsoftek.com' 
+INFO:     103.102.117.189:59025:0 - "GET /admin/S_Admin/user_type?user_id=mondal.tanmoy@synergicsoftek.com HTTP/1.1" 200 OK
+INFO:     103.102.117.189:59025:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'mondal.tanmoy@synergicsoftek.com' 
+INFO:     103.102.117.189:59025:0 - "GET /admin/S_Admin/user_type?user_id=mondal.tanmoy@synergicsoftek.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:59025:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:53349:0 - "OPTIONS /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:53349:0 - "OPTIONS /admin/stock_report HTTP/1.1" 200 OK
+SELECT a.id item_id,a.item_name,b.stock FROM md_items a, td_stock b WHERE a.id=b.item_id and a.comp_id=b.comp_id and a.comp_id = 1 and b.br_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/stock_report HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT a.id item_id,a.item_name,b.stock FROM md_items a, td_stock b WHERE a.id=b.item_id and a.comp_id=b.comp_id and a.comp_id = 1 and b.br_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/stock_report HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT a.id item_id,a.item_name,b.stock FROM md_items a, td_stock b WHERE a.id=b.item_id and a.comp_id=b.comp_id and a.comp_id = 1 and b.br_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/stock_report HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT a.id item_id,a.item_name,b.stock FROM md_items a, td_stock b WHERE a.id=b.item_id and a.comp_id=b.comp_id and a.comp_id = 1 and b.br_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/stock_report HTTP/1.1" 200 OK
+INFO:     103.102.117.189:53349:0 - "OPTIONS /admin/item_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:53349:0 - "OPTIONS /admin/settings_details HTTP/1.1" 200 OK
+SELECT b.company_name, a.* FROM md_receipt_settings a, md_company b WHERE a.comp_id = b.id AND a.comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/settings_details HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT b.company_name, a.* FROM md_receipt_settings a, md_company b WHERE a.comp_id = b.id AND a.comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/settings_details HTTP/1.1" 200 OK
+INFO:     103.102.117.189:53349:0 - "OPTIONS /admin/header_footer_details HTTP/1.1" 200 OK
+SELECT * FROM md_header_footer WHERE comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/header_footer_details HTTP/1.1" 200 OK
+SELECT b.company_name, a.* FROM md_receipt_settings a, md_company b WHERE a.comp_id = b.id AND a.comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/settings_details HTTP/1.1" 200 OK
+SELECT b.company_name, a.* FROM md_receipt_settings a, md_company b WHERE a.comp_id = b.id AND a.comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/settings_details HTTP/1.1" 200 OK
+SELECT b.company_name, a.* FROM md_receipt_settings a, md_company b WHERE a.comp_id = b.id AND a.comp_id = 1 
+INFO:     103.102.117.189:53349:0 - "POST /admin/settings_details HTTP/1.1" 200 OK
+SELECT * FROM md_header_footer WHERE comp_id = 1 
+INFO:     103.102.117.189:51624:0 - "POST /admin/header_footer_details HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'mondal.tanmoy@synergicsoftek.com' 
+INFO:     103.102.117.189:62194:0 - "GET /admin/S_Admin/user_type?user_id=mondal.tanmoy@synergicsoftek.com HTTP/1.1" 200 OK
+INFO:     103.102.117.189:62194:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:62194:0 - "POST /admin/user_list HTTP/1.1" 200 OK

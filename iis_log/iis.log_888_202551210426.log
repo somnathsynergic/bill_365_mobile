@@ -1,0 +1,56 @@
+INFO:     Started server process [10724]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:7114 (Press CTRL+C to quit)
+INFO:     122.176.27.53:10023:0 - "GET /docs HTTP/1.1" 200 OK
+C:\inetpub\wwwroot\python\synergic_billing\API BILLING\env\Lib\site-packages\pydantic\json_schema.py:2158: PydanticJsonSchemaWarning: Default value <function File at 0x000002632BB55300> is not JSON serializable; excluding default from JSON schema [non-serializable-default]
+  warnings.warn(message, PydanticJsonSchemaWarning)
+INFO:     122.176.27.53:10023:0 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     122.176.27.53:56918:0 - "OPTIONS /admin/user_login HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\inetpub\wwwroot\python\synergic_billing\API BILLING\env\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='superadmin@bill365.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     122.176.27.53:56918:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:56918:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:56918:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:56918:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:56918:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:13592:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:13592:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:13592:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:13592:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:13592:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+INFO:     122.176.27.53:37391:0 - "OPTIONS /admin/user_login HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='superadmin@bill365.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     122.176.27.53:37391:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:37391:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:37391:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:37391:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:37391:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+INFO:     122.176.27.53:8371:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:8371:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:8371:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:8371:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:8371:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:8371:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:8371:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK

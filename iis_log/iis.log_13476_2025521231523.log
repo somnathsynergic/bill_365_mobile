@@ -1,0 +1,26 @@
+INFO:     Started server process [6392]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:14427 (Press CTRL+C to quit)
+INFO:     170.39.217.236:34112:0 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /_profiler/phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /info HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /info.php HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /app/.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.bak HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.example HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.local HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.old HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.prod HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.production.local HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.env.stage HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /admin/.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /apps/.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /aws-ses/.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /connexion.env HTTP/1.1" 404 Not Found
+INFO:     170.39.217.236:52170:0 - "GET /.git/config HTTP/1.1" 404 Not Found

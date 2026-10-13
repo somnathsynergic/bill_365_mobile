@@ -1,0 +1,88 @@
+INFO:     Started server process [8724]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:3091 (Press CTRL+C to quit)
+INFO:     122.176.27.53:3406:0 - "OPTIONS /admin/user_login HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\inetpub\wwwroot\python\synergic_billing\API BILLING\env\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='superadmin@bill365.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     122.176.27.53:3406:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:3406:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:3406:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/select_settings?comp_id=0 HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/select_settings?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:3406:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+INFO:     203.55.131.4:42244:0 - "GET / HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+INFO:     122.176.27.53:18460:0 - "OPTIONS /admin/S_Admin/add_edit_settings HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT comp_id,rcv_cash_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag FROM md_receipt_settings WHERE comp_id=1 
+UPDATE md_receipt_settings SET rcv_cash_flag='N',rcpt_type='B',gst_flag='N',gst_type='I',unit_flag='Y',cust_inf='Y',pay_mode='Y',discount_flag='Y',stock_flag='Y',discount_type='A',discount_position='B',price_type='M',refund_days=0,kot_flag='Y',modified_by='superadmin@bill365.com', modified_at='2025-06-16 17:04:41' WHERE comp_id = 1
+{'suc': 1, 'msg': 'Updated Successfully !!', 'lastId': 0} ##############
+INFO:     122.176.27.53:18460:0 - "POST /admin/S_Admin/add_edit_settings HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT comp_id,rcv_cash_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag FROM md_receipt_settings WHERE comp_id=1 
+UPDATE md_receipt_settings SET rcv_cash_flag='N',rcpt_type='B',gst_flag='N',gst_type='I',unit_flag='Y',cust_inf='Y',pay_mode='Y',discount_flag='Y',stock_flag='N',discount_type='A',discount_position='B',price_type='M',refund_days=0,kot_flag='Y',modified_by='superadmin@bill365.com', modified_at='2025-06-16 17:05:26' WHERE comp_id = 1
+{'suc': 1, 'msg': 'Updated Successfully !!', 'lastId': 0} ##############
+INFO:     122.176.27.53:18460:0 - "POST /admin/S_Admin/add_edit_settings HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT comp_id,rcv_cash_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag FROM md_receipt_settings WHERE comp_id=1 
+UPDATE md_receipt_settings SET rcv_cash_flag='N',rcpt_type='B',gst_flag='N',gst_type='I',unit_flag='Y',cust_inf='Y',pay_mode='Y',discount_flag='Y',stock_flag='Y',discount_type='A',discount_position='B',price_type='M',refund_days=0,kot_flag='Y',modified_by='superadmin@bill365.com', modified_at='2025-06-16 17:08:00' WHERE comp_id = 1
+{'suc': 1, 'msg': 'Updated Successfully !!', 'lastId': 0} ##############
+INFO:     122.176.27.53:18460:0 - "POST /admin/S_Admin/add_edit_settings HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:18460:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT comp_id,rcv_cash_flag,rcpt_type,gst_flag,gst_type,unit_flag,cust_inf,pay_mode,discount_flag,stock_flag,discount_type,discount_position,price_type,refund_days,kot_flag FROM md_receipt_settings WHERE comp_id=1 
+UPDATE md_receipt_settings SET rcv_cash_flag='N',rcpt_type='B',gst_flag='N',gst_type='I',unit_flag='Y',cust_inf='Y',pay_mode='Y',discount_flag='Y',stock_flag='N',discount_type='A',discount_position='B',price_type='M',refund_days=0,kot_flag='Y',modified_by='superadmin@bill365.com', modified_at='2025-06-16 17:11:40' WHERE comp_id = 1
+{'suc': 1, 'msg': 'Updated Successfully !!', 'lastId': 0} ##############
+INFO:     122.176.27.53:46838:0 - "POST /admin/S_Admin/add_edit_settings HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:46838:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:46838:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:46838:0 - "GET /admin/S_Admin/select_settings?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:46838:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.rcv_cash_flag,a.rcpt_type,a.gst_flag,a.gst_type,a.unit_flag,a.cust_inf,a.pay_mode,a.discount_flag,a.stock_flag,a.discount_type,a.discount_position,a.price_type,a.refund_days,a.kot_flag FROM md_receipt_settings a, md_company b WHERE a.comp_id=b.id and a.comp_id=1 
+INFO:     122.176.27.53:46838:0 - "GET /admin/S_Admin/select_settings?comp_id=1 HTTP/1.1" 200 OK

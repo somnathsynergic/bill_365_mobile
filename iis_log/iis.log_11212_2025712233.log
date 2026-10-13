@@ -1,0 +1,5 @@
+INFO:     Started server process [13712]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:32079 (Press CTRL+C to quit)
+INFO:     198.199.89.39:44574:0 - "GET /.git/config HTTP/1.1" 404 Not Found

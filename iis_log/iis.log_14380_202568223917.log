@@ -1,0 +1,67 @@
+INFO:     Started server process [16292]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:6942 (Press CTRL+C to quit)
+INFO:     159.65.132.23:38166:0 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     159.65.132.23:38182:0 - "GET / HTTP/1.1" 200 OK
+INFO:     159.65.132.23:38194:0 - "GET /kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38206:0 - "GET /asset/kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42052:0 - "GET /assets/kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42066:0 - "GET /js/kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42080:0 - "GET /assets/js/kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42086:0 - "GET /assets/plugins/kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42094:0 - "GET /plugins/kcfinder/upload.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42102:0 - "GET /filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42110:0 - "GET /assets/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42122:0 - "GET /assets/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:42138:0 - "GET /phpformbuilder/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54258:0 - "GET /assets/tinymce/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54264:0 - "GET /scripts/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54276:0 - "GET /admin/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54282:0 - "GET /assets/scripts/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54296:0 - "GET /assets/admin/tinymce/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54306:0 - "GET /js/tinymce4/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54316:0 - "GET /tinymce/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54320:0 - "GET /filemanager/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54330:0 - "GET /assets/admin/js/tinymce/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:54336:0 - "GET /tinymce/plugins/filemanager/dialog.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:52998:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53002:0 - "GET /assets/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53012:0 - "GET /assets/backend/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53014:0 - "GET /plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53020:0 - "GET /assets/libs/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53026:0 - "GET /assets/lib/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53042:0 - "GET /lib/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53044:0 - "GET /js/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53048:0 - "GET /assets/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53060:0 - "GET /assets/global/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38118:0 - "GET /resources/global/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38128:0 - "GET /app/webroot/global/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38132:0 - "GET /assets/themes/metronic/global/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38142:0 - "GET /metronic/assets/global/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38150:0 - "GET /coloradmin/assets/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38154:0 - "GET /assets/color_admin/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38164:0 - "GET /assets/vendor_admin/plugins/jquery-file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38176:0 - "GET /public/javascript/jquery.upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38184:0 - "GET /media/mediamgr/other/jq_fileupload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:38200:0 - "GET /formcraft/file-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53666:0 - "GET /coaster/jquery/gallery-upload/server/php/ HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53682:0 - "GET /assets/plugins/jquery.filer/php/readme.txt HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53696:0 - "GET /assets/vendor/jquery.filer/php/readme.txt HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53700:0 - "GET /plugins/jquery.filer/php/readme.txt HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53714:0 - "GET /assets/admin/bower_components/jquery.filer/php/readme.txt HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53724:0 - "GET /jquery.filer/php/readme.txt HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53726:0 - "GET /wp HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53728:0 - "GET /wordpress HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:53738:0 - "GET /blog HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55912:0 - "GET /demo HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55914:0 - "GET /new HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55922:0 - "GET / HTTP/1.1" 200 OK
+INFO:     159.65.132.23:55936:0 - "POST /vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55946:0 - "GET /vendor/laravel-filemanager/js/script.js HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55960:0 - "GET /public/vendor/laravel-filemanager/js/script.js HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55964:0 - "POST / HTTP/1.1" 405 Method Not Allowed
+INFO:     159.65.132.23:55974:0 - "GET /_ignition/execute-solution HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55980:0 - "POST /ALFA_DATA/alfacgiapi/perl.alfa HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:55994:0 - "POST /alfacgiapi/perl.alfa HTTP/1.1" 404 Not Found
+INFO:     159.65.132.23:40738:0 - "GET /.git/config HTTP/1.1" 404 Not Found

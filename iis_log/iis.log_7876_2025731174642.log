@@ -1,0 +1,10 @@
+INFO:     Started server process [14992]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:26684 (Press CTRL+C to quit)
+INFO:     103.59.160.106:62261:0 - "GET / HTTP/1.1" 200 OK
+INFO:     103.59.160.106:62261:0 - "GET /xmlrpc.php?rsd HTTP/1.1" 404 Not Found
+INFO:     103.59.160.106:62261:0 - "GET /blog/robots.txt HTTP/1.1" 404 Not Found
+INFO:     103.59.160.106:62261:0 - "GET /blog/ HTTP/1.1" 404 Not Found
+INFO:     103.59.160.106:62261:0 - "GET /wordpress/ HTTP/1.1" 404 Not Found
+INFO:     103.59.160.106:62261:0 - "GET /wp/ HTTP/1.1" 404 Not Found

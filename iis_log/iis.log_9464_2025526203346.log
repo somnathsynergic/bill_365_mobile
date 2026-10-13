@@ -1,0 +1,12 @@
+INFO:     Started server process [11456]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:17235 (Press CTRL+C to quit)
+INFO:     5.62.57.107:2332:0 - "GET / HTTP/1.1" 200 OK
+INFO:     5.62.57.107:2235:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     5.62.57.107:2396:0 - "GET /test.php HTTP/1.1" 404 Not Found
+INFO:     5.62.57.107:2373:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     5.62.57.107:2208:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     5.62.57.107:2372:0 - "GET / HTTP/1.1" 200 OK
+INFO:     5.62.57.107:2212:0 - "GET /index.php HTTP/1.1" 404 Not Found
+INFO:     5.62.57.107:2215:0 - "GET /.aws/credentials HTTP/1.1" 404 Not Found

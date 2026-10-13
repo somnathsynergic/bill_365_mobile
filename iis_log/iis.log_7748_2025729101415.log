@@ -1,0 +1,90 @@
+INFO:     Started server process [6348]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:29101 (Press CTRL+C to quit)
+INFO:     167.99.237.180:39358:0 - "GET /.git/config HTTP/1.1" 404 Not Found
+INFO:     122.163.123.68:54066:0 - "OPTIONS /admin/user_login HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\inetpub\wwwroot\python\synergic_billing\API BILLING\env\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='superadmin@bill365.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     122.163.123.68:54066:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.163.123.68:54066:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.163.123.68:54066:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.163.123.68:54066:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.163.123.68:54066:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT a.id,a.user_name,a.user_type,a.user_id,a.phone_no,a.email_id,a.device_id,a.password,a.active_flag,a.login_flag,a.created_by,a.created_dt,a.modified_by,a.modified_dt,b.id br_id,b.branch_name,b.branch_address,b.location,b.contact_person, c.id comp_id, c.company_name,c.mode,c.address,c.web_portal,c.max_user FROM md_user a, md_branch b, md_company c WHERE a.user_id='superadmin@bill365.com' AND b.id=a.br_id AND c.id=a.comp_id AND a.active_flag='Y' AND a.user_type!='U' AND a.user_id!='M' 
+INFO:     122.163.123.68:55118:0 - "POST /admin/user_login HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.163.123.68:55118:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT sl_no,location_name FROM md_location  
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_location HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=1 
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_outlet?comp_id=1 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=1 and br_id=5 ORDER BY user_type
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=1&br_id=5 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=1 and br_id=1 ORDER BY user_type
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=1&br_id=1 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=1 and br_id=8 ORDER BY user_type
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=1&br_id=8 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=1 and br_id=20 ORDER BY user_type
+INFO:     122.163.123.68:55118:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=1&br_id=20 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=1 and br_id=1 ORDER BY user_type
+INFO:     122.163.123.68:57031:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=1&br_id=1 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:57031:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch  
+INFO:     122.163.123.68:57031:0 - "GET /admin/S_Admin/select_outlet?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=1 
+INFO:     122.163.123.68:57031:0 - "GET /admin/S_Admin/select_outlet?comp_id=1 HTTP/1.1" 200 OK
+INFO:     122.163.123.68:57031:0 - "OPTIONS /admin/S_Admin/add_edit_user HTTP/1.1" 200 OK
+INSERT INTO md_user (comp_id,br_id,user_name,user_type,user_id,phone_no,device_id,active_flag,login_flag,created_by, created_dt) VALUES (1,1,'LOKNATH CHAKRABORTY','U','9147715540','9147715540','0','Y','N','superadmin@bill365.com', '2025-07-29 16:02:23')
+{'suc': 1, 'msg': 'Inserted Successfully !!', 'lastId': 76} ##############
+INFO:     122.163.123.68:57031:0 - "POST /admin/S_Admin/add_edit_user HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:57031:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.163.123.68:57031:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.163.123.68:57031:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.163.123.68:57031:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=8 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_outlet?comp_id=8 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,category_name,catg_picture FROM md_category WHERE comp_id=1 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_category?comp_id=1&catg_id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,category_name,catg_picture FROM md_category WHERE comp_id=1 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_category?comp_id=1&catg_id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,category_name,catg_picture FROM md_category WHERE comp_id=5 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_category?comp_id=5&catg_id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,category_name,catg_picture FROM md_category WHERE comp_id=6 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_category?comp_id=6&catg_id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,category_name,catg_picture FROM md_category WHERE comp_id=7 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_category?comp_id=7&catg_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT sl_no catg_id,category_name FROM md_category WHERE comp_id = 0 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/catg_list?comp_id=0 HTTP/1.1" 200 OK
+SELECT a.*, b.* FROM md_items a, md_item_rate b WHERE a.id=b.item_id AND a.comp_id = 0 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/item_detail?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.*, b.* FROM md_items a, md_item_rate b WHERE a.id=b.item_id AND a.comp_id = 1 
+INFO:     122.163.123.68:58673:0 - "GET /admin/S_Admin/item_detail?comp_id=1 HTTP/1.1" 200 OK

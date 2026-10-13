@@ -1,0 +1,5 @@
+INFO:     Started server process [20364]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:21619 (Press CTRL+C to quit)
+INFO:     34.245.189.169:33522:0 - "HEAD / HTTP/1.1" 405 Method Not Allowed

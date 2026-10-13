@@ -1,0 +1,19 @@
+INFO:     Started server process [14992]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:12036 (Press CTRL+C to quit)
+INFO:     195.178.110.161:47066:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48374:0 - "GET /.env.save HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48390:0 - "GET /.env.prod HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48394:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48410:0 - "GET /dev/.env HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48412:0 - "GET /application/.env HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48422:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48434:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48450:0 - "GET /php_info.php HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48452:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:48454:0 - "GET /backend/.env HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:35516:0 - "GET /.env.example HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:35532:0 - "GET /admin/.env HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:35548:0 - "GET /info HTTP/1.1" 404 Not Found
+INFO:     195.178.110.161:60640:0 - "POST / HTTP/1.1" 405 Method Not Allowed

@@ -1,0 +1,6 @@
+INFO:     Started server process [13372]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:17529 (Press CTRL+C to quit)
+INFO:     34.143.251.172:42106:0 - "GET /wp-admin/setup-config.php?step=1&language=en_EN HTTP/1.1" 404 Not Found
+INFO:     34.143.251.172:42106:0 - "GET /wordpress/wp-admin/setup-config.php?step=1&language=en_EN HTTP/1.1" 404 Not Found

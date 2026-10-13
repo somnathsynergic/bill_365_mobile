@@ -1,0 +1,6 @@
+INFO:     Started server process [972]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:4150 (Press CTRL+C to quit)
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.163.123.68:58915:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK

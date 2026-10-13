@@ -1,0 +1,9 @@
+INFO:     Started server process [4896]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:27395 (Press CTRL+C to quit)
+INFO:     79.110.60.181:58412:0 - "HEAD / HTTP/1.1" 405 Method Not Allowed
+INFO:     206.168.34.75:44456:0 - "GET / HTTP/1.1" 200 OK
+INFO:     206.168.34.75:34942:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     206.168.34.75:39902:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     206.168.34.75:34310:0 - "GET /sitemap.xml HTTP/1.1" 404 Not Found

@@ -1,0 +1,53 @@
+INFO:     Started server process [9156]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:29801 (Press CTRL+C to quit)
+INFO:     51.81.245.138:41936:0 - "GET / HTTP/1.1" 200 OK
+INFO:     51.81.245.138:41952:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:33840:0 - "GET / HTTP/1.1" 200 OK
+INFO:     139.59.143.102:59940:0 - "GET / HTTP/1.1" 200 OK
+INFO:     139.59.143.102:59952:0 - "GET / HTTP/1.1" 200 OK
+INFO:     139.59.143.102:59968:0 - "GET /%40vite/env HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:59980:0 - "GET /actuator/env HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:59990:0 - "POST /php-cgi/php-cgi.exe?%ADd+cgi.force_redirect%3D0+%ADd+disable_functions%3D""+%ADd+allow_url_include%3D1+%ADd+auto_prepend_file%3Dphp://input HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60002:0 - "GET /server HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60016:0 - "GET /.vscode/sftp.json HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60028:0 - "GET /about HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60032:0 - "GET /debug/default/view?panel=config HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60048:0 - "GET /v2/_catalog HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60056:0 - "GET /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54298:0 - "GET / HTTP/1.1" 200 OK
+INFO:     139.59.143.102:60058:0 - "GET /server-status HTTP/1.1" 404 Not Found
+INFO:     206.166.251.193:35220:0 - "GET / HTTP/1.1" 200 OK
+INFO:     139.59.143.102:60070:0 - "GET /login.action HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54314:0 - "GET /%40vite/env HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60076:0 - "GET /_all_dbs HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54320:0 - "GET /actuator/env HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60080:0 - "GET /.DS_Store HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60094:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54324:0 - "POST /php-cgi/php-cgi.exe?%ADd+cgi.force_redirect%3D0+%ADd+disable_functions%3D""+%ADd+allow_url_include%3D1+%ADd+auto_prepend_file%3Dphp://input HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60102:0 - "GET /.git/config HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54340:0 - "GET /server HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60112:0 - "GET /s/830313e27313e2239313e24313/_/%3B/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60126:0 - "GET /config.json HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54342:0 - "GET /.vscode/sftp.json HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60132:0 - "GET /telescope/requests HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54352:0 - "GET /about HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60136:0 - "GET /info.php HTTP/1.1" 404 Not Found
+INFO:     139.59.143.102:60142:0 - "GET /?rest_route=/wp/v2/users/ HTTP/1.1" 200 OK
+INFO:     207.154.212.47:54358:0 - "GET /debug/default/view?panel=config HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54372:0 - "GET /v2/_catalog HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54374:0 - "GET /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54380:0 - "GET /server-status HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54392:0 - "GET /login.action HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54408:0 - "GET /_all_dbs HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54420:0 - "GET /.DS_Store HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:54426:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:57968:0 - "GET /.git/config HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:57976:0 - "GET /s/830313e27313e2239313e24313/_/%3B/META-INF/maven/com.atlassian.jira/jira-webapp-dist/pom.properties HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:57986:0 - "GET /config.json HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:57990:0 - "GET /telescope/requests HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:58000:0 - "GET /info.php HTTP/1.1" 404 Not Found
+INFO:     207.154.212.47:58004:0 - "GET /?rest_route=/wp/v2/users/ HTTP/1.1" 200 OK
+INFO:     178.255.149.143:52274:0 - "GET / HTTP/1.1" 200 OK
+INFO:     178.255.149.143:52274:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found

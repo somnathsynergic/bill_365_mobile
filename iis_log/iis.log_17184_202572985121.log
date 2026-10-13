@@ -1,0 +1,85 @@
+INFO:     Started server process [16380]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:12858 (Press CTRL+C to quit)
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'superadmin@bill365.com' 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/user_type?user_id=superadmin@bill365.com HTTP/1.1" 200 OK
+INFO:     122.176.27.53:13603:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     122.176.27.53:13603:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=1 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_outlet?comp_id=1 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT sl_no,location_name FROM md_location  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_location HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,unit_name FROM md_unit WHERE comp_id=1 order by comp_id
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_unit?comp_id=1&unit_id=0 HTTP/1.1" 200 OK
+SELECT sl_no,comp_id,unit_name FROM md_unit WHERE comp_id=1 order by comp_id
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_unit?comp_id=1&unit_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.header1,a.on_off_flag1,a.header2,a.on_off_flag2,a.footer1,a.on_off_flag3,a.footer2,a.on_off_flag4 FROM md_header_footer a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_header_footer?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.header1,a.on_off_flag1,a.header2,a.on_off_flag2,a.footer1,a.on_off_flag3,a.footer2,a.on_off_flag4 FROM md_header_footer a, md_company b WHERE a.comp_id = b.id and a.comp_id=16 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_header_footer?comp_id=16 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.header1,a.on_off_flag1,a.header2,a.on_off_flag2,a.footer1,a.on_off_flag3,a.footer2,a.on_off_flag4 FROM md_header_footer a, md_company b WHERE a.comp_id=b.id 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_header_footer?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT a.comp_id,b.company_name,a.header1,a.on_off_flag1,a.header2,a.on_off_flag2,a.footer1,a.on_off_flag3,a.footer2,a.on_off_flag4 FROM md_header_footer a, md_company b WHERE a.comp_id = b.id and a.comp_id=7 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_header_footer?comp_id=7 HTTP/1.1" 200 OK
+SELECT sl_no,location_name FROM md_location  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_location HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT sl_no,location_name FROM md_location  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_location HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT sl_no,location_name FROM md_location  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_location HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company WHERE id=8 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=8 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=8 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_outlet?comp_id=8 HTTP/1.1" 200 OK
+SELECT sl_no,location_name FROM md_location  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_location HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=8 AND id = 10 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_one_outlet?comp_id=8&br_id=10 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=8 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_outlet?comp_id=8 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE comp_id=8 and br_id=10 ORDER BY user_type
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_user_by_shop?comp_id=8&br_id=10 HTTP/1.1" 200 OK
+SELECT id,company_name,mode,address,location,contact_person,phone_no,email_id,web_portal,active_flag,max_user FROM md_company  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_shop?id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch  
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_outlet?comp_id=0 HTTP/1.1" 200 OK
+SELECT id,comp_id,br_id,user_name,user_type,user_id,phone_no,email_id,active_flag,login_flag FROM md_user WHERE id=42 ORDER BY comp_id,br_id,user_type
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_user?id=42 HTTP/1.1" 200 OK
+SELECT id,comp_id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id=8 
+INFO:     122.176.27.53:13603:0 - "GET /admin/S_Admin/select_outlet?comp_id=8 HTTP/1.1" 200 OK

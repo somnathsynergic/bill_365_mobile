@@ -1,0 +1,38 @@
+INFO:     Started server process [17232]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:10777 (Press CTRL+C to quit)
+INFO:     185.177.72.50:22452:0 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /laravel/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /app/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /core/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /.env.example HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /beta/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /sites/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /website/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /admin/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /backend/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /docs/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /info.php HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /.AWS_/credentials HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /.circleci/configs/development.yml HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.50:22456:0 - "GET /hc/restricted HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /.env/ HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /help-center-closed/ HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /403.shtml HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /domain/poker.construction HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /info.php%20%28php-config-env%29 HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /m/global-identity-2 HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /birdiebooster/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /policy-priorities/yearrounde15/ HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /phpinfo/ HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /ops.intis.in/.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /domain/ddsgowda.com HTTP/1.1" 404 Not Found
+INFO:     185.177.72.50:22456:0 - "GET /hc/404 HTTP/1.1" 404 Not Found

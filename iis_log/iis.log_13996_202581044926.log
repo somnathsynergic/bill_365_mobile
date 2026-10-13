@@ -1,0 +1,6 @@
+INFO:     Started server process [23072]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8875 (Press CTRL+C to quit)
+INFO:     196.251.81.14:44434:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     196.251.81.14:53412:0 - "GET /.env HTTP/1.1" 404 Not Found

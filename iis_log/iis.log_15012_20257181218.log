@@ -1,0 +1,9 @@
+INFO:     Started server process [20036]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:28612 (Press CTRL+C to quit)
+INFO:     205.210.31.139:62664:0 - "GET /shell HTTP/1.1" 404 Not Found
+INFO:     198.235.24.113:64476:0 - "GET /shell.aspx HTTP/1.1" 404 Not Found
+INFO:     205.210.31.172:61618:0 - "GET /webshell.aspx HTTP/1.1" 404 Not Found
+INFO:     198.235.24.132:58598:0 - "GET /webshell.asp HTTP/1.1" 404 Not Found
+INFO:     205.210.31.147:60664:0 - "GET /shell.asp HTTP/1.1" 404 Not Found

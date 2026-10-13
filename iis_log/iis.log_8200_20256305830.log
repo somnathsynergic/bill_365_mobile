@@ -1,0 +1,39 @@
+INFO:     Started server process [13948]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:12512 (Press CTRL+C to quit)
+INFO:     45.141.215.220:58882:0 - "GET / HTTP/1.1" 200 OK
+INFO:     45.141.215.220:58882:0 - "GET /pms?module=logging&file_name=../../../../../../~/.aws/credentials&number_of_lines=10000 HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /admin/config?cmd=cat+/root/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /.env.local HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /.env.production HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /blog.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /wp-content/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /application/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /app/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /api/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config.json HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /laravel/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /library/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /nextjs-app/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /node-api/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /vendor/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /.git/config HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /backend/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /home/user/.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /myproject/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /.envs/.production/.django HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /react-app/.env HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /react-app/.env.production HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config/secrets.json HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config/settings.json HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config.yaml HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config.yml HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /config.py HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /phpinfo HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /_profiler/phpinfo HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /phpinfo.php HTTP/1.1" 404 Not Found
+INFO:     45.141.215.220:58882:0 - "GET /info.php HTTP/1.1" 404 Not Found

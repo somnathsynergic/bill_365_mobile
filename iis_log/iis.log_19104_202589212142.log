@@ -1,0 +1,5 @@
+INFO:     Started server process [14812]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:19452 (Press CTRL+C to quit)
+INFO:     54.194.222.26:40534:0 - "GET / HTTP/1.0" 200 OK

@@ -1,0 +1,37 @@
+INFO:     Started server process [12536]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:17889 (Press CTRL+C to quit)
+INFO:     179.43.188.122:47826:0 - "GET /old/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47822:0 - "GET /src/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47682:0 - "GET /dev/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47696:0 - "GET /public/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47762:0 - "GET /assets/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47734:0 - "GET /docs/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47674:0 - "GET /frontend/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47752:0 - "GET /laravel/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47708:0 - "GET /media../.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47680:0 - "GET /wp-content/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47764:0 - "GET /www/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47736:0 - "GET /backend/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47718:0 - "GET /test/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47668:0 - "GET /scripts/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47748:0 - "GET /js../.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47814:0 - "GET /logs/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47788:0 - "GET /panel/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47798:0 - "GET /dist/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47780:0 - "GET /static../.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:47726:0 - "GET /files/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40490:0 - "GET /panel/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40500:0 - "GET /sandbox/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40522:0 - "GET /api/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40550:0 - "GET /static../.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40562:0 - "GET /app/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40572:0 - "GET /admin/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40536:0 - "GET /source/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40584:0 - "GET /lib/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40588:0 - "GET /template/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40592:0 - "GET /plugins/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:40510:0 - "GET /core/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:37820:0 - "GET /staging/.git/config HTTP/1.1" 404 Not Found
+INFO:     179.43.188.122:37832:0 - "GET /files/.git/config HTTP/1.1" 404 Not Found

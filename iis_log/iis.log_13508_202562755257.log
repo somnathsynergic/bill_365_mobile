@@ -1,0 +1,132 @@
+INFO:     Started server process [19400]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:25966 (Press CTRL+C to quit)
+INFO:     103.102.117.189:62349:0 - "OPTIONS /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:62349:0 - "OPTIONS /admin/daybook_report HTTP/1.1" 200 OK
+SELECT receipt_no, trn_date, IF(pay_mode='C', 'Cash', IF(pay_mode='U', 'UPI', IF(pay_mode='D', 'Card', IF(pay_mode='R', 'Credit', '')))) pay_mode, net_amt, 0 cancelled_amt, created_by, ''cancelled_by FROM td_receipt WHERE comp_id = 1 and br_id = 1 and trn_date between '2025-06-01' and '2025-06-26' UNION select a.receipt_no receipt_no, a.trn_date trn_date, IF(a.pay_mode='C', 'Cash', IF(a.pay_mode='U', 'UPI', IF(a.pay_mode='D', 'Card', IF(a.pay_mode='R', 'Credit', '')))) pay_mode, 0 net_amt, a.net_amt cancelled_amt, a.created_by created_by, b.cancelled_by cancelled_by From td_receipt a, td_receipt_cancel_new b where a.receipt_no = b.receipt_no and a.comp_id = 1 and a.br_id = 1 and date(b.cancelled_dt) between '2025-06-01' and '2025-06-26' 
+INFO:     103.102.117.189:62349:0 - "POST /admin/daybook_report HTTP/1.1" 200 OK
+SELECT user_type FROM md_user WHERE user_id = 'mondal.tanmoy@synergicsoftek.com' 
+INFO:     103.102.117.189:62349:0 - "GET /admin/S_Admin/user_type?user_id=mondal.tanmoy@synergicsoftek.com HTTP/1.1" 200 OK
+INFO:     103.102.117.189:62349:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:62349:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62349:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:62356:0 - "OPTIONS /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:62356:0 - "OPTIONS /admin/stock_report HTTP/1.1" 200 OK
+SELECT a.id item_id,a.item_name,b.stock FROM md_items a, td_stock b WHERE a.id=b.item_id and a.comp_id=b.comp_id and a.comp_id = 1 and b.br_id = 1 
+INFO:     103.102.117.189:62356:0 - "POST /admin/stock_report HTTP/1.1" 200 OK
+INFO:     103.102.117.189:63241:0 - "OPTIONS /admin/item_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:63241:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55235:0 - "OPTIONS /admin/settings_details HTTP/1.1" 200 OK
+SELECT b.company_name, a.* FROM md_receipt_settings a, md_company b WHERE a.comp_id = b.id AND a.comp_id = 1 
+INFO:     103.102.117.189:55235:0 - "POST /admin/settings_details HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55249:0 - "OPTIONS /admin/header_footer_details HTTP/1.1" 200 OK
+SELECT * FROM md_header_footer WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/header_footer_details HTTP/1.1" 200 OK
+SELECT * FROM md_header_footer WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/header_footer_details HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55249:0 - "OPTIONS /admin/unit_list HTTP/1.1" 200 OK
+SELECT sl_no,unit_name,created_by,created_at, modified_by,modified_at FROM md_unit WHERE comp_id=1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/unit_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55249:0 - "OPTIONS /admin/category_list HTTP/1.1" 200 OK
+SELECT sl_no,category_name,catg_picture FROM md_category WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/category_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55249:0 - "OPTIONS /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55249:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:55249:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55249:0 - "OPTIONS /admin/all_customer_list HTTP/1.1" 200 OK
+SELECT * FROM md_customer WHERE (cust_name != '' OR phone_no != '') AND comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/all_customer_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT sl_no,unit_name,created_by,created_at, modified_by,modified_at FROM md_unit WHERE comp_id=1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/unit_list HTTP/1.1" 200 OK
+SELECT sl_no,category_name,catg_picture FROM md_category WHERE comp_id = 1 
+INFO:     103.102.117.189:55249:0 - "POST /admin/category_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55607:0 - "OPTIONS /admin/item_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55607:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT sl_no,unit_name,created_by,created_at, modified_by,modified_at FROM md_unit WHERE comp_id=1 
+INFO:     103.102.117.189:55607:0 - "POST /admin/unit_list HTTP/1.1" 200 OK
+SELECT sl_no,category_name,catg_picture FROM md_category WHERE comp_id = 1 
+INFO:     103.102.117.189:55607:0 - "POST /admin/category_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55637:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55637:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:55637:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55637:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55642:0 - "OPTIONS /admin/user_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:55642:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55642:0 - "OPTIONS /admin/all_customer_list HTTP/1.1" 200 OK
+SELECT * FROM md_customer WHERE (cust_name != '' OR phone_no != '') AND comp_id = 1 
+INFO:     103.102.117.189:55642:0 - "POST /admin/all_customer_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55642:0 - "OPTIONS /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55642:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT a.*,b.branch_name FROM md_user a, md_branch b WHERE a.br_id=b.id and a.comp_id = 1  and a.user_type!='A' 
+INFO:     103.102.117.189:55642:0 - "POST /admin/user_list HTTP/1.1" 200 OK
+SELECT * FROM md_customer WHERE (cust_name != '' OR phone_no != '') AND comp_id = 1 
+INFO:     103.102.117.189:55642:0 - "POST /admin/all_customer_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55642:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55642:0 - "OPTIONS /admin/item_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55642:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55662:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55662:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55701:0 - "OPTIONS /admin/outlet_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55701:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55701:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT id,branch_name,branch_address,location,contact_person,phone_no,email_id FROM md_branch WHERE comp_id = 1 
+INFO:     103.102.117.189:55701:0 - "POST /admin/outlet_list HTTP/1.1" 200 OK
+SELECT * FROM md_items WHERE comp_id = 1 
+INFO:     103.102.117.189:55701:0 - "POST /admin/item_list HTTP/1.1" 200 OK
+INFO:     103.102.117.189:55701:0 - "OPTIONS /admin/fetch_stock HTTP/1.1" 200 OK
+SELECT stock FROM td_stock WHERE comp_id = 1 and br_id = 5 and item_id = 0 
+INFO:     103.102.117.189:55701:0 - "POST /admin/fetch_stock HTTP/1.1" 200 OK
+SELECT stock FROM td_stock WHERE comp_id = 1 and br_id = 5 and item_id = 2 
+INFO:     103.102.117.189:55701:0 - "POST /admin/fetch_stock HTTP/1.1" 200 OK

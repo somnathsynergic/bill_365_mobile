@@ -1,0 +1,13 @@
+INFO:     Started server process [17336]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:21020 (Press CTRL+C to quit)
+INFO:     198.144.177.237:57894:0 - "GET / HTTP/1.1" 200 OK
+INFO:     198.144.177.237:57894:0 - "GET /wordpress HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /wp HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /blog HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /new HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /old HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /test HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /main HTTP/1.1" 404 Not Found
+INFO:     198.144.177.237:57894:0 - "GET /testing HTTP/1.1" 404 Not Found

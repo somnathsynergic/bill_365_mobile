@@ -1,0 +1,32 @@
+INFO:     Started server process [11980]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:9521 (Press CTRL+C to quit)
+INFO:     143.110.182.93:35839:0 - "GET / HTTP/1.1" 200 OK
+INFO:     143.110.182.93:30301:0 - "GET /api HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:58251:0 - "GET /api-json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:22091:0 - "GET /api-docs.yaml HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:43391:0 - "GET /api/v3/api-docs HTTP/1.1" 404 Not Found
+C:\inetpub\wwwroot\python\synergic_billing\API BILLING\env\Lib\site-packages\pydantic\json_schema.py:2158: PydanticJsonSchemaWarning: Default value <function File at 0x00000217771F5300> is not JSON serializable; excluding default from JSON schema [non-serializable-default]
+  warnings.warn(message, PydanticJsonSchemaWarning)
+INFO:     143.110.182.93:51625:0 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     143.110.182.93:22995:0 - "GET /openapi HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:56001:0 - "GET /swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:25013:0 - "GET /openapi.yaml HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:20648:0 - "GET /swagger.yaml HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:57884:0 - "GET /api-yaml HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:35098:0 - "GET /api-docs HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:53724:0 - "GET /docs HTTP/1.1" 200 OK
+INFO:     143.110.182.93:57293:0 - "GET /v3/api-docs HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:44430:0 - "GET /v2/api-docs HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:64042:0 - "GET /v1/api-docs HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:51178:0 - "GET /api/v2/api-docs HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:21162:0 - "GET /api/v1/api-docs HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:21679:0 - "GET /v1/swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:46019:0 - "GET /swagger/api/swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:20241:0 - "GET /swagger-ui HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:47057:0 - "GET /swagger/v1/swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:27484:0 - "GET /v2/swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:38577:0 - "GET /swagger/v2/swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:16024:0 - "GET /swagger/v3/swagger.json HTTP/1.1" 404 Not Found
+INFO:     143.110.182.93:53281:0 - "GET /docs/swagger.json HTTP/1.1" 404 Not Found

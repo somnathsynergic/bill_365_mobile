@@ -1,0 +1,16 @@
+INFO:     Started server process [18108]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:20389 (Press CTRL+C to quit)
+INFO:     185.177.72.205:57542:0 - "GET /.git/HEAD HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.205:57550:0 - "GET / HTTP/1.1" 200 OK
+INFO:     185.177.72.205:57550:0 - "GET /.circleci/configs/development.yml HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.AWS_/credentials HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.aws/config HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.aws/credentials HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.env HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.env.bak HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.env.example HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.env.local HTTP/1.1" 404 Not Found
+INFO:     185.177.72.205:57550:0 - "GET /.env.old HTTP/1.1" 404 Not Found
