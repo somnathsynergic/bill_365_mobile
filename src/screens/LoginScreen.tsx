@@ -12,7 +12,7 @@ import {
   Platform,
   ToastAndroid,
   Keyboard,
-  Alert,
+  Alert
 } from "react-native"
 import { withTheme, Text, TouchableRipple } from "react-native-paper"
 import SmoothPinCodeInput from "react-native-smooth-pincode-input"
